@@ -1,5 +1,6 @@
 const main = async() => {
   const contractFactory = await ethers.getContractFactory('TaskContract');
+  
   const contract = await contractFactory.deploy();
   await contract.deployed();
 

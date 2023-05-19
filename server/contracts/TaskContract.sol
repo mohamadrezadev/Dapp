@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity 0.8.4;
-/**
- * @title Twitter Contract
- * @dev Store & retrieve value in a variable
- */
+
 contract TaskContract {
 
     event AddTask(address recipient, uint taskId);
@@ -29,6 +26,7 @@ contract TaskContract {
         taskToOwner[taskId] = msg.sender;
         emit AddTask(msg.sender, taskId);
     }
+    
 
     // Method to get only your Tweets
     function getMyTasks() external view returns (Task[] memory) {

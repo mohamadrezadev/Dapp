@@ -10,6 +10,23 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     console.log(account.address);
   }
 });
+task("deploy", "Deploy the smart contracts", async(taskArgs, hre) => {
+
+  const Artwork = await hre.ethers.getContractFactory("CERT");
+  const artwork = await Artwork.deploy("CERT Contract", "ART");
+
+  await artwork.deployed();
+
+  await hre.run("verify:verify", {
+    address: artwork.address,
+    constructorArguments: [
+      "CERT Contract",
+      "CERT"
+    ]
+  })
+
+})
+
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
@@ -17,19 +34,27 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
-const SEPOLIA_PRIVATE_KEY = "bf458ebbe1074d979737bc33398843ca";
-const INFURA_API_KEY = "bf458ebbe1074d979737bc33398843ca";
+const INFURA_API_KEY = "74b97dad8e4f427dac16501162cc81f9";
+const rinkeby = "69c6e822a217480c9c637ec68fd4a430";
 module.exports = {
   solidity: "0.8.4",
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts"
+  },
   networks: {
+    // mumbai: {
+    //   url: "https://matic-testnet-archive-rpc.bwarelabs.com",
+    //   accounts: [
+    //     process.env.PRIVATE_KEY,
+    //   ]},
     // rinkeby: {
     //   url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
-    //   accounts: [SEPOLIA_PRIVATE_KEY],
+    //   accounts: [rinkeby]
     // },
-    // rinkeby: {
-    //   url: 'https://goerli.infura.io/v3/f421f98821ef4978a3600cfaf2c8be28',
-    //   accounts: [`0xf421f98821ef4978a3600cfaf2c8be28`],
-    // },
+
     development: {
       url: "http://localhost:7545",
       chainId: 1337

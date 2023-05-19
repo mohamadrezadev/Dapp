@@ -12,9 +12,10 @@
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.5",
     "@openzeppelin/contracts": "^4.8.3",
+    "alchemy-sdk": "^2.8.3",
     "chai": "^4.3.6",
-    "dotenv": "^16.0.0",
-    "ethereum-waffle": "^4.0.0-alpha.0",
+    "dotenv": "^16.0.3",
+    "ethereum-waffle": "^2.2.0",
     "ethers": "^5.6.0",
     "hardhat": "^2.14.0"
   }

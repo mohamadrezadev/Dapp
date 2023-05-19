@@ -5,7 +5,10 @@ import './App.css';
 
 import { TaskContractAddress } from './config.js';
 import {ethers} from 'ethers';
-import TaskAbi from './utils/TaskContract.json'
+import TaskAbi from './utils/TaskContract.json';
+import certai from './utils/Certificate.json'
+
+
 
 
 function App() {
@@ -53,7 +56,7 @@ function App() {
       let chainId = await ethereum.request({ method: 'eth_chainId'})
       console.log('Connected to chain:' + chainId)
 
-      const rinkebyChainId = '0x539'
+      const rinkebyChainId = '0x2019'
 
       if (chainId !== rinkebyChainId) {
         alert('You are not connected to the Rinkeby Testnet!')
