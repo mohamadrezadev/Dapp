@@ -6,11 +6,17 @@
       "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
       "sourceName": "contracts/Greeter.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -43,11 +49,17 @@
       "contentHash": "4ff3cd2f6272c9a6516e9ee4f2b967d3",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -78,11 +90,17 @@
       "contentHash": "711364b7ee41bff884644caea3163849",
       "sourceName": "contracts/StudentRegistry.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -109,15 +127,21 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\TaskContract.sol": {
-      "lastModificationDate": 1684505567339,
-      "contentHash": "7bff8a20e0064149fbd15dc7c61891c3",
+      "lastModificationDate": 1684591647901,
+      "contentHash": "f92c1ec967737a7e41b557824a2a0934",
       "sourceName": "contracts/TaskContract.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -137,7 +161,7 @@
       },
       "imports": [],
       "versionPragmas": [
-        "0.8.4"
+        "^0.8.4"
       ],
       "artifacts": [
         "TaskContract"
@@ -148,11 +172,17 @@
       "contentHash": "9b64fec559988477a7f5bd0d2a2f5b75",
       "sourceName": "contracts/token.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -185,11 +215,17 @@
       "contentHash": "f7f4f78c31f28534852e5c56000a25af",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -223,16 +259,63 @@
         "ERC721"
       ]
     },
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
+      "lastModificationDate": 1684237882030,
+      "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
+      "sourceName": "@openzeppelin/contracts/utils/Address.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.1"
+      ],
+      "artifacts": [
+        "Address"
+      ]
+    },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Strings.sol": {
       "lastModificationDate": 1684237882189,
       "contentHash": "396031251978f8febfd90cb62cb240ec",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -260,51 +343,22 @@
         "Strings"
       ]
     },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
-      "lastModificationDate": 1684237882030,
-      "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
-      "sourceName": "@openzeppelin/contracts/utils/Address.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.1"
-      ],
-      "artifacts": [
-        "Address"
-      ]
-    },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
       "lastModificationDate": 1684237882042,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -335,11 +389,17 @@
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -372,11 +432,17 @@
       "contentHash": "eb7e61db29f31d88b3c1cef1b063d338",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -409,11 +475,17 @@
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -444,11 +516,17 @@
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -481,11 +559,17 @@
       "contentHash": "b9c58920ce74d6dc819161786112e7ee",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {
@@ -516,11 +600,17 @@
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.17",
         "settings": {
+          "viaIR": true,
           "optimizer": {
-            "enabled": false,
-            "runs": 200
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
           },
           "outputSelection": {
             "*": {

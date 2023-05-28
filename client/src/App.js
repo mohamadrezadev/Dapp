@@ -56,14 +56,14 @@ function App() {
       let chainId = await ethereum.request({ method: 'eth_chainId'})
       console.log('Connected to chain:' + chainId)
 
-      const rinkebyChainId = '0x2019'
+      const rinkebyChainId = '0x539'
+      setCorrectNetwork(true);
 
-      if (chainId !== rinkebyChainId) {
-        alert('You are not connected to the Rinkeby Testnet!')
-        return
-      } else {
-        setCorrectNetwork(true);
-      }
+      // if (chainId !== rinkebyChainId) {
+      //   alert('You are not connected to the Rinkeby Testnet!')
+      //   return
+      // } else {
+      // }
 
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
 
@@ -88,21 +88,31 @@ function App() {
       if(ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
+        console.log(signer)
         const TaskContract = new ethers.Contract(
-          TaskContractAddress,
+          '0x42F9dC01529B7a4697EEcdaf5c8539f3C8E0E623',
           TaskAbi.abi,
           signer
         )
+        if (signer._isSigner)
+        {
+          // signer.getSigner
+        
+          // console.log(signer.getAddress()/)
+          alert('sing')
+          TaskContract.addTask(task.taskText, task.isDeleted)
+          .then(response => {
+            setTasks([...tasks, task]);
+            console.log("Completed Task");
+          })
+          .catch(err => {
+            console.log("Error occured while adding a new task");
+          });
+          
 
-        TaskContract.addTask(task.taskText, task.isDeleted)
-        .then(response => {
-          setTasks([...tasks, task]);
-          console.log("Completed Task");
-        })
-        .catch(err => {
-          console.log("Error occured while adding a new task");
-        });
-        ;
+        }
+       
+        
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -124,7 +134,7 @@ function App() {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const TaskContract = new ethers.Contract(
-          TaskContractAddress,
+          '0x42F9dC01529B7a4697EEcdaf5c8539f3C8E0E623',
           TaskAbi.abi,
           signer
         )

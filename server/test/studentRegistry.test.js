@@ -44,6 +44,7 @@ describe('StudentRegistry', function () {
    });
    it('should return an empty student for an address with no information', async function () {
           const student = await studentRegistry.readStudent();
+          console.log(student)
           expect(student[0]).to.equal('');
           expect(student[1]).to.equal('');
           expect(student[2]).to.equal('');

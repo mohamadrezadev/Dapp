@@ -15,14 +15,20 @@ async function main() {
 
   // We get the contract to deploy
   const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const Cert = await hre.ethers.getContractFactory("Certificate");
-  const cert = await Cert.deploy();
+  // const StudentRegistry = await hre.ethers.getContractFactory("StudentRegistry");
+  // console.log(studentRegistry)
+  // const TaskContract = await hre.ethers.getContractFactory("TaskContract");
+  // console.log(taskContract)
+  // const  studentRegistry= await StudentRegistry.deploy();
+  // const  taskContract= await TaskContract.deploy();
   const greeter = await Greeter.deploy("Hello, Hardhat!");
 
   await greeter.deployed();
-  await cert.deployed();
+  // await studentRegistry.deployed();
+  // await taskContract.deployed();
   console.log("Greeter deployed to:", greeter.address);
-  console.log('certdeployed to:',cert.address);
+  // console.log('StudentRegistry deployed to:',studentRegistry.address);
+  // console.log('taskContract deployed to:',taskContract.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

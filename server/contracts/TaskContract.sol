@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity 0.8.4;
+pragma solidity ^0.8.4;
 
 contract TaskContract {
 
@@ -18,9 +18,11 @@ contract TaskContract {
 
     // Mapping of Tweet id to the wallet address of the user
     mapping(uint256 => address) taskToOwner;
-
+    constructor()  {
+        addTask("test",false);
+    }
     // Method to be called by our frontend when trying to add a new Tweet
-    function addTask(string memory taskText, bool isDeleted) external {
+    function addTask(string memory taskText, bool isDeleted) public {
         uint taskId = tasks.length;
         tasks.push(Task(taskId, msg.sender, taskText, isDeleted));
         taskToOwner[taskId] = msg.sender;
