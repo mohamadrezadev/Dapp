@@ -85,6 +85,47 @@
         "console"
       ]
     },
+    "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\Studentmultisig.sol": {
+      "lastModificationDate": 1685305706663,
+      "contentHash": "55d97766eb70df0339c1719a7ab90314",
+      "sourceName": "contracts/Studentmultisig.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "StudentRegistry2"
+      ]
+    },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\StudentRegistry.sol": {
       "lastModificationDate": 1684503191521,
       "contentHash": "711364b7ee41bff884644caea3163849",
@@ -259,6 +300,47 @@
         "ERC721"
       ]
     },
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1684237882042,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
       "lastModificationDate": 1684237882030,
       "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
@@ -341,47 +423,6 @@
       ],
       "artifacts": [
         "Strings"
-      ]
-    },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1684237882042,
-      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
-      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 200,
-            "details": {
-              "yulDetails": {
-                "optimizerSteps": "u"
-              }
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Context"
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {

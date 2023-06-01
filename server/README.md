@@ -5,13 +5,17 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 Try running some of the following tasks:
 
 ```shell
+npx hardhat clean #step 1
+
+npx hardhat compile #step 2
+
+npx hardhat node #step 3
+
+npx hardhat run scripts/deploy.js --network localhost #step 4
+
+npx hardhat test #step 5
 npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
 node scripts/sample-script.js
-npx hardhat run --network localhost   scripts/deploy.js   
-npx hardhat run scripts/deploy.js --network localhost
+npx hardhat run --network localhost   scripts/Student-deploy.js
 npx hardhat help
 ```

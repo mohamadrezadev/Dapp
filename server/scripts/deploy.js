@@ -1,10 +1,26 @@
 const main = async() => {
-  const contractFactory = await ethers.getContractFactory('TaskContract');
+  //#region  StudentContract
+  const StudentRegistry = await hre.ethers.getContractFactory("StudentRegistry");
+  console.log(StudentRegistry)
+  const  studentRegistry= await StudentRegistry.deploy();
+  await studentRegistry.deployed();
+  console.log('StudentRegistry  address is :',studentRegistry.address);
+  //#endregion
   
+  //#region  Greeter contract
+  const Greeter = await ethers.getContractFactory("Greeter");
+  const greeter = await Greeter.deploy("Hello, Manual Hardhat!");
+  await greeter.deployed();
+  const address = greeter.address;
+  console.log("Greetercontract address  is :", address);
+  //#endregion
+
+  //#region TaskContract
+  const contractFactory = await ethers.getContractFactory('TaskContract');
   const contract = await contractFactory.deploy();
   await contract.deployed();
-
-  console.log("Contract deployed to: ", contract.address);
+  console.log("TaskContract  deployed address is : ", contract.address);
+  //#endregion 
 }
 
 const runMain = async() => {
