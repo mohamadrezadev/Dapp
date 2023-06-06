@@ -1,3 +1,4 @@
+const f= require('../scripts/file')
 const main = async() => {
   //#region  StudentContract
   const StudentRegistry = await hre.ethers.getContractFactory("StudentRegistry");
@@ -21,6 +22,15 @@ const main = async() => {
   await contract.deployed();
   console.log("TaskContract  deployed address is : ", contract.address);
   //#endregion 
+  const obj = {
+    TaskContractAddress:contract.address,
+    GreetercontractAddress:greeter.address,
+    StudentRegistryContractAddress:studentRegistry.address,
+  };
+  f.write(obj)
+  // file.write(obj)
+  
+  
 }
 
 const runMain = async() => {
