@@ -15,6 +15,12 @@ const main = async() => {
   const address = greeter.address;
   console.log("Greetercontract address  is :", address);
   //#endregion
+  
+  //#region NFT
+  const NFT=await ethers.getContractFactory("NFT");
+  const nft=await NFT.deploy("Certificate of Bozorgmehr Qaenat University","CERTBU");
+  console.log("NFT Contract  address  is  :"+nft.address)
+  //#endregion
 
   //#region TaskContract
   const contractFactory = await ethers.getContractFactory('TaskContract');
@@ -22,15 +28,14 @@ const main = async() => {
   await contract.deployed();
   console.log("TaskContract  deployed address is : ", contract.address);
   //#endregion 
+  
   const obj = {
     TaskContractAddress:contract.address,
     GreetercontractAddress:greeter.address,
     StudentRegistryContractAddress:studentRegistry.address,
+    NFTContract:nft.address
   };
   f.write(obj)
-  // file.write(obj)
-  
-  
 }
 
 const runMain = async() => {

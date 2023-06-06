@@ -18,7 +18,7 @@ function Dashboard() {
   }, [data]);
 
   const handleCreateStudent = async () => {
-    await contract.createStudent('hh', 'hhds', 'h', 'h', 47);
+    await contract.createStudent('mohamadreza', 'kiani ', 'tase', 'h', 47);
   };
   const handleReadStudent = async () => {
     console.log(students);

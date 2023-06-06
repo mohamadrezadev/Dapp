@@ -1,4 +1,5 @@
 const fs = require('fs');
+const pinataSDK = require('@pinata/sdk');
 
 function write(obj) {
   try {
@@ -9,27 +10,32 @@ function write(obj) {
     console.error(err);
   }
 }
+function uploda(){
+  
+  const pinata = pinataSDK('01b8a3152fa2cfd7c23b', 'be9f4e67d743194f11123b707f7a0ef73cdb3e3566afa2c6e58b2cb2ee01ed86');
 
-module.exports.write = write;
-// const fs = require('fs');
-// // Create a JavaScript object to write to the file
-// // const obj = {
-// //   addres:"",
-// //   address2:"",
-// //   address3:""
-// // };
+  const readableStreamForFile = fs.createReadStream('certificate.json');
 
-// // Convert the object to a JSON string
+  const options = {
+    pinataMetadata: {
+      name: 'Certificate Univercity',
+      keyvalues: {
+        customKey: 'customValue'
+      }
+    },
+    pinataOptions: {
+      cidVersion: 0,
+      wrapWithDirectory: true
+    }
+  };
 
-// // Write the JSON string to a file
-// function write(obj){
-//           const json = JSON.stringify(obj);
-//           fs.writeFile('./file.json', json, 'utf8', (err) => {
-//                     if (err) {
-//                       console.error(err);
-//                       return;
-//                     }
-//                     console.log('File has been saved');        
-//           });
-// }
-// module.exports=write;
+  pinata.pinFileToIPFS(readableStreamForFile, options)
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+exports={write,writeDataToFile};
+
