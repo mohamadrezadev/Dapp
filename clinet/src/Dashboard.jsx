@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import StudentRegistry from "./assets/StudentRegistry.json";
+import StudentRegistry from "../../server/artifacts/contracts/StudentRegistry.sol/StudentRegistry.json";
 import { useContract } from "@thirdweb-dev/react";
-
+import contrcatAddress from '../../server/contrcatAddress.json'
 function Dashboard() {
   const [contract, setContract] = useState(null);
   const [students, setStudents] = useState(null);
 
   const { data } = useContract(
-    "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
   );
 
@@ -22,7 +22,7 @@ function Dashboard() {
   };
   const handleReadStudent = async () => {
     console.log(students);
-    const res=await contract.readStudent();
+    const res=await contract.getAallStudents();
     setStudents(res);
     console.log(students);
   };
