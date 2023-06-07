@@ -18,14 +18,14 @@ function Dashboard() {
     contrcatAddress.NFTContract,
     NFTABI.abi
   );
-  console.log(contract)
+  // console.log(contract)
   useEffect(() => {
     if (data) {
       setContract(data.contractWrapper.writeContract);
-      // setContract2(data1.contractWrapper.writeContract);
+      setContract2(contract.contractWrapper.writeContract);
     }
     
-  }, [data]);
+  }, [data,contract]);
 
   const handleCreateStudent = async () => {
     const firstName = 'John';
@@ -45,11 +45,10 @@ function Dashboard() {
     const year = 2023;
     const metadata= generate_metadata(firstName,lastName,degree,major,year)
     const response = await pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1)
-    console.log(response.data.IpfsHash);
     const IpfsHash=response.data.IpfsHash;
-    console.log(typeof(IpfsHash))
     const tx= await nftContract.mint(IpfsHash)
-    console.log(tx)
+    const receipt = await tx.wait();
+    console.log(receipt)
   }
   const handleReadStudent = async () => {
     console.log(students);

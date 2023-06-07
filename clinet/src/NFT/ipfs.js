@@ -4,14 +4,9 @@ import axios from 'axios';
 export const pinata_api_key1='14169286a8db5599abdf';
 export const pinata_secret_api_key1='3a6d1543584863f74f0efe1f26acd29ece2c5cbee1459da8a4ce57eb907cf5cc';
 
-
-
-
-
 export const pinFileToIPFS =async (data, pinataApiKey, pinataSecretApiKey) => {
   const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
   const jsonData = JSON.stringify(data);
-  console.log(jsonData)
   return await axios.post(url,
     jsonData,
       {
