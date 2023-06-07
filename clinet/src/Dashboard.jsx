@@ -1,36 +1,69 @@
 import React, { useEffect, useState } from "react";
 import StudentRegistry from "../../server/artifacts/contracts/StudentRegistry.sol/StudentRegistry.json";
+import NFTABI from "../../server/artifacts/contracts/NFT.sol/CERTNFT.json"
 import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from '../../server/contrcatAddress.json'
+import {generate_metadata, pinFileToIPFS, pinata_api_key1, pinata_secret_api_key1} from './NFT/ipfs';
 function Dashboard() {
-  const [contract, setContract] = useState(null);
+  const [studentRegistryContract, setContract] = useState(null);
+  const [nftContract, setContract2] = useState(null);
   const [students, setStudents] = useState(null);
 
   const { data } = useContract(
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
   );
-
+ 
+  const { contract, isLoading, error } = useContract(
+    contrcatAddress.NFTContract,
+    NFTABI.abi
+  );
+  console.log(contract)
   useEffect(() => {
     if (data) {
       setContract(data.contractWrapper.writeContract);
+      // setContract2(data1.contractWrapper.writeContract);
     }
+    
   }, [data]);
 
   const handleCreateStudent = async () => {
-    await contract.createStudent('mohamadreza', 'kiani ', 'tase', 'h', 47);
+    const firstName = 'John';
+    const lastName = 'Doe';
+    const degree = 'BSc';
+    const major = 'Computer Science';
+    const year = 2022;
+   const tx= await studentRegistryContract.createStudent(firstName, lastName, degree, major, year);
+    // let tx= await contract.createStudent('mohamadreza', 'kiani ', 'tase', 'h', 47);
+    console.log(tx)
   };
+  const handelCreatenft=async()=>{
+    const firstName = 'masod';
+    const lastName = 'gorgani';
+    const degree = 'BSc';
+    const major = 'Computer Science';
+    const year = 2023;
+    const metadata= generate_metadata(firstName,lastName,degree,major,year)
+    const response = await pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1)
+    console.log(response.data.IpfsHash);
+    const IpfsHash=response.data.IpfsHash;
+    console.log(typeof(IpfsHash))
+    const tx= await nftContract.mint(IpfsHash)
+    console.log(tx)
+  }
   const handleReadStudent = async () => {
     console.log(students);
-    const res=await contract.getAallStudents();
+    const res=await studentRegistryContract.getAallStudents();
+    const tx=await studentRegistryContract.getAallStudents();
     setStudents(res);
-    console.log(students);
+    console.log(tx);
   };
   return (
     <div>
       <h1>Smart Contract Info:</h1>
       <button onClick={handleCreateStudent}>Create Student</button>
       <button onClick={handleReadStudent}>ReadStudent</button>
+      <button onClick={handelCreatenft}>nft</button>
       {/* {Object.keys(students)} */}
       {/* display other relevant information from the smart contract response */}
     </div>

@@ -33,11 +33,9 @@ pinFileToIPFS = (data, pinataApiKey, pinataSecretApiKey) => {
           }
       }
   ).then(function (response) {
-    console.log(response.data)
-      //handle response here
+     console.log(response.data)
   }).catch(function (error) {
-    console.log(error)
-      //handle error here
+     console.log(error)
   });
 };
 
@@ -60,38 +58,34 @@ testAuthentication = () => {
         });
 };
 
-const data = {
-  "name": "Graduate certificate",
-  "description": "Dear student.......we congratulate you on your graduation from Bozormehr Qaenat University in the field of study.",
-  "image": "ipfs://QmTmh7ffdVZKJgMjEMWpy9H4iyW9kSbKA7oHKKSrLiTQdp",
-  "attributes": [
-    {
-      "trait_type": "Mohamadreza",
-      "value": "Kiani"
-    },
-    {
-      "trait_type": "field",
-      "value": "Computer"
-    },
-    {
-      "trait_type": "Date",
-      "value": "2023-06-02"
-    },
-    {
-      "trait_type": "Details",
-      "value": "This student has graduated from Bozormehr Qaenat University this year"
-    }
-  ]
-}
 
-const options = {
-  pinataMetadata: {
-    name: 'Certificate Univercity'
+function generate_metadata(firstname,lastname,degree,major,year) {
+  return{
+    "name": "Graduate certificate",
+    "description": `Dear student ${firstname} ${lastname}, we congratulate you on your graduation from Bozormehr Qaenat University in the ${degree} (${major}) of study in ${year}.`,
+    "image": "ipfs://QmTmh7ffdVZKJgMjEMWpy9H4iyW9kSbKA7oHKKSrLiTQdp",
+    "attributes": [
+      {
+        "trait_type": `${firstname}`,
+        "value": `${lastname}`
+      },
+      {
+        "trait_type": "field",
+        "value": `${degree}`
+      },
+      {
+        "trait_type": "Date",
+        "value": `${year}`
+      },
+      {
+        "trait_type": "Details",
+        "value": `This student has graduated from Bozormehr Qaenat University this ${year} `
+      }
+    ]
   }
-};
+}
+let metadata= generate_metadata("mohamadreza","kiani","computer","senior",2023)
+pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1)
 
-
-pinFileToIPFS(data,pinata_api_key1,pinata_secret_api_key1)
-
-exports={write};
+exports={write,pinFileToIPFS,generate_metadata};
 

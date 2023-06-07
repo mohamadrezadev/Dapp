@@ -10,32 +10,7 @@ function write(obj) {
     console.error(err);
   }
 }
-function uploda(){
-  
-  const pinata = pinataSDK('01b8a3152fa2cfd7c23b', 'be9f4e67d743194f11123b707f7a0ef73cdb3e3566afa2c6e58b2cb2ee01ed86');
 
-  const readableStreamForFile = fs.createReadStream('certificate.json');
+module.exports.write=write;
 
-  const options = {
-    pinataMetadata: {
-      name: 'Certificate Univercity',
-      keyvalues: {
-        customKey: 'customValue'
-      }
-    },
-    pinataOptions: {
-      cidVersion: 0,
-      wrapWithDirectory: true
-    }
-  };
-
-  pinata.pinFileToIPFS(readableStreamForFile, options)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-exports={write,writeDataToFile};
 

@@ -17,8 +17,8 @@ const main = async() => {
   //#endregion
   
   //#region NFT
-  const NFT=await ethers.getContractFactory("NFT");
-  const nft=await NFT.deploy("Certificate of Bozorgmehr Qaenat University","CERTBU");
+  const NFT=await ethers.getContractFactory("CERTNFT");
+  const nft=await NFT.deploy("Certificate of Bozorgmehr Qaenat University","CBUQ",2000);
   console.log("NFT Contract  address  is  :"+nft.address)
   //#endregion
 
