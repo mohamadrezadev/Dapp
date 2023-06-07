@@ -11,7 +11,10 @@ npx hardhat compile #step 2
 
 npx hardhat node #step 3
 
-npx hardhat run scripts/deploy.js --network localhost #step 4
+npx hardhat run scripts/deploy.js --network polygon_mumbai #step 4
+npx hardhat run scripts/deploy.js --network localhost 
+#for verify contract address
+npx hardhat verify --network polygon_mumbai 0xc81b885CF934A38BcaBD0cb2A3465705eED622D1 
 
 npx hardhat test #step 5
 npx hardhat accounts
