@@ -3,8 +3,8 @@ import { ConnectWallet } from "@thirdweb-dev/react";
 
 const MyNavbar = () => {
   return (
-    <Navbar bg="dark" className="navbar-dark" expand="lg">
-      <div className="container">
+    <Navbar bg="dark" className="navbar-dark" expand="lg"  >
+      <div className="container" >
         <Navbar.Brand href="#">نام سایت</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
