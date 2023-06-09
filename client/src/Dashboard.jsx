@@ -17,7 +17,11 @@ function Dashboard() {
   const [studentRegistryContract, setContract] = useState(null);
   const [nftContract, setContract2] = useState(null);
   const [students, setStudents] = useState(null);
-
+  let firstName = ''
+  let lastName=''
+  let degree=''
+  let major=''
+  let year=''
   const { data } = useContract(
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
@@ -28,21 +32,27 @@ function Dashboard() {
     NFTABI.abi
   );
 
-  function existestudent(list,firstName,lastName){
+  function existestudent(list,_firstName,_lastName){
     list.forEach(element => {
-      if(element.firstName==firstName && element==lastName)
+      if(element.firstName==_firstName && element.lastName==_lastName){
+        console.log(element.firstName)
         return true;
-       
+      }
     });
     return false;
   }
+
   useEffect(() => {
+    
+    if (studentRegistryContract != null) {
+      handleReadStudent()
+    }
+
     if (data) {
       setContract(data.contractWrapper.writeContract);
       setContract2(contract.contractWrapper.writeContract);
     }
-    
-  }, [data,contract]);
+  }, [data,contract, studentRegistryContract]);
 
   const handleCreateStudent = async () => {
     const firstName = 'John';
@@ -60,39 +70,56 @@ function Dashboard() {
     }
     
   };
-  const handelCreatenft=async()=>{
-    const firstName = 'masod';
-    const lastName = 'gorgani';
-    const degree = 'BSc';
-    const major = 'Computer Science';
-    const year = 2023;
-   
-    const metadata= generate_metadata(firstName,lastName,degree,major,year)
+  function creatnft(student){
+    // let student=students[index]
+    console.log(student)
+  }
+  const handelCreatenft=async(student)=>{
+    console.log(student.firstName,student.lastName,student.education.degree,student.education.major,parseInt(student.education.year._hex, 16))
+    const metadata= generate_metadata(student.firstName,student.lastName,student.education.degree,student.education.major,parseInt(student.education.year._hex, 16))
     const response = await pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1)
     const IpfsHash=response.data.IpfsHash;
     const tx= await nftContract.mint(IpfsHash)
     const receipt = await tx.wait();
     console.log(receipt)
+    const tokenId = receipt.events[1].args[1];
+    console.log(tokenId)
+    const tokenURI = await nftContract.tokenURI(tokenId);
+    console.log(tokenURI)
   }
  
   const handleReadStudent = async () => {
-    console.log(students);
+    // console.log(students);
     const res=await studentRegistryContract.getAallStudents();
     setStudents(res);
-    console.log(res);
-    res.forEach(element => {
-      console.log(element.firstName);
-    });
-    
+   
+    console.log("syudent: ",students);
+    // res.forEach(element => {
+    //   console.log(element.firstName);
+    // });
   };
 
+  async function form(_firstName ,_lastName ,_degree,_major,_year){
+    console.log(_firstName ,_lastName ,_degree,_major,_year)
+    const res=await studentRegistryContract.getAallStudents();
+    // console.log(res)
+    if(existestudent(res,firstName,lastName)){
+      console.log("alrady exist sudent")
+    }
+    else{
+      const tx= await studentRegistryContract.createStudent(firstName, lastName, degree, major, year);
+      const receipt = await tx.wait();
+      console.log(receipt)
+      location.reload()
+    }
 
+  }
   return (
     <div>
       <h1>Smart Contract Info:</h1>
       <button onClick={handleCreateStudent}>Create Student</button>
       <button onClick={handleReadStudent}>ReadStudent</button>
-      {/* <button onClick={handelCreatenft}>nft</button> */}
+      <button onClick={handelCreatenft}>nft</button>
       {/* <MediaRenderer src="ipfs://QmTmh7ffdVZKJgMjEMWpy9H4iyW9kSbKA7oHKKSrLiTQdp" /> */}
       
       {/* {Object.keys(students)} */}
@@ -102,44 +129,53 @@ function Dashboard() {
           <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-              <th scope="col">Action</th>
+              <th scope="col">ردیف</th>
+              <th scope="col">نام</th>
+              <th scope="col">نام خانوادگی</th>
+              <th scope="col">رشته تحصیلی </th>
+              <th scope="col">مقطع تحصیلی</th>
+              <th scope="col">سال فارغ تحصیلی </th>
+              <th scope="col">سال فارغ تحصیلی </th>
             </tr>
+            {/* <th>
+              <tr> نام</tr>
+              <tr> نام خانوادگی</tr>
+              <tr> رشته </tr>
+              <tr> مقطع </tr>
+              <tr> سال فارغ تحصیلی </tr>
+            </th> */}
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td><button onClick={handelCreatenft}>nft</button></td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td><button onClick={handelCreatenft}>nft</button></td>
-            </tr>
-            <tr>
+          {students !== null ? students.map((element, index) => {
+            // console.log(index)
+              return <tr  >
+                  <th scope="row">{index+1}</th>
+                  <th scope="col">{element.firstName}</th>
+                  <th scope="col">{element.lastName}</th>
+                  <th scope="col">{element.education.major}</th>
+                  <th scope="col">{element.education.degree}</th>
+                  <th scope="col">{parseInt(element.education.year._hex, 16)}</th>
+                  <td><button onClick={()=> handelCreatenft(students[index])}>صدور گواهینامه </button></td>
+                </tr>
+            }) : <></>}
+           
+           
+           
+            {/* <tr>
               <th scope="row">3</th>
               <td colspan="2">Larry the Bird</td>
               <td>@twitter</td>
               <td><button onClick={handelCreatenft}>nft</button></td>
-            </tr>
+            </tr> */}
           </tbody>
           </table>
           </div>
       </div>
       {/* <!-- Button trigger modal --> */}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        افزودن اطلاعات دانشجو
+      </button>
 
-{/* <!-- Modal -->   */}
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -153,9 +189,9 @@ function Dashboard() {
                <div className="row g-5">
                 <form className="needs-validation was-validated" />
                  <div className="row g-3">
-                   <div className="col-sm-6">
+                   <div className="col-12">
                      <label htmlFor="firstName" className="form-label">
-                       First name
+                       نام
                      </label>
                      <input
                       type="text"
@@ -163,15 +199,18 @@ function Dashboard() {
                       id="firstName"
                       placeholder=""
                       required=""
+                      onChange={(e)=>{
+                        firstName = e.target.value
+                      }}
                     />
                     <div className="invalid-feedback">
                       Valid first name is required.
                     </div>
                   </div>
 
-                  <div className="col-sm-6">
+                  <div className="col-12">
                     <label htmlFor="lastName" className="form-label">
-                      Last name
+                      نام خانوادگی
                     </label>
                     <input
                       type="text"
@@ -179,6 +218,9 @@ function Dashboard() {
                       id="lastName"
                       placeholder=""
                       required=""
+                      onChange={(e)=>{
+                        lastName = e.target.value
+                      }}
                     />
                     <div className="invalid-feedback">
                       Valid last name is required.
@@ -187,95 +229,77 @@ function Dashboard() {
 
                   <div className="col-12">
                     <label htmlFor="email" className="form-label">
-                      Email <span className="text-body-secondary">(Optional)</span>
+                      تاریخ  
+                      <span className="text-body-secondary"></span>
                     </label>
                     <input
-                      type="email"
+                      type="number"
                       className="form-control"
-                      id="email"
-                      placeholder="you@example.com"
+                      id="date"
+                      placeholder=""
+                      onChange={(e)=>{
+                        year = e.target.value
+                      }}
                     />
-                    <div className="invalid-feedback">
+                    {/* <div className="invalid-feedback">
                       Please enter a valid email address htmlFor shipping updates.
+                    </div> */}
+                  </div>
+                  <div className="col-12">
+                    <label htmlFor="major" className="form-label">
+                      رشته
+                    </label>
+                    <select className="form-select" id="major" required=""  onChange={(e)=>{
+                        major = e.target.value
+                      }}>
+                      <option value="">انتخاب </option>
+                      <option>کامپیوتر</option>
+                      <option>مکانیک</option>
+                      <option>عمران</option>
+                    </select>
+                    <div className="invalid-feedback">
+                      لطفا رشته را به درستی وارد نمایید
                     </div>
                   </div>
 
                   <div className="col-12">
-                    <label htmlFor="address" className="form-label">
-                      Address
+                    <label htmlFor="degree" className="form-label">
+                       مقطع
                     </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="address"
-                      placeholder="1234 Main St"
-                      required=""
-                    />
-                    <div className="invalid-feedback">
-                      Please enter your shipping address.
-                    </div>
-                  </div>
-
-                  <div className="col-md-5">
-                    <label htmlFor="country" className="form-label">
-                      Country
-                    </label>
-                    <select className="form-select" id="country" required="">
-                      <option value="">Choose...</option>
-                      <option>United States</option>
+                    <select className="form-select" id="degree" required="" 
+                       onChange={(e)=>{
+                        degree = e.target.value
+                      }}>
+                      <option value="">انتخاب</option>
+                      <option>کاردانی </option>
+                      <option>کارشناسی </option>
+                      <option>کارشناسی ارشد </option>
                     </select>
                     <div className="invalid-feedback">
-                      Please select a valid country.
+                      لطفا مقطع را به درستی وارد نمایید
                     </div>
                   </div>
 
-                  <div className="col-md-4">
-                    <label htmlFor="state" className="form-label">
-                      State
-                    </label>
-                    <select className="form-select" id="state" required="">
-                      <option value="">Choose...</option>
-                      <option>California</option>
-                    </select>
-                    <div className="invalid-feedback">
-                      Please provide a valid state.
-                    </div>
-                  </div>
-
-                  <div className="col-md-3">
-                    <label htmlFor="zip" className="form-label">
-                      Zip
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="zip"
-                      placeholder=""
-                      required=""
-                    />
-                    <div className="invalid-feedback">Zip code required.</div>
-                  </div>
+                  
                 </div>
 
                 <hr className="my-4" />
 
-                <button className="w-100 btn btn-primary btn-lg" type="submit">
+                {/* <button className="w-100 btn btn-primary btn-lg" type="submit">
                   Continue to checkout
-                </button>
+                </button> */}
               </div>
             </div>
           </main>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary" onClick={() => { form(firstName ,lastName ,degree,major,year)}}>Save changes</button>
             </div>
           </div>
         </div>
       </div>
-      {/* <div className="container mt-3">
-        <ModalDialog />
-      </div> */}
+     
     </div>
     
   );
