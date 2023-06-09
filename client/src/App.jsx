@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      <div dir="rtl"> <MenuBar /></div>
+      <div dir=""> <MenuBar /></div>
      
       <div className="container mt-5">
         {!address ? (
