@@ -1,0 +1,22 @@
+{
+          "name": "Certificate Univercity",
+          "description": "this student get Certificate in 2023",
+          "image": "https://ipfs.io/ipfs/QmWcY3hdzwre6BiqxBXZmWRDYHD8GYFhg5N1wYa72VY4h6",
+          "attributes": [{
+              "trait_type": "Version",
+              "value": 1
+            },
+            {
+              "trait_type": "LinkedIn",
+              "value": "https://www.linkedin.com/in/rafal-wawrzyniak/"
+            },
+            {
+              "trait_type": "Medium.com",
+              "value": "https://medium.com/@rafal-wawrzyniak"
+            },
+            {
+              "trait_type": "Medium refferal",
+              "value": "https://rafal-wawrzyniak.medium.com/membership"
+            }
+          ]
+      }

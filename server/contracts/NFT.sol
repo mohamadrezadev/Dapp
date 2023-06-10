@@ -23,5 +23,15 @@ contract CERTNFT is ERC721URIStorage {
         emit mintnft(msg.sender,newItemId,url,"minted nft ");
         return newItemId;
     }
+
+     function getAllTokenIdsAndUrls() public view returns (uint256[] memory, string[] memory) {
+        uint256[] memory tokenIds = new uint256[](_tokenIds.current());
+        string[] memory tokenUrls = new string[](_tokenIds.current());
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
+            tokenIds[i] = i + 1;
+            tokenUrls[i] = tokenURI(tokenIds[i]);
+        }
+        return (tokenIds, tokenUrls);
+    }
    
 }

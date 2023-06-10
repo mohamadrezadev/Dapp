@@ -16,17 +16,12 @@ describe('StudentRegistry', function () {
     const degree = 'BSc';
     const major = 'Computer Science';
     const year = 2022;
-
-    await studentRegistry.createStudent(firstName, lastName, degree, major, year);
-
-    const students = await studentRegistry.getAallStudents();
-    const student = students[0];
-    expect(student.firstName).to.equal(firstName);
-    expect(student.lastName).to.equal(lastName);
-    expect(student.education.degree).to.equal(degree);
-    expect(student.education.major).to.equal(major);
-    expect(student.education.year.toNumber()).to.equal(year);
-    
+    const tax= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
+    const receipt=await tax.wait();
+    const id=receipt.events[0].args[0]
+    // console.log(id)
+    // console.log(await studentRegistry.Students(0))
+    expect(await studentRegistry.Students(0))
   });
   it('should read the student information', async function () {
           const firstName = 'John';
@@ -34,11 +29,8 @@ describe('StudentRegistry', function () {
           const degree = 'BSc';
           const major = 'Computer Science';
           const year = 2022;
-      
           await studentRegistry.createStudent(firstName, lastName, degree, major, year);
-      
           const students = await studentRegistry.getAallStudents();
-
           const student = students[0];
           expect(student.firstName).to.equal(firstName);
           expect(student.lastName).to.equal(lastName);
@@ -62,17 +54,20 @@ describe('StudentRegistry', function () {
           const newDegree = 'MSc';
           const newMajor = 'Electrical Engineering';
           const newYear = 2023;
-      
-          await studentRegistry.createStudent(firstName, lastName, degree, major, year);
-          await studentRegistry.updateStudent(newFirstName, newLastName, newDegree, newMajor, newYear);
+          console.log(studentRegistry.Students)
+          const tax= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
+          const receipt=await tax.wait();
+          const id=receipt.events[0].args[0]
+          // var result= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
+          await studentRegistry.updateStudent(id,newFirstName, newLastName, newDegree, newMajor, newYear);
       
           const students = await studentRegistry.getAallStudents();
           const student = students[0];
-          expect(student.firstName).to.equal(firstName);
-          expect(student.lastName).to.equal(lastName);
-          expect(student.education.degree).to.equal(degree);
-          expect(student.education.major).to.equal(major);
-          expect(student.education.year.toNumber()).to.equal(year);
+          expect(student.firstName).to.equal(newFirstName);
+          expect(student.lastName).to.equal(newLastName);
+          expect(student.education.degree).to.equal(newDegree);
+          expect(student.education.major).to.equal(newMajor);
+          expect(student.education.year.toNumber()).to.equal(newYear);
           });
       
    it('should throw anerror if any of the required fields are empty', async function () {
@@ -82,13 +77,17 @@ describe('StudentRegistry', function () {
           const major = 'Computer Science';
           const year = 2022;
           const emptyField = '';
+         
+          const tax= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
+          const receipt=await tax.wait();
+          const id=receipt.events[0].args[0]
+
+          // await studentRegistry.createStudent(firstName, lastName, degree, major, year);
       
-          await studentRegistry.createStudent(firstName, lastName, degree, major, year);
-      
-          await expect(studentRegistry.updateStudent(emptyField, lastName, degree, major, year)).to.be.revertedWith('First name cannot be empty');
-          await expect(studentRegistry.updateStudent(firstName, emptyField, degree, major, year)).to.be.revertedWith('Last name cannot be empty');
-          await expect(studentRegistry.updateStudent(firstName, lastName, emptyField, major, year)).to.be.revertedWith('Degree cannot be empty');
-          await expect(studentRegistry.updateStudent(firstName, lastName, degree, emptyField, year)).to.be.revertedWith('Major cannot be empty');
+          await expect(studentRegistry.updateStudent(id,emptyField, lastName, degree, major, year)).to.be.revertedWith('First name cannot be empty');
+          await expect(studentRegistry.updateStudent(id,firstName, emptyField, degree, major, year)).to.be.revertedWith('Last name cannot be empty');
+          await expect(studentRegistry.updateStudent(id,firstName, lastName, emptyField, major, year)).to.be.revertedWith('Degree cannot be empty');
+          await expect(studentRegistry.updateStudent(id,firstName, lastName, degree, emptyField, year)).to.be.revertedWith('Major cannot be empty');
         });
    it('should delete the student information', async function () {
           const firstName = 'John';

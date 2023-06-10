@@ -4,7 +4,7 @@ import axios from 'axios';
 export const pinata_api_key1='14169286a8db5599abdf';
 export const pinata_secret_api_key1='3a6d1543584863f74f0efe1f26acd29ece2c5cbee1459da8a4ce57eb907cf5cc';
 
-export const pinFileToIPFS =async (data, pinataApiKey, pinataSecretApiKey) => {
+export const pinFileToIPFS2 =async (data, pinataApiKey, pinataSecretApiKey) => {
   const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
   const jsonData = JSON.stringify(data);
   return await axios.post(url,
@@ -17,6 +17,32 @@ export const pinFileToIPFS =async (data, pinataApiKey, pinataSecretApiKey) => {
           }
       }
   )
+};
+
+
+export const  pinFileToIPFS = (data, pinataApiKey, pinataSecretApiKey, fileName) => {
+  const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+  const jsonData = JSON.stringify(data);
+  const metadata = {
+    name: fileName
+  };
+  const pinataOptions = {
+    cidVersion: 0
+  };
+  const Content = {
+    pinataMetadata: metadata,
+    pinataContent: data,
+    pinataOptions: pinataOptions
+  };
+  // console.log()
+  console.log(Content)
+  return axios.post(url,Content, {
+    headers: {
+      'Content-Type': `application/json`,
+      'pinata_api_key': pinataApiKey,
+      'pinata_secret_api_key': pinataSecretApiKey
+    }
+  })
 };
 
 export const testAuthentication = () => {
