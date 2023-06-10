@@ -16,28 +16,34 @@ const pinata_api_key1='14169286a8db5599abdf';
 const pinata_secret_api_key1='3a6d1543584863f74f0efe1f26acd29ece2c5cbee1459da8a4ce57eb907cf5cc';
 
 
-
-
-
-pinFileToIPFS = (data, pinataApiKey, pinataSecretApiKey) => {
+const pinFileToIPFS = (data, pinataApiKey, pinataSecretApiKey, fileName) => {
   const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
   const jsonData = JSON.stringify(data);
-  console.log(jsonData)
-  return axios.post(url,
-    jsonData,
-      {
-          headers: {
-              'Content-Type': `application/json`,
-              'pinata_api_key': pinataApiKey,
-              'pinata_secret_api_key': pinataSecretApiKey
-          }
-      }
-  ).then(function (response) {
-     console.log(response.data)
+  const metadata = {
+    name: fileName
+  };
+  const pinataOptions = {
+    cidVersion: 0
+  };
+  const pinataContent = {
+    pinataMetadata: metadata,
+    pinataContent: jsonData,
+    pinataOptions: pinataOptions
+  };
+  return axios.post(url, pinataContent, {
+    headers: {
+      'Content-Type': `application/json`,
+      'pinata_api_key': pinataApiKey,
+      'pinata_secret_api_key': pinataSecretApiKey
+    }
+  }).then(function (response) {
+    console.log(response.data.IpfsHash);
   }).catch(function (error) {
-     console.log(error)
+    console.log(error);
   });
 };
+
+
 
 testAuthentication = () => {
     const url = `https://api.pinata.cloud/data/testAuthentication`;
@@ -84,8 +90,8 @@ function generate_metadata(firstname,lastname,degree,major,year) {
     ]
   }
 }
-let metadata= generate_metadata("mohamadreza","kiani","computer","senior",2023)
-pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1)
+let metadata= generate_metadata("ali","kiani","computer","senior",2023)
+pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1,'test')
 
 exports={write,pinFileToIPFS,generate_metadata};
 
