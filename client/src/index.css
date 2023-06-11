@@ -1,0 +1,23 @@
+.btn.btn-primary[disabled] {
+    background-color: #bbb;
+}
+.JDatePicker {
+    direction: rtl;
+    color: #fff !important;
+    background-color: #444 !important;
+}
+.JC-days{
+    background-color: #444 !important;
+    color: #fff !important;
+
+}
+.day-items:hover{
+    background-color: #666 !important;
+}
+.selected{
+    background-color: #555 !important;
+
+}
+table{
+    direction: rtl;
+}
