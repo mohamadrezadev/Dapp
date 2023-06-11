@@ -17,6 +17,7 @@
     "@pinata/sdk": "^2.1.0",
     "@tenderly/hardhat-tenderly": "^1.7.4",
     "alchemy-sdk": "^2.8.3",
+    "api": "^5.0.8",
     "axios": "^1.4.0",
     "chai": "^4.3.6",
     "config": "^3.3.9",
@@ -28,6 +29,7 @@
     "fs": "^0.0.1-security",
     "hardhat": "^2.14.0",
     "jest": "^29.5.0",
+    "node-global-proxy": "^1.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
     "web3": "^1.10.0"

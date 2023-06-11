@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import StudentRegistry from "../../server/artifacts/contracts/StudentRegistry.sol/StudentRegistry.json";
 import NFTABI from "../../server/artifacts/contracts/NFT.sol/CERTNFT.json"
-import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from '../../server/contrcatAddress.json'
-import { MediaRenderer } from "@thirdweb-dev/react";
-import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-// import {ModalDialog} from '../src/modal';
+import { ThirdwebNftMedia, useContract, useNFT } from "@thirdweb-dev/react";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
-// import Modal from '@mui/material/Modal';
-import {generate_metadata, pinFileToIPFS, pinata_api_key1, pinata_secret_api_key1} from './NFT/ipfs';
-
-
+import {generate_metadata, pinFileToIPFS, pinata_api_key1, pinata_secret_api_key1,get} from './NFT/ipfs';
+import { MediaRenderer } from "@thirdweb-dev/react";
+import {getnfts} from './NFT/utils'
 
 function Dashboard() {
   const [studentRegistryContract, setContract] = useState(null);
@@ -33,10 +29,16 @@ function Dashboard() {
     StudentRegistry.abi
   );
  
-  const { contract, isLoading, error } = useContract(
+  const { contract, isLoadingnft, errornft } = useContract(
     contrcatAddress.NFTContract,
     NFTABI.abi
   );
+  
+      // Connect to your NFT contract
+  const { contractnft } = useContract(contrcatAddress.NFTContract);
+  // Load the NFT metadata from the contract using a hook
+  const { data: nft, isLoading, error } = useNFT(contract, "1");
+  
 
   function existestudent(list,_firstName,_lastName){
     list.forEach(element => {
@@ -143,30 +145,42 @@ function Dashboard() {
     }
 
   }
-  
+  let ipfsHash=''
   const getalltokenurl=async function(){
     const result=await nftContract.getAllTokenIdsAndUrls();
+    // console.log(ipfsHash);
+   
     settokenurls(result[1])
     console.log(tokenurls)
+  //   if (tokenurls.length >= 0) {
+  //     // const url = tokenurls[0];
+  //     // ipfsHash = url.split('/').pop();
+
+  //     // get(ipfsHash)
+  //     // console.log(ipfsHash);
+  // }
+    // get(result[1])
   }
+  const nfts=async function() {
+   let res=await getnfts("0x931f3dc9e91fb896ef82299218f1613a3ba281d5","Graduate certificate")
+   console.log(res)
+  }
+  
   const transfer=async function(from,to,tokenId){
     //انتقال ان اف تی به کاربران 
       const tx2=await nftContract.transferFrom(from,to,tokenId)
       const receipt2=tx2.wait();
       console.log(receipt2)
   }
+  
   return (
+    
     <div>
       <h1>Smart Contract Info:</h1>
       <button onClick={handleCreateStudent}>Create Student</button>
       <button onClick={handleReadStudent}>ReadStudent</button>
-      <button onClick={handelCreatenft}>nft</button>
+      <button onClick={nfts}>nft</button>
       <button onClick={getalltokenurl}>urls</button>
-      
-      
-      
-      {/* {Object.keys(students)} */}
-      {/* display other relevant information from the smart contract response */}
       <div className="row">
         <div className="container">
           <table class="table">
@@ -195,15 +209,6 @@ function Dashboard() {
                   <td><button onClick={()=> handelCreatenft(students[index])}>صدور گواهینامه </button></td>
                 </tr>
             }) : <></>}
-           
-           
-           
-            {/* <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-              <td><button onClick={handelCreatenft}>nft</button></td>
-            </tr> */}
           </tbody>
           </table>
           </div>
@@ -211,15 +216,22 @@ function Dashboard() {
       
       <div className="row">
        
+        {/* <MediaRenderer src={`ipfs://${ipfsHash}`}></MediaRenderer> */}
+        {/* <MediaRenderer src="ipfs://QmV4HC9fNrPJQeYpbW55NLLuSBMyzE11zS1L4HmL6Lbk7X" /> */}
+        
         {tokenurls !=null ? tokenurls.map((element,index)=>{
+          
           //برای نمایش دادن ان اف تی های صادر شده 
-          console.log(element)
+          // console.log(element)
           return(
-            <ThirdwebNftMedia
-              metadata={element}
-              requireInteraction={true}
-            />
-            // <MediaRenderer src={`QmPFh96YLYXJteKmtJkuMS8oCWzSWvVentVYfxy6VZftS3`}></MediaRenderer>
+            
+            <MediaRenderer src="http://ipfs://QmTmh7ffdVZKJgMjEMWpy9H4iyW9kSbKA7oHKKSrLiTQdp" />
+            // <br/>
+            // <ThirdwebNftMedia metadata={element} />
+            // <ThirdwebNftMedia
+            //   metadata={element}
+            //   requireInteraction={true}
+            // />
           )
 
         }):<></>}
