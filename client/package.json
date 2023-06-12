@@ -14,7 +14,6 @@
     "@mui/material": "^5.13.4",
     "@thirdweb-dev/react": "^3.12.2",
     "@thirdweb-dev/sdk": "^3.10.17",
-    "alchemy-sdk": "^2.9.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "bootswatch": "^5.2.3",

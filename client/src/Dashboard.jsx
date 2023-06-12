@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import StudentRegistry from "../../server/artifacts/contracts/StudentRegistry.sol/StudentRegistry.json";
-import NFTABI from "../../server/artifacts/contracts/NFT.sol/CERTNFT.json"
-import contrcatAddress from '../../server/contrcatAddress.json'
-import { ThirdwebNftMedia, useContract, useNFT } from "@thirdweb-dev/react";
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
-import {generate_metadata, pinFileToIPFS, pinata_api_key1, pinata_secret_api_key1,get} from './NFT/ipfs';
-
-
-import ModalAdd from './components/ModalAdd'
-import ModalTransfer from './components/ModalTransfer'
-import{NFTs} from "./components/RenderNft";
-import{Testnft} from "./components/RenderNft";
+import NFTABI from "../../server/artifacts/contracts/NFT.sol/CERTNFT.json";
+import { useContract } from "@thirdweb-dev/react";
+import contrcatAddress from "../../server/contrcatAddress.json";
+import { MediaRenderer } from "@thirdweb-dev/react";
+import { ThirdwebNftMedia } from "@thirdweb-dev/react";
+// import {ModalDialog} from '../src/modal';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+// import Modal from '@mui/material/Modal';
+import {
+  generate_metadata,
+  pinFileToIPFS,
+  pinata_api_key1,
+  pinata_secret_api_key1,
+} from "./NFT/ipfs";
+import Table from "./components/Table.jsx";
+import ModalAdd from "./components/ModalAdd";
+import ModalTransfer from "./components/ModalTransfer";
 function Dashboard() {
   const [studentRegistryContract, setContract] = useState(null);
   const [nftContract, setContract2] = useState(null);
@@ -31,22 +37,15 @@ function Dashboard() {
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
   );
- 
-  const { contract, isLoadingnft, errornft } = useContract(
+  console.log("isLoading", isLoading);
+  const { contract, error } = useContract(
     contrcatAddress.NFTContract,
     NFTABI.abi
   );
-  
-      // Connect to your NFT contract
-  const { contractnft } = useContract(contrcatAddress.NFTContract);
-  // Load the NFT metadata from the contract using a hook
-  const { data: nft, isLoading1, error } = useNFT(contract, "1");
-  
-
-  function existestudent(list,_firstName,_lastName){
-    list.forEach(element => {
-      if(element.firstName==_firstName && element.lastName==_lastName){
-        console.log(element.firstName)
+  function existestudent(list, _firstName, _lastName) {
+    list.forEach((element) => {
+      if (element.firstName == _firstName && element.lastName == _lastName) {
+        console.log(element.firstName);
         return true;
       }
     });
@@ -179,340 +178,75 @@ function Dashboard() {
       console.log(receipt);
     }
   }
-  let ipfsHash=''
-  const getalltokenurl=async function(){
-    const result=await nftContract.getAllTokenIdsAndUrls();
-    // console.log(ipfsHash);
-   
-    settokenurls(result[1])
-    // console.log(tokenurls)
-  //   if (tokenurls.length >= 0) {
-  //     // const url = tokenurls[0];
-  //     // ipfsHash = url.split('/').pop();
 
-  //     // get(ipfsHash)
-  //     // console.log(ipfsHash);
-  // }
-    // get(result[1])
-  }
-  const nfts=async function() {
-    // RENDERNFT()
-  //  let res=await getnfts("0x931f3dc9e91fb896ef82299218f1613a3ba281d5","Graduate certificate")
-  //  console.log(res)
-  }
-  
-  
-  const transfer=async function(from,to,tokenId){
-    //انتقال ان اف تی به کاربران 
-      const tx2=await nftContract.transferFrom(from,to,tokenId)
-      const receipt2=tx2.wait();
-      console.log(receipt2)
-  }
-  
+  const getalltokenurl = async function () {
+    const result = await nftContract.getAllTokenIdsAndUrls();
+    settokenurls(result[1]);
+    console.log(tokenurls);
+  };
+  const transfer = async function (from, to, tokenId) {
+    //انتقال ان اف تی به کاربران
+    const tx2 = await nftContract.transferFrom(from, to, tokenId);
+    const receipt2 = tx2.wait();
+    console.log(receipt2);
+  };
   return (
-    
     <div>
       <button onClick={handleCreateStudent}>Create Student</button>
       <button onClick={handleReadStudent}>ReadStudent</button>
-      <button onClick={nfts}>nft</button>
+      <button onClick={handelCreatenft}>nft</button>
       <button onClick={getalltokenurl}>urls</button>
-      <div className="row">
-        <div className="container">
-          <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">ردیف</th>
-              <th scope="col">نام</th>
-              <th scope="col">نام خانوادگی</th>
-              <th scope="col">رشته تحصیلی </th>
-              <th scope="col">مقطع تحصیلی</th>
-              <th scope="col">سال فارغ تحصیلی </th>
-              <th scope="col"> </th>
-            </tr>
-         
-          </thead>
-          <tbody>
-          {students !== null ? students.map((element, index) => {
-            
-              return <tr  >
-                  <th scope="row">{index+1}</th>
-                  <th scope="col">{element.firstName}</th>
-                  <th scope="col">{element.lastName}</th>
-                  <th scope="col">{element.education.major}</th>
-                  <th scope="col">{element.education.degree}</th>
-                  <th scope="col">{parseInt(element.education.year._hex, 16)}</th>
-                  <td><button onClick={()=> handelCreatenft(students[index])}>صدور گواهینامه </button></td>
-                </tr>
-            }) : <></>}
-          </tbody>
-          </table>
-          </div>
+      <div className="d-flex justify-content-between align-content-center my-2">
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2"
+        >
+          انتفال
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          افزودن اطلاعات دانشجو
+        </button>
       </div>
-      
-      <div className="row">
-       
-        {/* <MediaRenderer src={`ipfs://${ipfsHash}`}></MediaRenderer> */}
-        {/* <MediaRenderer src="ipfs://QmV4HC9fNrPJQeYpbW55NLLuSBMyzE11zS1L4HmL6Lbk7X" /> */}
-        
-        {/* {tokenurls !=null ? tokenurls.map((element,index)=>{
-          
-          //برای نمایش دادن ان اف تی های صادر شده 
-          // console.log(element)
-          return(
-            
-            <MediaRenderer src="http://ipfs://QmTmh7ffdVZKJgMjEMWpy9H4iyW9kSbKA7oHKKSrLiTQdp" />
-            // <br/>
-            // <ThirdwebNftMedia metadata={element} />
-            // <ThirdwebNftMedia
-            //   metadata={element}
-            //   requireInteraction={true}
-            // />
-          )
-
-        }):<></>} */}
-
-      </div>
-      <div>
-        <h1>مجموعه NFT</h1>
-        <NFTs />
-      </div>
-    
-      
-      {/* <!-- Button trigger modal --> */}
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        افزودن اطلاعات دانشجو
-      </button>
-
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <main className="container">
-             <div className="col-md-7 col-lg-8 mx-auto">
-               <div className="row g-5">
-                <form className="needs-validation was-validated" />
-                 <div className="row g-3">
-                   <div className="col-12">
-                     <label htmlFor="firstName" className="form-label">
-                       نام
-                     </label>
-                     <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder=""
-                      required=""
-                      onChange={(e)=>{
-                        setFirstName(e.target.value)
-                        //firstName = e.target.value
-                      }}
-                    />
-                    <div className="invalid-feedback">
-                      Valid first name is required.
-                    </div>
-                  </div>
-
-                  <div className="col-12">
-                    <label htmlFor="lastName" className="form-label">
-                      نام خانوادگی
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder=""
-                      required=""
-                      onChange={(e)=>{
-                        setLastName(e.target.value)
-                        //lastName = e.target.value
-                      }}
-                    />
-                    <div className="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-
-                  <div className="col-12">
-                    <label htmlFor="email" className="form-label">
-                      تاریخ  
-                      <span className="text-body-secondary"></span>
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="date"
-                      placeholder=""
-                      onChange={(e)=>{
-                        setYear(e.target.value)
-                        //year = e.target.value
-                      }}
-                    />
-                    {/* <div className="invalid-feedback">
-                      Please enter a valid email address htmlFor shipping updates.
-                    </div> */}
-                  </div>
-                  <div className="col-12">
-                    <label htmlFor="major" className="form-label">
-                      رشته
-                    </label>
-                    <select className="form-select" id="major" required=""  onChange={(e)=>{
-                        setMajor(e.target.value)
-                        // major = e.target.value
-                      }}>
-                      <option value="">انتخاب </option>
-                      <option>کامپیوتر</option>
-                      <option>مکانیک</option>
-                      <option>عمران</option>
-                    </select>
-                    <div className="invalid-feedback">
-                      لطفا رشته را به درستی وارد نمایید
-                    </div>
-                  </div>
-
-                  <div className="col-12">
-                    <label htmlFor="degree" className="form-label">
-                       مقطع
-                    </label>
-                    <select className="form-select" id="degree" required="" 
-                       onChange={(e)=>{
-                        setDegree(e.target.value)
-                        // degree = e.target.value
-                      }}>
-                      <option value="">انتخاب</option>
-                      <option>کاردانی </option>
-                      <option>کارشناسی </option>
-                      <option>کارشناسی ارشد </option>
-                    </select>
-                    <div className="invalid-feedback">
-                      لطفا مقطع را به درستی وارد نمایید
-                    </div>
-                  </div>
-
-                  
-                </div>
-
-                <hr className="my-4" />
-
-                {/* <button className="w-100 btn btn-primary btn-lg" type="submit">
-                  Continue to checkout
-                </button> */}
-              </div>
-            </div>
-          </main>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onClick={() => { handleCreateStudent(firstName ,lastName ,degree,major,year)}}>Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-        انتفال 
-      </button>
-
-      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <main className="container">
-             <div className="col-md-7 col-lg-8 mx-auto">
-               <div className="row g-5">
-                <form className="needs-validation was-validated" />
-                 <div className="row g-3">
-                   <div className="col-12">
-                     <label htmlFor="firstName" className="form-label">
-                       ادرس فرستنده
-                     </label>
-                     <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder=""
-                      required=""
-                      onChange={(e)=>{
-                        setFrom(e.target.value)
-                        // from = e.target.value
-                      }}
-                    />
-                    <div className="invalid-feedback">
-                      Valid first name is required.
-                    </div>
-                  </div>
-
-                  <div className="col-12">
-                    <label htmlFor="lastName" className="form-label">
-                      ادرس گیرنده
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder=""
-                      required=""
-                      onChange={(e)=>{
-                        setTo(e.target.value)
-                        //to = e.target.value
-                      }}
-                    />
-                    <div className="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-
-                  <div className="col-12">
-                    <label htmlFor="email" className="form-label">
-                      شماره گواهینامه  
-                      <span className="text-body-secondary"></span>
-                    </label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="date"
-                      placeholder=""
-                      onChange={(e)=>{
-                        setTokenId(e.target.value)
-                        // tokenId = e.target.value
-                      }}
-                    />
-                    {/* <div className="invalid-feedback">
-                      Please enter a valid email address htmlFor shipping updates.
-                    </div> */}
-                  </div>
-                
-
-                  
-                  
-                </div>
-
-                <hr className="my-4" />
-
-                {/* <button className="w-100 btn btn-primary btn-lg" type="submit">
-                  Continue to checkout
-                </button> */}
-              </div>
-            </div>
-          </main>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onClick={() => { transfer(from,to,tokenId)}}>Save changes</button>
-            </div>
-          </div>
+      <div className="container">
+        <div className="row">
+          {students !== null ? (
+            <Table students={students} />
+          ) : (
+            <div
+              className="spinner-border text-light p-4 mx-auto my-3 "
+              role="status"
+            />
+          )}
         </div>
       </div>
 
-     
-      
+      <div className="row">
+        {tokenurls != null ? (
+          tokenurls.map((element, index) => {
+            //برای نمایش دادن ان اف تی های صادر شده
+            console.log(element);
+            return (
+              <ThirdwebNftMedia
+                key={index}
+                metadata={element}
+                requireInteraction={true}
+              />
+              // <MediaRenderer src={`QmPFh96YLYXJteKmtJkuMS8oCWzSWvVentVYfxy6VZftS3`}></MediaRenderer>
+            );
+          })
+        ) : (
+          <></>
+        )}
+      </div>
+
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
         loading={loading}
@@ -536,9 +270,6 @@ function Dashboard() {
       />
     </div>
   );
-  
 }
- 
-
 
 export default Dashboard;
