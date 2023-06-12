@@ -18,10 +18,15 @@
     "bootstrap": "^5.2.3",
     "bootswatch": "^5.2.3",
     "ethers": "^5.6.0",
+    "moment-jalaali": "^0.10.0",
     "react": "^18.2.0",
+    "react-advance-jalaali-datepicker": "^1.4.0",
     "react-bootstrap": "^2.7.4",
+    "react-bootstrap-table2-paginator": "^2.1.2",
+    "react-datepicker2": "^3.3.13",
     "react-dom": "^18.2.0",
     "react-notifications": "^1.7.4",
+    "react-paginate": "^8.2.0",
     "react-router-dom": "^6.11.2"
   },
   "devDependencies": {

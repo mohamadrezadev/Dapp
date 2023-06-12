@@ -4,7 +4,6 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "./Home";
 import Dashboard from "./Dashboard";
 import MenuBar from "./MenuBar";
-import { useState } from "react";
 import { useAddress } from "@thirdweb-dev/react";
 import { useEffect } from "react";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
@@ -23,7 +22,7 @@ function App() {
 
   return (
     <>
-      <div dir=""> <MenuBar /></div>
+      <div > <MenuBar /></div>
      
       <div className="container mt-5">
         {!address ? (

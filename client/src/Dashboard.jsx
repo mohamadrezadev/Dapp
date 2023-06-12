@@ -14,17 +14,17 @@ function Dashboard() {
   const [nftContract, setContract2] = useState(null);
   const [students, setStudents] = useState(null);
   const [tokenurls, settokenurls] = useState(null);
-  let firstName = ''
-  let lastName=''
-  let degree=''
-  let major=''
-  let year=''
+  const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [degree, setDegree] = useState("");
+  const [major, setMajor] = useState("");
+  const [year, setYear] = useState();
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [tokenId, setTokenId] = useState("");
 
-
-  let from=''
-  let to=''
-  let tokenId=''
-  const { data } = useContract(
+  const { data, isLoading } = useContract(
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
   );
@@ -37,7 +37,7 @@ function Dashboard() {
       // Connect to your NFT contract
   const { contractnft } = useContract(contrcatAddress.NFTContract);
   // Load the NFT metadata from the contract using a hook
-  const { data: nft, isLoading, error } = useNFT(contract, "1");
+  const { data: nft, isLoading1, error } = useNFT(contract, "1");
   
 
   function existestudent(list,_firstName,_lastName){
@@ -51,99 +51,130 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    
     if (studentRegistryContract != null) {
-      handleReadStudent()
-      getalltokenurl()
+      handleReadStudent();
+      getalltokenurl();
     }
 
     if (data) {
       setContract(data.contractWrapper.writeContract);
       setContract2(contract.contractWrapper.writeContract);
     }
-  }, [data,contract, studentRegistryContract]);
+  }, [data, contract, studentRegistryContract]);
 
-  const handleCreateStudent = async (_firstName ,_lastName ,_degree,_major,_year) => {
-    console.log(_firstName ,_lastName ,_degree,_major,_year)
-    const res=await studentRegistryContract.getAallStudents();
-    if(existestudent(res,firstName,lastName)){
+  const handleCreateStudent = async (
+    _firstName,
+    _lastName,
+    _degree,
+    _major,
+    _year
+  ) => {
+    console.log(_firstName, _lastName, _degree, _major, _year);
+    setLoading(true);
+    const res = await studentRegistryContract.getAallStudents();
+    if (existestudent(res, firstName, lastName)) {
       //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
-      console.log("alrady exist sudent")
-    }
-    else{
-      const tax= await studentRegistryContract.createStudent(firstName, lastName, degree, major, year);
-      const receipt=await tax.wait();
-      const evnets=receipt.events[0].args
-      //اطلاعات تراکنش را به کاربر نشان دهد 
-      console.log(evnets)
-      console.log(receipt)
+      console.log("alrady exist sudent");
+    } else {
+      const tax = await studentRegistryContract.createStudent(
+        firstName,
+        lastName,
+        degree,
+        major,
+        year
+      );
+      const receipt = await tax.wait();
+      const evnets = receipt.events[0].args;
+      console.log(tax, "tax");
+      //اطلاعات تراکنش را به کاربر نشان دهد
+      console.log(evnets);
+      console.log(receipt);
       // location.reload()
+      setLoading(false);
     }
-    
   };
-  
+
   const handleUpdateStudent = async (student) => {
-    const firstName = 'John';
-    const lastName = 'Doe';
-    const degree = 'BSc';
-    const major = 'Computer Science';
+    const firstName = "John";
+    const lastName = "Doe";
+    const degree = "BSc";
+    const major = "Computer Science";
     const year = 2022;
-    const res=await studentRegistryContract.getAallStudents();
-    if(existestudent(res,student.firstName,student.lastName)){
-
-      const tx= await studentRegistryContract.UpdateStudent(firstName, lastName, degree, major, year);
-      console.log(tx)
+    const res = await studentRegistryContract.getAallStudents();
+    if (existestudent(res, student.firstName, student.lastName)) {
+      const tx = await studentRegistryContract.UpdateStudent(
+        firstName,
+        lastName,
+        degree,
+        major,
+        year
+      );
+      console.log(tx);
+    } else {
+      console.log("student not founded");
     }
-    else{
-      console.log("student not founded")
-    }
-    
   };
 
-  const handelCreatenft=async(student)=>{
-    console.log(student.firstName,student.lastName,student.education.degree,student.education.major,parseInt(student.education.year._hex, 16))
-    const metadata= generate_metadata(student.firstName,student.lastName,student.education.degree,student.education.major,parseInt(student.education.year._hex, 16))
-    const response = await pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1,student.firstName);
-    const IpfsHash=response.data.IpfsHash;
-    console.log(IpfsHash)
-    const tx= await nftContract.mint(IpfsHash)
-    console.log(tx)
+  const handelCreatenft = async (student) => {
+    console.log(
+      student.firstName,
+      student.lastName,
+      student.education.degree,
+      student.education.major,
+      parseInt(student.education.year._hex, 16)
+    );
+    const metadata = generate_metadata(
+      student.firstName,
+      student.lastName,
+      student.education.degree,
+      student.education.major,
+      parseInt(student.education.year._hex, 16)
+    );
+    const response = await pinFileToIPFS(
+      metadata,
+      pinata_api_key1,
+      pinata_secret_api_key1,
+      student.firstName
+    );
+    const IpfsHash = response.data.IpfsHash;
+    console.log(IpfsHash);
+    const tx = await nftContract.mint(IpfsHash);
+    console.log(tx);
     const receipt = await tx.wait();
-    console.log(receipt)
+    console.log(receipt);
     const tokenId = receipt.events[1].args[1];
-    console.log(parseInt(tokenId._hex, 16))
+    console.log(parseInt(tokenId._hex, 16));
     const tokenURI = await nftContract.tokenURI(tokenId);
-    console.log(tokenURI)
-  }
- 
+    console.log(tokenURI);
+  };
+
   const handleReadStudent = async () => {
     // console.log(students);
-    const res=await studentRegistryContract.getAallStudents();
+    const res = await studentRegistryContract.getAallStudents();
     setStudents(res);
-   
-    console.log("student: ",students);
-   
+
+    console.log("student: ", students);
   };
 
-  async function form(_firstName ,_lastName ,_degree,_major,_year){
-    console.log(_firstName ,_lastName ,_degree,_major,_year)
-    const res=await studentRegistryContract.getAallStudents();
-    if(existestudent(res,firstName,lastName)){
-      console.log("alrady exist sudent")
+  async function form(_firstName, _lastName, _degree, _major, _year) {
+    console.log(_firstName, _lastName, _degree, _major, _year);
+    const res = await studentRegistryContract.getAallStudents();
+    if (existestudent(res, firstName, lastName)) {
+      console.log("alrady exist sudent");
+    } else {
+      const tax = await studentRegistryContract.createStudent(
+        firstName,
+        lastName,
+        degree,
+        major,
+        year
+      );
+      const receipt = await tax.wait();
+      const evnets = receipt.events[0].args;
+      console.log(evnets);
+      const id = receipt.events[0].args[0];
+      console.log(receipt);
     }
-    else{
-      const tax= await studentRegistryContract.createStudent(firstName, lastName, degree, major, year);
-      const receipt=await tax.wait();
-      const evnets=receipt.events[0].args
-      console.log(evnets)
-      const id=receipt.events[0].args[0]
-      
-      // const tx= await studentRegistryContract.createStudent(firstName, lastName, degree, major, year);
-      // const receipt = await tx.wait();
-      console.log(receipt)
-      // location.reload()
-    }
-
   }
   let ipfsHash=''
   const getalltokenurl=async function(){
@@ -176,7 +207,6 @@ function Dashboard() {
   return (
     
     <div>
-      <h1>Smart Contract Info:</h1>
       <button onClick={handleCreateStudent}>Create Student</button>
       <button onClick={handleReadStudent}>ReadStudent</button>
       <button onClick={nfts}>nft</button>
@@ -462,13 +492,51 @@ function Dashboard() {
         </div>
       </div>
 
-    
+      <div className="row">
+        {tokenurls != null ? (
+          tokenurls.map((element, index) => {
+            //برای نمایش دادن ان اف تی های صادر شده
+            console.log(element);
+            return (
+              <ThirdwebNftMedia
+                key={index}
+                metadata={element}
+                requireInteraction={true}
+              />
+              // <MediaRenderer src={`QmPFh96YLYXJteKmtJkuMS8oCWzSWvVentVYfxy6VZftS3`}></MediaRenderer>
+            );
+          })
+        ) : (
+          <></>
+        )}
+      </div>
 
+      <ModalAdd
+        handleCreateStudent={handleCreateStudent}
+        loading={loading}
+        funcs={{
+          setFirstName,
+          firstName,
+          lastName,
+          setLastName,
+          degree,
+          setDegree,
+          major,
+          setMajor,
+          year,
+          setYear,
+        }}
+      />
+
+      <ModalTransfer
+        transfer={transfer}
+        funcs={{ from, setFrom, to, setTo, tokenId, setTokenId }}
+      />
     </div>
-    
   );
-
-
+  
 }
+ 
+
 
 export default Dashboard;
