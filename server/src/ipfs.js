@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 // const pinataSDK = require('@pinata/sdk');c
-require('../ipfs/test.json')
+// require('../ipfs/test.json')
 
 function write(obj) {
   try {
@@ -90,8 +90,65 @@ function generate_metadata(firstname,lastname,degree,major,year) {
     ]
   }
 }
-let metadata= generate_metadata("ali","kiani","computer","senior",2023)
-pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1,'test')
+
+
+
+function getnft1() {
+  const contractAddresses = '0x931f3dc9e91fb896ef82299218f1613a3ba281d5'; // Replace with your collection's contract addresses on the Ropsten network
+  const collectionSlug = 'art'; // Replace with your collection's slug
+
+  const axiosConfig = {
+    method: 'GET',
+    url: 'https://testnets-api.opensea.io/v2/orders/goerli/seaport/listings',
+    headers: {
+      accept: 'application/json'
+    },
+    params: {
+      asset_contract_addresses: contractAddresses,
+      collection: collectionSlug,
+      order_direction: 'desc',
+      offset: '0',
+      limit: '50'
+      
+    }
+  };
+  
+  axios(axiosConfig)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  
+}
+
+function getnft(){
+  
+  const apiEndpoint = 'https://testnets-api.opensea.io/api/v1/assets'; // Use the testnet API endpoint
+  const collectionSlug = 'art'; // Replace with your collection's slug
+  const contractAddresses = '0x931f3dc9e91fb896ef82299218f1613a3ba281d5'; // Replace with your collection's contract addresses on the Ropsten network
+  const axiosConfig = {
+  
+    params: {
+      asset_contract_addresses: contractAddresses,
+      collection: collectionSlug,
+      order_direction: 'desc',
+      offset: '0',
+      limit: '50'
+    }
+  }
+  axios.get(apiEndpoint,axiosConfig).then((response) => {
+    const nfts = response.data.assets;
+    console.log(nfts);
+  })
+  .catch((error) => {
+    console.error("Erorr"+ error);
+  });
+}
+getnft1()
+// let metadata= generate_metadata("ali","kiani","computer","senior",2023)
+// pinFileToIPFS(metadata,pinata_api_key1,pinata_secret_api_key1,'test')
 
 exports={write,pinFileToIPFS,generate_metadata};
 
