@@ -37,7 +37,7 @@ function Dashboard() {
       // Connect to your NFT contract
   const { contractnft } = useContract(contrcatAddress.NFTContract);
   // Load the NFT metadata from the contract using a hook
-  const { data: nft, isLoading, error } = useNFT(contract, "1");
+  const { data: nft, isLoading1, error } = useNFT(contract, "1");
   
 
   function existestudent(list,_firstName,_lastName){
@@ -175,8 +175,6 @@ function Dashboard() {
       const id = receipt.events[0].args[0];
       console.log(receipt);
     }
-  }
-
   }
   let ipfsHash=''
   const getalltokenurl=async function(){
@@ -536,6 +534,9 @@ function Dashboard() {
       />
     </div>
   );
+  
 }
+ 
+
 
 export default Dashboard;
