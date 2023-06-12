@@ -8,11 +8,11 @@ import { BrowserRouter } from 'react-router-dom'
 import 'react-notifications/lib/notifications.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode > 
+  < > 
      <BrowserRouter>
-      <ThirdwebProvider activeChain="ethereum">
+      <ThirdwebProvider activeChain="polygon">
       <App />
     </ThirdwebProvider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </>,
 )
