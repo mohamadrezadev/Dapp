@@ -77,7 +77,8 @@ function ModalTransfer({ transfer, funcs }) {
                         id="date"
                         placeholder=""
                         onChange={(e) => {
-                          setTokenId = e.target.value;
+                          setTokenId(e.target.value)
+                          // setTokenId = e.target.value;
                         }}
                       />
                     </div>
