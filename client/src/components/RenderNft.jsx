@@ -44,7 +44,7 @@ export const NFTs = () => {
              <ThirdwebNftMedia
                   metadata={nft.metadata}
                   controls={true}
-                  height={150}
+                  height={200}
              />
             <h2>{`nft ${index + 1}: ${nft.metadata.name}`}</h2>
             <p>{nft.metadata.description}</p>

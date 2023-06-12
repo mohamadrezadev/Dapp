@@ -5,9 +5,10 @@ import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from "../../server/contrcatAddress.json";
 import { MediaRenderer } from "@thirdweb-dev/react";
 import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-// import {ModalDialog} from '../src/modal';
+
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import {NFTs} from './components/RenderNft'
 // import Modal from '@mui/material/Modal';
 import {
   generate_metadata,
@@ -229,24 +230,9 @@ function Dashboard() {
       </div>
 
       <div className="row">
-        {tokenurls != null ? (
-          tokenurls.map((element, index) => {
-            //برای نمایش دادن ان اف تی های صادر شده
-            console.log(element);
-            return (
-              <ThirdwebNftMedia
-                key={index}
-                metadata={element}
-                requireInteraction={true}
-              />
-              // <MediaRenderer src={`QmPFh96YLYXJteKmtJkuMS8oCWzSWvVentVYfxy6VZftS3`}></MediaRenderer>
-            );
-          })
-        ) : (
-          <></>
-        )}
+        <NFTs/>
       </div>
-
+      
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
         loading={loading}
