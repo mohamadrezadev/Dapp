@@ -6,9 +6,12 @@ import { ThirdwebNftMedia, useContract, useNFT } from "@thirdweb-dev/react";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
 import {generate_metadata, pinFileToIPFS, pinata_api_key1, pinata_secret_api_key1,get} from './NFT/ipfs';
-import { MediaRenderer } from "@thirdweb-dev/react";
-import {getnfts} from './NFT/utils'
 
+
+import ModalAdd from './components/ModalAdd'
+import ModalTransfer from './components/ModalTransfer'
+import{NFTs} from "./components/RenderNft";
+import{Testnft} from "./components/RenderNft";
 function Dashboard() {
   const [studentRegistryContract, setContract] = useState(null);
   const [nftContract, setContract2] = useState(null);
@@ -182,7 +185,7 @@ function Dashboard() {
     // console.log(ipfsHash);
    
     settokenurls(result[1])
-    console.log(tokenurls)
+    // console.log(tokenurls)
   //   if (tokenurls.length >= 0) {
   //     // const url = tokenurls[0];
   //     // ipfsHash = url.split('/').pop();
@@ -193,9 +196,11 @@ function Dashboard() {
     // get(result[1])
   }
   const nfts=async function() {
-   let res=await getnfts("0x931f3dc9e91fb896ef82299218f1613a3ba281d5","Graduate certificate")
-   console.log(res)
+    // RENDERNFT()
+  //  let res=await getnfts("0x931f3dc9e91fb896ef82299218f1613a3ba281d5","Graduate certificate")
+  //  console.log(res)
   }
+  
   
   const transfer=async function(from,to,tokenId){
     //انتقال ان اف تی به کاربران 
@@ -249,7 +254,7 @@ function Dashboard() {
         {/* <MediaRenderer src={`ipfs://${ipfsHash}`}></MediaRenderer> */}
         {/* <MediaRenderer src="ipfs://QmV4HC9fNrPJQeYpbW55NLLuSBMyzE11zS1L4HmL6Lbk7X" /> */}
         
-        {tokenurls !=null ? tokenurls.map((element,index)=>{
+        {/* {tokenurls !=null ? tokenurls.map((element,index)=>{
           
           //برای نمایش دادن ان اف تی های صادر شده 
           // console.log(element)
@@ -264,9 +269,15 @@ function Dashboard() {
             // />
           )
 
-        }):<></>}
+        }):<></>} */}
 
       </div>
+      <div>
+        <h1>مجموعه NFT</h1>
+        <NFTs />
+      </div>
+    
+      
       {/* <!-- Button trigger modal --> */}
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         افزودن اطلاعات دانشجو
@@ -296,7 +307,8 @@ function Dashboard() {
                       placeholder=""
                       required=""
                       onChange={(e)=>{
-                        firstName = e.target.value
+                        setFirstName(e.target.value)
+                        //firstName = e.target.value
                       }}
                     />
                     <div className="invalid-feedback">
@@ -315,7 +327,8 @@ function Dashboard() {
                       placeholder=""
                       required=""
                       onChange={(e)=>{
-                        lastName = e.target.value
+                        setLastName(e.target.value)
+                        //lastName = e.target.value
                       }}
                     />
                     <div className="invalid-feedback">
@@ -334,7 +347,8 @@ function Dashboard() {
                       id="date"
                       placeholder=""
                       onChange={(e)=>{
-                        year = e.target.value
+                        setYear(e.target.value)
+                        //year = e.target.value
                       }}
                     />
                     {/* <div className="invalid-feedback">
@@ -346,7 +360,8 @@ function Dashboard() {
                       رشته
                     </label>
                     <select className="form-select" id="major" required=""  onChange={(e)=>{
-                        major = e.target.value
+                        setMajor(e.target.value)
+                        // major = e.target.value
                       }}>
                       <option value="">انتخاب </option>
                       <option>کامپیوتر</option>
@@ -364,7 +379,8 @@ function Dashboard() {
                     </label>
                     <select className="form-select" id="degree" required="" 
                        onChange={(e)=>{
-                        degree = e.target.value
+                        setDegree(e.target.value)
+                        // degree = e.target.value
                       }}>
                       <option value="">انتخاب</option>
                       <option>کاردانی </option>
@@ -424,7 +440,8 @@ function Dashboard() {
                       placeholder=""
                       required=""
                       onChange={(e)=>{
-                        from = e.target.value
+                        setFrom(e.target.value)
+                        // from = e.target.value
                       }}
                     />
                     <div className="invalid-feedback">
@@ -443,7 +460,8 @@ function Dashboard() {
                       placeholder=""
                       required=""
                       onChange={(e)=>{
-                        to = e.target.value
+                        setTo(e.target.value)
+                        //to = e.target.value
                       }}
                     />
                     <div className="invalid-feedback">
@@ -462,7 +480,8 @@ function Dashboard() {
                       id="date"
                       placeholder=""
                       onChange={(e)=>{
-                        tokenId = e.target.value
+                        setTokenId(e.target.value)
+                        // tokenId = e.target.value
                       }}
                     />
                     {/* <div className="invalid-feedback">
@@ -492,25 +511,8 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="row">
-        {tokenurls != null ? (
-          tokenurls.map((element, index) => {
-            //برای نمایش دادن ان اف تی های صادر شده
-            console.log(element);
-            return (
-              <ThirdwebNftMedia
-                key={index}
-                metadata={element}
-                requireInteraction={true}
-              />
-              // <MediaRenderer src={`QmPFh96YLYXJteKmtJkuMS8oCWzSWvVentVYfxy6VZftS3`}></MediaRenderer>
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </div>
-
+     
+      
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
         loading={loading}
