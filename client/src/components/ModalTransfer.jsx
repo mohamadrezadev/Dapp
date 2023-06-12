@@ -39,7 +39,7 @@ function ModalTransfer({ transfer, funcs }) {
                         placeholder=""
                         required=""
                         onChange={(e) => {
-                          setFrom( e.target.value)
+                          setFrom(e.target.value);
                         }}
                       />
                       <div className="invalid-feedback">
@@ -58,7 +58,7 @@ function ModalTransfer({ transfer, funcs }) {
                         placeholder=""
                         required=""
                         onChange={(e) => {
-                            setTo (e.target.value);
+                          setTo(e.target.value);
                         }}
                       />
                       <div className="invalid-feedback">
@@ -77,8 +77,7 @@ function ModalTransfer({ transfer, funcs }) {
                         id="date"
                         placeholder=""
                         onChange={(e) => {
-                          setTokenId(e.target.value)
-                          // setTokenId = e.target.value;
+                          setTokenId(e.target.value);
                         }}
                       />
                     </div>

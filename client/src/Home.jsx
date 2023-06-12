@@ -3,8 +3,8 @@ import svg from './assets/hero.svg'
 
 function Home() {
   return (
-    <div className="row   pb-0 ps-lg-0 align-items-center rounded-3 border shadow-lg">
-        <div className="col-lg-4 text-end  -offset-lg-1 p-0 overflow-hidden shadow-lg">
+    <div className="row pb-0 ps-lg-0 align-items-center rounded-3 border shadow-lg">
+        <div className="col-lg-4 text-end  -offset-lg-1 p-0 overflow-hidden shadow-lg a">
         <img
           className="rounded"
           // src="https://getbootstrap.com/docs/5.3/examples/heroes/bootstrap-docs.png"

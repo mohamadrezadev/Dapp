@@ -44,25 +44,7 @@ export const  pinFileToIPFS = (data, pinataApiKey, pinataSecretApiKey, fileName)
     }
   })
 };
-export const get = (ipfsPinHash) => {
-  return axios.get(`https://api.pinata.cloud/pinning/pinByHash/${ipfsPinHash}`, {
-    headers: {
-        'pinata_api_key': pinata_api_key1,
-        'pinata_secret_api_key': pinata_secret_api_key1
-    }
-  })
-  .then(response => {
-    const metadata = response.data.metadata;
-    const url = metadata.ipfsDownloadUrl;
-    return axios.get(url)
-      .then(response => {
-        const data = response.data;
-        return data;
-      })
-      .catch(error => console.error(error));
-  })
-  .catch(error => console.error(error));
-}
+
 export const testAuthentication = () => {
     const url = `https://api.pinata.cloud/data/testAuthentication`;
     return axios
