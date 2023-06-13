@@ -1,9 +1,18 @@
 import React from "react";
 import { DatePicker } from "react-advance-jalaali-datepicker";
+import moment from 'jalali-moment';
 function DatePickerInput(props) {
   return <input className="form-control" {...props} />;
 }
+
+const handleDateChange= function (timestamp) {
+  const date = new Date(timestamp * 1000); // convert Unix timestamp to JavaScript Date object
+  const formattedDate = date.toLocaleDateString('fa-IR'); // format the date as a string in the desired format ('fa-IR' for Persian calendar)
+  console.log(formattedDate); // logs the selected date in the desired format
+
+}
 function ModalAdd({ handleCreateStudent, loading, funcs }) {
+  
   const {
     setFirstName,
     firstName,
@@ -16,7 +25,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
     year,
     setYear,
   } = funcs;
-
+ 
   return (
     <div
       className="modal fade"
@@ -96,15 +105,20 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         }}
                       /> */}
 
-                      <DatePicker
+                        <DatePicker
                         inputComponent={DatePickerInput}
                         placeholder="انتخاب تاریخ"
                         format="jYYYY/jMM/jDD"
                         className="form-control"
-                        onChange={(e) => setYear(e)}
+                        selected={moment('1402/04/01', 'jYYYY/jMM/jDD')}
+                        // onChange={handleDateChange}
+                        onChange={(e)=>setYear(e.toString())}
+                        // onChange={}
                         id="datePicker"
-                        // preSelected="140/05/15"
+                        preSelected="1402/04/01"
+
                       />
+                      
                     </div>
                     <div className="col-12">
                       <label htmlFor="major" className="form-label">

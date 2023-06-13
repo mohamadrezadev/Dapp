@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-
+import { CryptoCards, Button, Card, Illustration, NftCard } from '@web3uikit/core';
+import { MediaRenderer } from "@thirdweb-dev/react";
 import { ThirdwebNftMedia, useContract, useNFT } from "@thirdweb-dev/react";
 import contrcatAddress from '../../../server/contrcatAddress.json'
+import './Frame'
+import Frame from './Frame';
 export const NFTs = () => {
   
   const [nfts, setNfts] = useState([]);
@@ -37,21 +40,21 @@ export const NFTs = () => {
    
     <div>
       <h1>NFT Metadata</h1>
-      <ul>
-        {nfts.map((nft, index) => (
-          
-          <li key={index}>
-             <ThirdwebNftMedia
-                  metadata={nft.metadata}
-                  controls={true}
-                  height={200}
-             />
-            <h2>{`nft ${index + 1}: ${nft.metadata.name}`}</h2>
-            <p>{nft.metadata.description}</p>
-          </li>
-        ))
-        }
-      </ul>
+      <div class="container">
+          <div class="row">
+              {nfts.map((nft, index) => (
+                <div class="col-sm-4 " key={index}>
+                    <Frame
+                          name={nft.metadata.name}
+                          description={nft.metadata.description}
+                          image={nft.metadata.image}   
+                      />
+                  </div>
+                  ))
+                }
+          </div>
+      </div>
+     
     </div>
   );
 };

@@ -15,7 +15,7 @@ describe('StudentRegistry', function () {
     const lastName = 'Doe';
     const degree = 'BSc';
     const major = 'Computer Science';
-    const year = 2022;
+    const year = '2022/12/1';
     const tax= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
     const receipt=await tax.wait();
     const id=receipt.events[0].args[0]
@@ -28,7 +28,7 @@ describe('StudentRegistry', function () {
           const lastName = 'Doe';
           const degree = 'BSc';
           const major = 'Computer Science';
-          const year = 2022;
+          const year = '2022/12/1';
           await studentRegistry.createStudent(firstName, lastName, degree, major, year);
           const students = await studentRegistry.getAallStudents();
           const student = students[0];
@@ -36,7 +36,7 @@ describe('StudentRegistry', function () {
           expect(student.lastName).to.equal(lastName);
           expect(student.education.degree).to.equal(degree);
           expect(student.education.major).to.equal(major);
-          expect(student.education.year.toNumber()).to.equal(year);
+          expect(student.education.year).to.equal(year);
    });
    it('should return an empty student for an address with no information', async function () {
           const students = await studentRegistry.getAallStudents();
@@ -48,12 +48,12 @@ describe('StudentRegistry', function () {
           const lastName = 'Doe';
           const degree = 'BSc';
           const major = 'Computer Science';
-          const year = 2022;
+          const year = '2022/12/1';
           const newFirstName = 'Jane';
           const newLastName = 'Smith';
           const newDegree = 'MSc';
           const newMajor = 'Electrical Engineering';
-          const newYear = 2023;
+          const newYear = '2023/12/1';
           console.log(studentRegistry.Students)
           const tax= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
           const receipt=await tax.wait();
@@ -67,15 +67,15 @@ describe('StudentRegistry', function () {
           expect(student.lastName).to.equal(newLastName);
           expect(student.education.degree).to.equal(newDegree);
           expect(student.education.major).to.equal(newMajor);
-          expect(student.education.year.toNumber()).to.equal(newYear);
+          expect(student.education.year).to.equal(newYear);
           });
       
-   it('should throw anerror if any of the required fields are empty', async function () {
+   it('should throw an error if any of the required fields are empty', async function () {
           const firstName = 'John';
           const lastName = 'Doe';
           const degree = 'BSc';
           const major = 'Computer Science';
-          const year = 2022;
+          const year = '2022/12/1';
           const emptyField = '';
          
           const tax= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
@@ -84,8 +84,8 @@ describe('StudentRegistry', function () {
 
           // await studentRegistry.createStudent(firstName, lastName, degree, major, year);
       
-          await expect(studentRegistry.updateStudent(id,emptyField, lastName, degree, major, year)).to.be.revertedWith('First name cannot be empty');
-          await expect(studentRegistry.updateStudent(id,firstName, emptyField, degree, major, year)).to.be.revertedWith('Last name cannot be empty');
+          await expect(studentRegistry.updateStudent(id,emptyField, lastName, degree, major, year)).to.be.revertedWith('Firstname cannot be empty');
+          await expect(studentRegistry.updateStudent(id,firstName, emptyField, degree, major, year)).to.be.revertedWith('Lastname cannot be empty');
           await expect(studentRegistry.updateStudent(id,firstName, lastName, emptyField, major, year)).to.be.revertedWith('Degree cannot be empty');
           await expect(studentRegistry.updateStudent(id,firstName, lastName, degree, emptyField, year)).to.be.revertedWith('Major cannot be empty');
         });
@@ -94,7 +94,7 @@ describe('StudentRegistry', function () {
           const lastName = 'Doe';
           const degree = 'BSc';
           const major = 'Computer Science';
-          const year = 2022;
+          const year = '2022/12/1';
       
           await studentRegistry.createStudent(firstName, lastName, degree, major, year);
           await studentRegistry.deleteStudent(0);
