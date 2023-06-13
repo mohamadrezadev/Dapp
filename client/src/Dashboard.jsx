@@ -5,11 +5,11 @@ import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from "../../server/contrcatAddress.json";
 import { MediaRenderer } from "@thirdweb-dev/react";
 import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-
+import { CryptoCards, Button } from '@web3uikit/core';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import {NFTs} from './components/RenderNft'
-// import Modal from '@mui/material/Modal';
+
 import {
   generate_metadata,
   pinFileToIPFS,
@@ -29,7 +29,7 @@ function Dashboard() {
   const [lastName, setLastName] = useState("");
   const [degree, setDegree] = useState("");
   const [major, setMajor] = useState("");
-  const [year, setYear] = useState();
+  const [year, setYear] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [tokenId, setTokenId] = useState("");
@@ -38,7 +38,7 @@ function Dashboard() {
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
   );
-  console.log("isLoading", isLoading);
+  
   const { contract, error } = useContract(
     contrcatAddress.NFTContract,
     NFTABI.abi
@@ -72,7 +72,7 @@ function Dashboard() {
     _major,
     _year
   ) => {
-    console.log(_firstName, _lastName, _degree, _major, _year);
+    console.log("data studentcreate :"+year+firstName+lastName)
     setLoading(true);
     const res = await studentRegistryContract.getAallStudents();
     if (existestudent(res, firstName, lastName)) {
@@ -86,14 +86,15 @@ function Dashboard() {
         major,
         year
       );
+      console.log("data studentcreate :"+year+firstName+lastName)
       const receipt = await tax.wait();
       const evnets = receipt.events[0].args;
       console.log(tax, "tax");
       //اطلاعات تراکنش را به کاربر نشان دهد
       console.log(evnets);
       console.log(receipt);
-      // location.reload()
       setLoading(false);
+      location.reload()
     }
   };
 
@@ -124,14 +125,14 @@ function Dashboard() {
       student.lastName,
       student.education.degree,
       student.education.major,
-      parseInt(student.education.year._hex, 16)
+      parseInt(student.education.year)
     );
     const metadata = generate_metadata(
       student.firstName,
       student.lastName,
       student.education.degree,
       student.education.major,
-      parseInt(student.education.year._hex, 16)
+      parseInt(student.education.year)
     );
     const response = await pinFileToIPFS(
       metadata,
@@ -159,26 +160,7 @@ function Dashboard() {
     console.log("student: ", students);
   };
 
-  async function form(_firstName, _lastName, _degree, _major, _year) {
-    console.log(_firstName, _lastName, _degree, _major, _year);
-    const res = await studentRegistryContract.getAallStudents();
-    if (existestudent(res, firstName, lastName)) {
-      console.log("alrady exist sudent");
-    } else {
-      const tax = await studentRegistryContract.createStudent(
-        firstName,
-        lastName,
-        degree,
-        major,
-        year
-      );
-      const receipt = await tax.wait();
-      const evnets = receipt.events[0].args;
-      console.log(evnets);
-      const id = receipt.events[0].args[0];
-      console.log(receipt);
-    }
-  }
+ 
 
   const getalltokenurl = async function () {
     const result = await nftContract.getAllTokenIdsAndUrls();
@@ -193,10 +175,7 @@ function Dashboard() {
   };
   return (
     <div>
-      <button onClick={handleCreateStudent}>Create Student</button>
-      <button onClick={handleReadStudent}>ReadStudent</button>
-      <button onClick={handelCreatenft}>nft</button>
-      <button onClick={getalltokenurl}>urls</button>
+    
       <div className="d-flex justify-content-between align-content-center my-2">
         <button
           type="button"
@@ -230,7 +209,9 @@ function Dashboard() {
       </div>
 
       <div className="row">
-        <NFTs/>
+        <div className="container"> 
+          <NFTs/>
+        </div>
       </div>
       
       <ModalAdd
@@ -254,8 +235,11 @@ function Dashboard() {
         transfer={transfer}
         funcs={{ from, setFrom, to, setTo, tokenId, setTokenId }}
       />
+       
     </div>
+    
   );
 }
 
 export default Dashboard;
+

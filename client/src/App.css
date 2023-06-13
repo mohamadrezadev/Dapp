@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+body {
+  background-color: aliceblue(217, 54%, 11%);
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+}

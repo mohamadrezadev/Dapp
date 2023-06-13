@@ -5,7 +5,7 @@ contract StudentRegistry {
     struct Education {
         string degree;
         string major;
-        uint256 year;
+        string year;
     }
 
     struct Student {
@@ -17,16 +17,17 @@ contract StudentRegistry {
     mapping(address => Student) public students;
     Student[]  public Students ;
     
-    event StudentCreated(uint256 id, string firstName, string lastName, string degree, string major, uint256 year,string Message);
-    event StudentUpdated(uint id, string firstName, string lastName, string degree, string major, uint256 year,string Message);
+    event StudentCreated(uint256 id, string firstName, string lastName, string degree, string major, string year,string Message);
+    event StudentUpdated(uint id, string firstName, string lastName, string degree, string major, string year,string Message);
     event StudentDeleted(string Message);
 
-    function createStudent(string memory _firstName, string memory _lastName,string memory _degree, string memory _major, uint256 _year) 
+    function createStudent(string memory _firstName, string memory _lastName,string memory _degree, string memory _major, string memory _year) 
     public returns(uint) {
         require(bytes(_firstName).length > 0, "First name cannot be empty");
         require(bytes(_lastName).length > 0, "Last name cannot be empty");
         require(bytes(_degree).length > 0, "Degree cannot be empty");
         require(bytes(_major).length > 0, "Major cannot be empty");
+        require(bytes(_year).length > 0, "yaer cannot be empty");
 
         Education memory education = Education(_degree, _major, _year);
         Student memory student = Student(_firstName, _lastName, education);
@@ -39,11 +40,12 @@ contract StudentRegistry {
     }
   
 
-    function updateStudent(uint256 _studentId,string memory _firstName, string memory _lastName, string memory _degree, string memory _major, uint256 _year) public {
-        require(bytes(_firstName).length > 0, "First name cannot be empty");
-        require(bytes(_lastName).length > 0, "Last name cannot be empty");
+    function updateStudent(uint256 _studentId,string memory _firstName, string memory _lastName, string memory _degree, string memory _major, string memory _year) public {
+        require(bytes(_firstName).length > 0, "Firstname cannot be empty");
+        require(bytes(_lastName).length > 0, "Lastname cannot be empty");
         require(bytes(_degree).length > 0, "Degree cannot be empty");
         require(bytes(_major).length > 0, "Major cannot be empty");
+        require(bytes(_year).length > 0, "year cannot be empty");
 
         Education memory education = Education(_degree, _major, _year);
         Student storage student = Students[_studentId];

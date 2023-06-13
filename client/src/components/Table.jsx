@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
+import moment from 'jalali-moment'
+import '../components/Frame'
 import "./table.css";
+import Frame from "../components/Frame";
 function Table({ students }) {
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -31,6 +34,7 @@ function Table({ students }) {
 
   return (
     <>
+      
         <input
           type="text"
           className="form-control text-end mb-3 w-50 mx-auto"
@@ -51,16 +55,20 @@ function Table({ students }) {
           </tr>
         </thead>
         <tbody>
+
           {filteredStudents
             .slice(offset, offset + PER_PAGE)
             .map((student, index) => (
+              
               <tr key={index}>
+                
                 <th scope="row">{index + 1 + offset}</th>
                 <th scope="col">{student.firstName}</th>
                 <th scope="col">{student.lastName}</th>
                 <th scope="col">{student.education.major}</th>
                 <th scope="col">{student.education.degree}</th>
-                <th scope="col">{parseInt(student.education.year, 16)}</th>
+                {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
+                <th scope="col">{moment(student.education.year, 'YYYY').locale('fa').format('YYYY/MM/DD')}</th>
                 <td>
                   <button onClick={() => handelCreatenft(students[index])}>
                     صدور گواهینامه{" "}
@@ -84,6 +92,7 @@ function Table({ students }) {
           activeClassName={"active"}
         />
       </div>
+      
     </>
   );
 }
