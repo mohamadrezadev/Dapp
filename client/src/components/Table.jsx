@@ -37,12 +37,13 @@ function Table({ students ,funcs}) {
       
         <input
           type="text"
-          className="form-control text-end mb-3 w-50 mx-auto"
+          className="form-control text-end mb-3 w-50 mx-auto shadow"
           placeholder="... جستجو"
           value={filterText}
           onChange={(event) => setFilterText(event.target.value)}
         />
-      <table className="table">
+      <div className="table-responsive w-100 "  style={{borderRadius:"2rem"}}>
+      <table className="table table-light shadow  w-100 p-5" style={{borderRadius:"2rem"}}>
         <thead>
           <tr>
             <th scope="col">ردیف</th>
@@ -70,7 +71,7 @@ function Table({ students ,funcs}) {
                 {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
                 <th scope="col">{student.education.year}</th>
                 <td>
-                  <button onClick={() => handelCreatenft(students[index])}>
+                  <button className="btn btn-success" onClick={() => handelCreatenft(students[index])}>
                     صدور گواهینامه{" "}
                   </button>
                 </td>
@@ -78,6 +79,7 @@ function Table({ students ,funcs}) {
             ))}
         </tbody>
       </table>
+      </div>
       <div className="mx-auto">
         <ReactPaginate
           previousLabel={"قبلی"}
@@ -86,8 +88,8 @@ function Table({ students ,funcs}) {
           pageCount={pageCount}
           onPageChange={handlePageClick}
           containerClassName={"pagination"}
-          previousLinkClassName={"page-link btn btn-primary"}
-          nextLinkClassName={"page-link  btn btn-primary"}
+          previousLinkClassName={"page-link btn btn-primary text-primary "}
+          nextLinkClassName={"page-link  btn btn-primary text-primary"}
           disabledClassName={"disabled"}
           activeClassName={"active"}
         />

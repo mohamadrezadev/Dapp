@@ -5,7 +5,7 @@ import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from "../../server/contrcatAddress.json";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
-import {NFTs} from './components/RenderNft'
+import { NFTs } from "./components/RenderNft";
 import { NotificationManager } from "react-notifications";
 
 import {
@@ -32,12 +32,12 @@ function Dashboard() {
   const [to, setTo] = useState("");
   const [tokenId, setTokenId] = useState("");
 
-  const { data, isLoading } = useContract(
+  const { data } = useContract(
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
   );
-  
-  const { contract, error } = useContract(
+
+  const { contract } = useContract(
     contrcatAddress.NFTContract,
     NFTABI.abi
   );
@@ -62,7 +62,7 @@ function Dashboard() {
       setContract2(contract.contractWrapper.writeContract);
     }
   }, [data, contract, studentRegistryContract]);
-  
+
   const handleCreateStudent = async (
     _firstName,
     _lastName,
@@ -87,6 +87,8 @@ function Dashboard() {
       if (existestudent(res, firstName, lastName)) {
         //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
         console.log("alrady exist sudent");
+        NotificationManager.error("alrady exist sudent");
+
         setLoading(false);
       } else {
         const tax = await studentRegistryContract.createStudent(
@@ -99,12 +101,17 @@ function Dashboard() {
         console.log("data studentcreate :" + year + firstName + lastName);
         const receipt = await tax.wait();
         const evnets = receipt.events[0].args;
+        console.log("evnets", evnets);
+
+        if (evnets["code"] === "ACTION_CONFIRME") {
+          NotificationManager.success("!تراکنش انجام شد");
+        
+        }
         console.log(tax, "tax");
         //اطلاعات تراکنش را به کاربر نشان دهد
-        console.log("evnets",evnets);
-        console.log("receipt",receipt);
+        console.log("evnets", evnets);
+        console.log("receipt", receipt);
         setLoading(false);
-        // location.reload();
       }
     } catch (err) {
       setLoading(false);
@@ -113,61 +120,8 @@ function Dashboard() {
       }
     }
   };
-  // const handleCreateStudent = async (
-  //   _firstName,
-  //   _lastName,
-  //   _degree,
-  //   _major,
-  //   _year
-  // ) => {
-  //   console.log("data studentcreate :"+year+firstName+lastName)
-  //   setLoading(true);
-  //   const res = await studentRegistryContract.getAallStudents();
-  //   if (existestudent(res, firstName, lastName)) {
-  //     //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
-  //     console.log("alrady exist sudent");
-  //   } else {
-  //     const tax = await studentRegistryContract.createStudent(
-  //       firstName,
-  //       lastName,
-  //       degree,
-  //       major,
-  //       year
-  //     );
-  //     console.log("data studentcreate :"+year+firstName+lastName)
-  //     const receipt = await tax.wait();
-  //     const evnets = receipt.events[0].args;
-  //     console.log(tax, "tax");
-  //     //اطلاعات تراکنش را به کاربر نشان دهد
-  //     console.log(evnets);
-  //     console.log(receipt);
-  //     setLoading(false);
-  //     location.reload()
-  //   }
-  // };
 
-  // const handleUpdateStudent = async (student) => {
-  //   const firstName = "John";
-  //   const lastName = "Doe";
-  //   const degree = "BSc";
-  //   const major = "Computer Science";
-  //   const year = 2022;
-  //   const res = await studentRegistryContract.getAallStudents();
-  //   if (existestudent(res, student.firstName, student.lastName)) {
-  //     const tx = await studentRegistryContract.UpdateStudent(
-  //       firstName,
-  //       lastName,
-  //       degree,
-  //       major,
-  //       year
-  //     );
-  //     console.log(tx);
-  //   } else {
-  //     console.log("student not founded");
-  //   }
-  // };
-
- const handelCreatenft = async (student) => {
+  const handelCreatenft = async (student) => {
     console.log(
       student.firstName,
       student.lastName,
@@ -207,8 +161,6 @@ function Dashboard() {
     console.log("student: ", students);
   };
 
- 
-
   const getalltokenurl = async function () {
     const result = await nftContract.getAllTokenIdsAndUrls();
     settokenurls(result[1]);
@@ -222,31 +174,30 @@ function Dashboard() {
   };
   return (
     <div>
-    
-      <div className="d-flex justify-content-between align-content-center my-2">
+      <div style={{direction:"ltr"}} className="d-flex justify-content-between align-content-center my-2">
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary d-flex align-items-center  shadow"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal2"
         >
-          انتفال
-        </button>
+          انتقال
+                  </button>
 
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary d-flex align-items-center shadow "
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
-          افزودن اطلاعات دانشجو
+          <i class="fa fa-plus pe-1"></i>
+                  افزودن 
         </button>
       </div>
       <div className="container">
         <div className="row">
           {students !== null ? (
-            <Table students={students}
-              funcs={{handelCreatenft}} />
+            <Table students={students} funcs={{ handelCreatenft }} />
           ) : (
             <div
               className="spinner-border text-light p-4 mx-auto my-3 "
@@ -257,11 +208,11 @@ function Dashboard() {
       </div>
 
       <div className="row">
-        <div className="container"> 
-          <NFTs/>
+        <div className="container">
+          <NFTs />
         </div>
       </div>
-      
+
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
         loading={loading}
@@ -275,7 +226,8 @@ function Dashboard() {
           major,
           setMajor,
           year,
-          setYear,setLoading
+          setYear,
+          setLoading,
         }}
       />
 
@@ -283,11 +235,8 @@ function Dashboard() {
         transfer={transfer}
         funcs={{ from, setFrom, to, setTo, tokenId, setTokenId }}
       />
-       
     </div>
-    
   );
 }
 
 export default Dashboard;
-
