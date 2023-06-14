@@ -1,16 +1,18 @@
 
 import axios from 'axios';
+import contrcatAddress from '../../../server/contrcatAddress.json'
 export const RENDERNFT=function (){
           
   // Contract address
-  const address = '0x931f3dc9e91fb896ef82299218f1613a3ba281d5'
+  const address = contrcatAddress.NFTContract;
+  console.log(address);
 
 // Metadata inclusion flag
 const withMetadata = 'true';
 
 // Alchemy API key
 const apiKey = 'ZinXrRb-UnKcg0y955wyVF-c1FKtcixo';
-
+ 
 // Alchemy URL
 const baseURL = `https://polygon-mumbai.g.alchemy.com/nft/v2/${apiKey}/getNFTsForCollection`;
 const url = `${baseURL}?contractAddress=${address}&withMetadata=${withMetadata}`;

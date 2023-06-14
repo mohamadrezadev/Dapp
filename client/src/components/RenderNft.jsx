@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-import { CryptoCards, Button, Card, Illustration, NftCard } from '@web3uikit/core';
-import { MediaRenderer } from "@thirdweb-dev/react";
-import { ThirdwebNftMedia, useContract, useNFT } from "@thirdweb-dev/react";
 import contrcatAddress from '../../../server/contrcatAddress.json'
 import './Frame'
 import Frame from './Frame';
@@ -13,7 +9,7 @@ export const NFTs = () => {
 
   useEffect(() => {
     // Contract address
-    const address = '0x931f3dc9e91fb896ef82299218f1613a3ba281d5'
+    const address = contrcatAddress.NFTContract
     // Metadata inclusion flag
     const withMetadata = 'true';
     // Alchemy API key
@@ -40,10 +36,10 @@ export const NFTs = () => {
    
     <div>
       <h1>NFT Metadata</h1>
-      <div class="container">
-          <div class="row">
+      <div className="container">
+          <div className="row">
               {nfts.map((nft, index) => (
-                <div class="col-sm-4 " key={index}>
+                <div className="col-sm-4 " key={index}>
                     <Frame
                           name={nft.metadata.name}
                           description={nft.metadata.description}
@@ -58,14 +54,5 @@ export const NFTs = () => {
     </div>
   );
 };
-export const Testnft= function () {
-  const { contract } = useContract(
-    contrcatAddress.NFTContract
-  );
-  const { data: nft, isLoading, error } = useNFT(contract, "0");
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !nft) return <div>NFT not found</div>;
 
-  return <ThirdwebNftMedia metadata={nft.metadata} />;
-}
