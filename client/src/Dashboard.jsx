@@ -174,25 +174,24 @@ function Dashboard() {
   };
   return (
     <div>
-      <div className="d-flex justify-content-between align-content-center my-2">
+      <div style={{direction:"ltr"}} className="d-flex justify-content-between align-content-center my-2">
         <button
           type="button"
-          className="btn btn-primary d-flex align-items-center "
+          className="btn btn-primary d-flex align-items-center  shadow"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal2"
         >
-          <i class="fa fa-share-nodes pe-1"></i>
           انتقال
                   </button>
 
         <button
           type="button"
-          className="btn btn-primary d-flex align-items-center "
+          className="btn btn-primary d-flex align-items-center shadow "
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
           <i class="fa fa-plus pe-1"></i>
-                  افزودن دانشجو
+                  افزودن 
         </button>
       </div>
       <div className="container">

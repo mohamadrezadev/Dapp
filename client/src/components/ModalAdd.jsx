@@ -32,6 +32,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
       id="exampleModal"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
+      style={{direction:"ltr"}}
     >
       <div className="modal-dialog">
         <div className="modal-content">
