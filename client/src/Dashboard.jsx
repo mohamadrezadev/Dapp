@@ -158,7 +158,6 @@ function Dashboard() {
     // console.log(students);
     const res = await studentRegistryContract.getAallStudents();
     setStudents(res);
-
     console.log("student: ", students);
   };
 

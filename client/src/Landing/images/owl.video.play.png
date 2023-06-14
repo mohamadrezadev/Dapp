@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>لندین | لندینگ پیج مورد نظرتون پیدا نشد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="error">
+            <img class="image" src="500-back.png" alt>
+            <h2 class="code">404</h2>
+            <p class="description">فایل مورد نظر یافت نشد.</p>
+            <a class="link-btn" href="https://app.landin.ir" target="_blank">
+                <span>رفتن به پنل کاربری</span>
+                <div class="plus-container">
+                    <img src="arrow.png" alt="arrow">
+                </div>
+            </a>
+        </div>
+        <img class="shape" src="shape1.png" alt="shape">
+    </div>
+
+
+</body>
+
+</html>
