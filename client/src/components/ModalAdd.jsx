@@ -19,6 +19,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
     year,
     setYear,setLoading
   } = funcs;
+  const date = new moment();
   const handleDateChange = function (timestamp) {
     const date = new Date(timestamp * 1000); // convert Unix timestamp to JavaScript Date object
     const formattedDate = date.toLocaleDateString("fa-IR"); // format the date as a string in the desired format ('fa-IR' for Persian calendar)
@@ -109,11 +110,9 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         placeholder="انتخاب تاریخ"
                         format="jYYYY/jMM/jDD"
                         className="form-control"
-                        selected={moment('1402/04/01', 'jYYYY/jMM/jDD')}
                         onChange={handleDateChange}
-                        // onChange={(e)=>setYear(e.toString())}
                         id="datePicker"
-                        preSelected="1402/04/01"
+                        preSelected={date.format('jYYYY/jMM/jDD')}
                       />
                     </div>
                     <div className="col-12">
