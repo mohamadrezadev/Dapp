@@ -67,7 +67,8 @@ function Table({ students ,funcs}) {
                 <th scope="col">{student.lastName}</th>
                 <th scope="col">{student.education.major}</th>
                 <th scope="col">{student.education.degree}</th>
-                <th scope="col">{moment(student.education.year, 'YYYY').locale('fa').format('YYYY/MM/DD')}</th>
+                {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
+                <th scope="col">{student.education.year}</th>
                 <td>
                   <button onClick={() => handelCreatenft(students[index])}>
                     صدور گواهینامه{" "}

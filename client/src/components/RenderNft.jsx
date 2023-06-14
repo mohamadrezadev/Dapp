@@ -36,10 +36,10 @@ export const NFTs = () => {
    
     <div>
       <h1>NFT Metadata</h1>
-      <div class="container">
-          <div class="row">
+      <div className="container">
+          <div className="row">
               {nfts.map((nft, index) => (
-                <div class="col-sm-4 " key={index}>
+                <div className="col-sm-4 " key={index}>
                     <Frame
                           name={nft.metadata.name}
                           description={nft.metadata.description}

@@ -3,12 +3,10 @@ import StudentRegistry from "../../server/artifacts/contracts/StudentRegistry.so
 import NFTABI from "../../server/artifacts/contracts/NFT.sol/CERTNFT.json";
 import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from "../../server/contrcatAddress.json";
-import { MediaRenderer } from "@thirdweb-dev/react";
-import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-import { CryptoCards, Button } from '@web3uikit/core';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import {NFTs} from './components/RenderNft'
+import { NotificationManager } from "react-notifications";
 
 import {
   generate_metadata,
@@ -64,7 +62,7 @@ function Dashboard() {
       setContract2(contract.contractWrapper.writeContract);
     }
   }, [data, contract, studentRegistryContract]);
-
+  
   const handleCreateStudent = async (
     _firstName,
     _lastName,
@@ -72,7 +70,7 @@ function Dashboard() {
     _major,
     _year
   ) => {
-    
+    console.log("data studentcreate :"+year+firstName+lastName)
     setLoading(true);
     const res = await studentRegistryContract.getAallStudents();
     if (existestudent(res, firstName, lastName)) {
@@ -86,7 +84,7 @@ function Dashboard() {
         major,
         year
       );
-      
+      console.log("data studentcreate :"+year+firstName+lastName)
       const receipt = await tax.wait();
       const evnets = receipt.events[0].args;
       console.log(tax, "tax");
@@ -94,30 +92,64 @@ function Dashboard() {
       console.log(evnets);
       console.log(receipt);
       setLoading(false);
-      location.reload()
+      if (err.code === "ACTION_REJECTED") {
+        NotificationManager.error("!تراکنش پذیرفته نشد");
+      }
     }
   };
+  // const handleCreateStudent = async (
+  //   _firstName,
+  //   _lastName,
+  //   _degree,
+  //   _major,
+  //   _year
+  // ) => {
+  //   console.log("data studentcreate :"+year+firstName+lastName)
+  //   setLoading(true);
+  //   const res = await studentRegistryContract.getAallStudents();
+  //   if (existestudent(res, firstName, lastName)) {
+  //     //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
+  //     console.log("alrady exist sudent");
+  //   } else {
+  //     const tax = await studentRegistryContract.createStudent(
+  //       firstName,
+  //       lastName,
+  //       degree,
+  //       major,
+  //       year
+  //     );
+  //     console.log("data studentcreate :"+year+firstName+lastName)
+  //     const receipt = await tax.wait();
+  //     const evnets = receipt.events[0].args;
+  //     console.log(tax, "tax");
+  //     //اطلاعات تراکنش را به کاربر نشان دهد
+  //     console.log(evnets);
+  //     console.log(receipt);
+  //     setLoading(false);
+  //     location.reload()
+  //   }
+  // };
 
-  const handleUpdateStudent = async (student) => {
-    const firstName = "John";
-    const lastName = "Doe";
-    const degree = "BSc";
-    const major = "Computer Science";
-    const year = 2022;
-    const res = await studentRegistryContract.getAallStudents();
-    if (existestudent(res, student.firstName, student.lastName)) {
-      const tx = await studentRegistryContract.UpdateStudent(
-        firstName,
-        lastName,
-        degree,
-        major,
-        year
-      );
-      console.log(tx);
-    } else {
-      console.log("student not founded");
-    }
-  };
+  // const handleUpdateStudent = async (student) => {
+  //   const firstName = "John";
+  //   const lastName = "Doe";
+  //   const degree = "BSc";
+  //   const major = "Computer Science";
+  //   const year = 2022;
+  //   const res = await studentRegistryContract.getAallStudents();
+  //   if (existestudent(res, student.firstName, student.lastName)) {
+  //     const tx = await studentRegistryContract.UpdateStudent(
+  //       firstName,
+  //       lastName,
+  //       degree,
+  //       major,
+  //       year
+  //     );
+  //     console.log(tx);
+  //   } else {
+  //     console.log("student not founded");
+  //   }
+  // };
 
  const handelCreatenft = async (student) => {
     console.log(
@@ -228,7 +260,7 @@ function Dashboard() {
           major,
           setMajor,
           year,
-          setYear,
+          setYear,setLoading
         }}
       />
 
