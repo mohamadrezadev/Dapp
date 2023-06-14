@@ -86,8 +86,8 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\NFT.sol": {
-      "lastModificationDate": 1686754592913,
-      "contentHash": "834848f89d409cfd0a52c8915f54cbc5",
+      "lastModificationDate": 1686771450654,
+      "contentHash": "be286af5af835682d09bccc8325ff227",
       "sourceName": "contracts/NFT.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -303,6 +303,47 @@
         "Address"
       ]
     },
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1685731178887,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "viaIR": true,
+          "optimizer": {
+            "enabled": true,
+            "runs": 200,
+            "details": {
+              "yulDetails": {
+                "optimizerSteps": "u"
+              }
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Strings.sol": {
       "lastModificationDate": 1685731179681,
       "contentHash": "396031251978f8febfd90cb62cb240ec",
@@ -344,47 +385,6 @@
       ],
       "artifacts": [
         "Strings"
-      ]
-    },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1685731178887,
-      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
-      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 200,
-            "details": {
-              "yulDetails": {
-                "optimizerSteps": "u"
-              }
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Context"
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
@@ -430,10 +430,10 @@
         "ERC165"
       ]
     },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\extensions\\IERC721Metadata.sol": {
-      "lastModificationDate": 1685731179503,
-      "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\IERC721.sol": {
+      "lastModificationDate": 1685731179478,
+      "contentHash": "eb7e61db29f31d88b3c1cef1b063d338",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -464,13 +464,13 @@
         }
       },
       "imports": [
-        "../IERC721.sol"
+        "../../utils/introspection/IERC165.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "IERC721Metadata"
+        "IERC721"
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\IERC721Receiver.sol": {
@@ -514,10 +514,10 @@
         "IERC721Receiver"
       ]
     },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\IERC721.sol": {
-      "lastModificationDate": 1685731179478,
-      "contentHash": "eb7e61db29f31d88b3c1cef1b063d338",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\extensions\\IERC721Metadata.sol": {
+      "lastModificationDate": 1685731179503,
+      "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -548,13 +548,13 @@
         }
       },
       "imports": [
-        "../../utils/introspection/IERC165.sol"
+        "../IERC721.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "IERC721"
+        "IERC721Metadata"
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\math\\Math.sol": {
@@ -761,7 +761,7 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\StudentRegistry.sol": {
-      "lastModificationDate": 1686744001821,
+      "lastModificationDate": 1686745179289,
       "contentHash": "f9f0e6b61d8e3d246dd41682c9707aa4",
       "sourceName": "contracts/StudentRegistry.sol",
       "solcConfig": {
