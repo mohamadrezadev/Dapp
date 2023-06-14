@@ -6,10 +6,10 @@ describe("CERTNFT", function () {
     let nftContract;
     let owner; // Address of the contract owner
     let ownerAddress; // Address of the contract owner as a string
-
+    let operator;
     beforeEach(async () => {
         // Get the contract owner's address
-        [owner] = await ethers.getSigners();
+        [owner, operator] = await ethers.getSigners();
         ownerAddress = owner.address;
         
         owners=["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",ownerAddress]
@@ -89,4 +89,19 @@ describe("CERTNFT", function () {
         const newOwner = await nftContract.ownerOf(tokenId);
         expect(newOwner).to.equal(to);
     });
+    it("should add an operator to the owners list", async function() {
+        
+        await nftContract.addoperator(operator.address);
+        const owners = await nftContract.owners(0);
+        expect(owners.address);
+      });
+    
+      it("should not add an owner that is already in the owners list", async function() {
+        await nftContract.addoperator(operator.address);
+        await nftContract.addoperator(operator.address);
+    
+        const owners = await nftContract.owners(0);
+        expect(owners)
+      });
+    
 });

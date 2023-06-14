@@ -105,7 +105,19 @@ describe('StudentRegistry', function () {
           expect(students);
           
         });
-      
+    it('should issued nft',async function(){
+      const firstName = 'John';
+      const lastName = 'Doe';
+      const degree = 'BSc';
+      const major = 'Computer Science';
+      const year = '2022/12/1';
+      const studentid= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
+      const students = await studentRegistry.getAallStudents();
+      const student = students[0];
+      const tax= await studentRegistry.isissuedcertificate(0,true);
+      const receipt=tax.wait();
+      expect(receipt.events)
+    })  
    it('should emit a StudentDeleted event', async function () {
           // const firstName = 'John';
           // const lastName = 'Doe';

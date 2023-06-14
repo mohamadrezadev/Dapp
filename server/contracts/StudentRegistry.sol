@@ -12,6 +12,7 @@ contract StudentRegistry {
         string firstName;
         string lastName;
         Education education;
+        bool isissued;
     }
 
     mapping(address => Student) public students;
@@ -20,7 +21,7 @@ contract StudentRegistry {
     event StudentCreated(uint256 id, string firstName, string lastName, string degree, string major, string year,string code );
     event StudentUpdated(uint id, string firstName, string lastName, string degree, string major, string year,string code);
     event StudentDeleted(string code);
-
+    event CertificateIssued(uint id ,string code);
     function createStudent(string memory _firstName, string memory _lastName,string memory _degree, string memory _major, string memory _year) 
     public returns(uint) {
         require(bytes(_firstName).length > 0, "First name cannot be empty");
@@ -30,7 +31,7 @@ contract StudentRegistry {
         require(bytes(_year).length > 0, "yaer cannot be empty");
 
         Education memory education = Education(_degree, _major, _year);
-        Student memory student = Student(_firstName, _lastName, education);
+        Student memory student = Student(_firstName, _lastName, education ,false);
         Students.push(student);
         emit StudentCreated(Students.length-1, _firstName, _lastName, _degree, _major, _year,"ACTION_CONFIRME");
         return Students.length - 1;
@@ -38,7 +39,11 @@ contract StudentRegistry {
     function getAallStudents() public view returns (Student[] memory) {
         return Students;
     }
-  
+    function isissuedcertificate(uint studentId, bool isissued) public {
+        Student storage student = Students[studentId];
+        student.isissued = isissued;
+        emit CertificateIssued(studentId,"ACTION_CONFIRME");
+    }
 
     function updateStudent(uint256 _studentId,string memory _firstName, string memory _lastName, string memory _degree, string memory _major, string memory _year) public {
         require(bytes(_firstName).length > 0, "Firstname cannot be empty");
