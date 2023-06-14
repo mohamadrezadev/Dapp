@@ -95,25 +95,13 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         تاریخ
                         <span className="text-body-secondary"></span>
                       </label>
-                      {/* <input
-                        type="number"
-                        className="form-control"
-                        id="year"
-                        placeholder=""
-                        onChange={(e) => {
-                          setYear(e.target.value);
-                        }}
-                      /> */}
-
                         <DatePicker
                         inputComponent={DatePickerInput}
                         placeholder="انتخاب تاریخ"
                         format="jYYYY/jMM/jDD"
                         className="form-control"
                         selected={moment('1402/04/01', 'jYYYY/jMM/jDD')}
-                        // onChange={handleDateChange}
                         onChange={(e)=>setYear(e.toString())}
-                        // onChange={}
                         id="datePicker"
                         preSelected="1402/04/01"
 

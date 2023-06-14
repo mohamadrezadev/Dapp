@@ -3,27 +3,27 @@ import ReactPaginate from "react-paginate";
 import moment from 'jalali-moment'
 import '../components/Frame'
 import "./table.css";
-import Frame from "../components/Frame";
-function Table({ students }) {
+
+function Table({ students ,funcs}) {
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-
   const filteredStudents = students.filter(
     (student) =>
-      student.firstName.toLowerCase().includes(filterText.toLowerCase()) ||
-      student.lastName.toLowerCase().includes(filterText.toLowerCase()) ||
-      student.education.major
-        .toLowerCase()
-        .includes(filterText.toLowerCase()) ||
-      student.education.degree
-        .toLowerCase()
-        .includes(filterText.toLowerCase()) ||
-      student.education.year
-        .toString()
-        .toLowerCase()
-        .includes(filterText.toLowerCase())
-  );
-
+    student.firstName.toLowerCase().includes(filterText.toLowerCase()) ||
+    student.lastName.toLowerCase().includes(filterText.toLowerCase()) ||
+    student.education.major
+    .toLowerCase()
+    .includes(filterText.toLowerCase()) ||
+    student.education.degree
+    .toLowerCase()
+    .includes(filterText.toLowerCase()) ||
+    student.education.year
+    .toString()
+    .toLowerCase()
+    .includes(filterText.toLowerCase())
+    );
+  const {handelCreatenft} = funcs;
+    
   const PER_PAGE = 5;
   const offset = currentPage * PER_PAGE;
   const pageCount = Math.ceil(filteredStudents.length / PER_PAGE);
@@ -67,7 +67,6 @@ function Table({ students }) {
                 <th scope="col">{student.lastName}</th>
                 <th scope="col">{student.education.major}</th>
                 <th scope="col">{student.education.degree}</th>
-                {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
                 <th scope="col">{moment(student.education.year, 'YYYY').locale('fa').format('YYYY/MM/DD')}</th>
                 <td>
                   <button onClick={() => handelCreatenft(students[index])}>

@@ -72,7 +72,7 @@ function Dashboard() {
     _major,
     _year
   ) => {
-    console.log("data studentcreate :"+year+firstName+lastName)
+    
     setLoading(true);
     const res = await studentRegistryContract.getAallStudents();
     if (existestudent(res, firstName, lastName)) {
@@ -86,7 +86,7 @@ function Dashboard() {
         major,
         year
       );
-      console.log("data studentcreate :"+year+firstName+lastName)
+      
       const receipt = await tax.wait();
       const evnets = receipt.events[0].args;
       console.log(tax, "tax");
@@ -119,7 +119,7 @@ function Dashboard() {
     }
   };
 
-  const handelCreatenft = async (student) => {
+ const handelCreatenft = async (student) => {
     console.log(
       student.firstName,
       student.lastName,
@@ -198,7 +198,8 @@ function Dashboard() {
       <div className="container">
         <div className="row">
           {students !== null ? (
-            <Table students={students} />
+            <Table students={students}
+              funcs={{handelCreatenft}} />
           ) : (
             <div
               className="spinner-border text-light p-4 mx-auto my-3 "
