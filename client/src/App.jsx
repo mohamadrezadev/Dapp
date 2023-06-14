@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     if (address && location.pathname === "/") {
       Nav("/dashboard", { replace: true });
-      NotificationManager.success('Success message', 'Title here')
+      NotificationManager.success("ورود موفقیت آمیز")
     }
   }, [address]);
 

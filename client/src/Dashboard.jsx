@@ -7,7 +7,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import { NFTs } from "./components/RenderNft";
 import { NotificationManager } from "react-notifications";
-
+import "./dashboard.css"
 import {
   generate_metadata,
   pinFileToIPFS,
@@ -155,7 +155,6 @@ function Dashboard() {
   };
 
   const handleReadStudent = async () => {
-    // console.log(students);
     const res = await studentRegistryContract.getAallStudents();
     setStudents(res);
     console.log("student: ", students);
@@ -174,10 +173,10 @@ function Dashboard() {
   };
   return (
     <div>
-      <div style={{direction:"ltr"}} className="d-flex justify-content-between align-content-center my-2">
+      <div style={{direction:"ltr"}} className="d-flex gap-2 align-content-center my-2">
         <button
           type="button"
-          className="btn btn-primary d-flex align-items-center  shadow"
+          className="btn border d-flex align-items-center  shadow"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal2"
         >
@@ -186,7 +185,7 @@ function Dashboard() {
 
         <button
           type="button"
-          className="btn btn-primary d-flex align-items-center shadow "
+          className="btn btn-primary border d-flex align-items-center shadow "
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >

@@ -163,7 +163,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
             )}
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn border"
               data-bs-dismiss="modal"
               onClick={() => setLoading(false)}
             >

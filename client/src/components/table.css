@@ -25,11 +25,23 @@ th {
 }
 
 .pagination li.active a {
-  background-color: #0077c2;
-  color: #fff;
-  border-color: #0077c2;
+  background-color: #0d6efd!important;
+  color: #fff !important;
+  border-color: #0d6efd;
 }
 
 .pagination li a:hover:not(.active) {
-  background-color: #ddd;
+ background-color: #7a78783d!important;
+}
+.next a {
+  background-color: #0d6efd!important;
+  color: #fff!important;
+}
+.previous a{
+  background-color: #0d6efd!important;
+  color: #fff!important;
+}
+.disabled a{
+  background-color: #fff!important;
+  color: #000!important;
 }

@@ -3,6 +3,9 @@ import normal from "./assets/fonts/normal-circle.svg";
 import ring from "./assets/fonts/ring.svg";
 import dots from "./assets/fonts/dots-pattern.svg";
 import bg from "./assets/images/10.png";
+import PressLogo from "./components/PressLogo";
+import Statistic from "./components/Statistic";
+import Footer from "./components/Footer";
 function Home() {
   return (
     <div id="text">
@@ -31,7 +34,7 @@ function Home() {
                   </p>
                 </div>
                 <div className="textthree-texts__buttons">
-                    <NavLink to="/dashboard" className="">
+                    <NavLink to="/dashboard"  className="">
                   <div className="textthree-texts__buttonOne">
                      بزن بریم
                   </div>
@@ -105,6 +108,9 @@ function Home() {
           </div>
         </div>
       </section>
+      <PressLogo />
+      <Statistic/>
+      <Footer/>
     </div>
     // <div className="row pb-0 ps-lg-0 align-items-center rounded-3 border shadow-lg">
     //     <div className="col-lg-4 text-end  -offset-lg-1 p-0 overflow-hidden shadow-lg a">
