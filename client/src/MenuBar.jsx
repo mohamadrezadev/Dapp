@@ -1,10 +1,9 @@
 import { Navbar, Nav } from "react-bootstrap";
 import { ConnectWallet } from "@thirdweb-dev/react";
-
 const MyNavbar = () => {
   return (
-    <Navbar bg="dark" className="navbar-dark" expand="lg"  >
-      <div className="container" >
+    <Navbar bg="dark" className="navbar-dark" expand="lg">
+      <div className="container">
         <Navbar.Brand href="#">نام سایت</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -14,11 +13,13 @@ const MyNavbar = () => {
             <Nav.Link href="#">لینک ۳</Nav.Link>
           </Nav>
           <ConnectWallet
-            className="btn  "
+            className="btn btn-primary"
             auth={{
               loginOptional: false,
             }}
-            btnTitle="اتصال به ولت"
+            btnTitle="اتصال کیف پول"
+            modalTitle="اتصال کیف پول"
+            theme="dark"
           />
         </Navbar.Collapse>
       </div>

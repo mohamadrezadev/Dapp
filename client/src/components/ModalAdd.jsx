@@ -95,16 +95,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         تاریخ
                         <span className="text-body-secondary"></span>
                       </label>
-                      {/* <input
-                        type="number"
-                        className="form-control"
-                        id="year"
-                        placeholder=""
-                        onChange={(e) => {
-                          setYear(e.target.value);
-                        }}
-                      /> */}
-
+            
                         <DatePicker
                         inputComponent={DatePickerInput}
                         placeholder="انتخاب تاریخ"
