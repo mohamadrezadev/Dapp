@@ -1,4 +1,5 @@
 const f= require('../scripts/file')
+const conf= require('../hardhat.config')
 const main = async() => {
   //#region  StudentContract
   const StudentRegistry = await hre.ethers.getContractFactory("StudentRegistry");
@@ -16,9 +17,11 @@ const main = async() => {
   console.log("Greetercontract address  is :", address);
   //#endregion
   
+  const owners=["0xc1A4F729C7b4205bF016b59E79ae16bd5eBE3377"]
+
   //#region NFT
   const NFT=await ethers.getContractFactory("CERTNFT");
-  const nft=await NFT.deploy("Certificate of Bozorgmehr Qaenat University","CBUQ",2000);
+  const nft=await NFT.deploy(owners,"Certificate of Bozorgmehr Qaenat University","CBUQ");
   console.log("NFT Contract  address  is  :"+nft.address)
   //#endregion
 

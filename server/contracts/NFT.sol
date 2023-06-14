@@ -6,19 +6,25 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract CERTNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    address private owner;
+    address[] private owners;
 
     event mintnft(address owner, uint tokenid, string url, string code);
     event Owner(string code);
-    constructor(address _owner, string memory _name, string memory _symbol) ERC721(_name, _symbol) {
-        owner = _owner;
+    constructor( address[] memory _owners, string memory _name, string memory _symbol) ERC721(_name, _symbol) {
+        owners = _owners;
     }
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can call this function.");
+   modifier onlyOwner() {
+        bool isOwner = false;
+        for (uint i = 0; i < owners.length; i++) {
+            if (msg.sender == owners[i]) {
+                isOwner = true;
+                break;
+            }
+        }
+        require(isOwner, "Only the owner can call this function.");
         _;
         emit Owner("Only the owner can call this function.");
     }
-
     function mint(string memory tokenURI) public onlyOwner returns (uint256) {
         _tokenIds.increment();
         string memory url = string(abi.encodePacked("https://ipfs.io/ipfs/", tokenURI));
