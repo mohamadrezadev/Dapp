@@ -35,7 +35,6 @@ export const NFTs = () => {
   return (
    
     <div>
-      <h1>NFT Metadata</h1>
       <div className="container">
           <div className="row">
               {nfts.map((nft, index) => (

@@ -60,7 +60,7 @@ function Table({ students ,funcs}) {
           {filteredStudents
             .slice(offset, offset + PER_PAGE)
             .map((student, index) => (
-              
+              console.log("student index:"+ student[index]+index),
               <tr key={index}>
                 
                 <th scope="row">{index + 1 + offset}</th>
@@ -71,10 +71,18 @@ function Table({ students ,funcs}) {
                 {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
                 <th scope="col">{student.education.year}</th>
                 <td>
-                  <button className="btn btn-success shadow" onClick={() => handelCreatenft(students[index])}>
-                    صدور گواهینامه{" "}
+
+                {!student.isissued ? (
+                  <button className="btn btn-success" onClick={() => handelCreatenft(students[index],index)}>
+                    صدور گواهینامه
                   </button>
+                ) : (
+                  <button className="btn btn-primery" >
+                    صادر شده
+                  </button>
+                )}
                 </td>
+                
               </tr>
             ))}
         </tbody>
