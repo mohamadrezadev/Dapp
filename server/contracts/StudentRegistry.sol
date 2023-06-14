@@ -17,9 +17,9 @@ contract StudentRegistry {
     mapping(address => Student) public students;
     Student[]  public Students ;
     
-    event StudentCreated(uint256 id, string firstName, string lastName, string degree, string major, string year,string Message);
-    event StudentUpdated(uint id, string firstName, string lastName, string degree, string major, string year,string Message);
-    event StudentDeleted(string Message);
+    event StudentCreated(uint256 id, string firstName, string lastName, string degree, string major, string year,string code );
+    event StudentUpdated(uint id, string firstName, string lastName, string degree, string major, string year,string code);
+    event StudentDeleted(string code);
 
     function createStudent(string memory _firstName, string memory _lastName,string memory _degree, string memory _major, string memory _year) 
     public returns(uint) {
@@ -32,7 +32,7 @@ contract StudentRegistry {
         Education memory education = Education(_degree, _major, _year);
         Student memory student = Student(_firstName, _lastName, education);
         Students.push(student);
-        emit StudentCreated(Students.length-1, _firstName, _lastName, _degree, _major, _year,"Information has been successfully registered");
+        emit StudentCreated(Students.length-1, _firstName, _lastName, _degree, _major, _year,"ACTION_CONFIRME");
         return Students.length - 1;
     }
     function getAallStudents() public view returns (Student[] memory) {
@@ -52,11 +52,11 @@ contract StudentRegistry {
         student.firstName = _firstName;
         student.lastName = _lastName;
         student.education = education;
-        emit StudentUpdated(_studentId, _firstName, _lastName, _degree, _major, _year,"Information has been successfully Updated");
+        emit StudentUpdated(_studentId, _firstName, _lastName, _degree, _major, _year,"ACTION_CONFIRME");
     }
     function deleteStudent(uint _studentId) public {
         delete Students[_studentId];
-        emit StudentDeleted("Information has been successfully Deleted");
+        emit StudentDeleted("ACTION_CONFIRME");
     }
    
 
