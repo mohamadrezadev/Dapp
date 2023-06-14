@@ -86,8 +86,8 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\NFT.sol": {
-      "lastModificationDate": 1686661230037,
-      "contentHash": "a82dc18b2f3bda5483cfcbcbe260bf9f",
+      "lastModificationDate": 1686754592913,
+      "contentHash": "834848f89d409cfd0a52c8915f54cbc5",
       "sourceName": "contracts/NFT.sol",
       "solcConfig": {
         "version": "0.8.17",
