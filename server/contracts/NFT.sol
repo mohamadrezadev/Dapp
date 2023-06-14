@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract CERTNFT is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    address[] private owners;
+    address[] public owners;
 
     event mintnft(address owner, uint tokenid, string url, string code);
     event Owner(string code);
@@ -34,7 +34,17 @@ contract CERTNFT is ERC721URIStorage {
         emit mintnft(msg.sender, newItemId, url, "ACTION_CONFIRMED");
         return newItemId;
     }
-
+    function addoperator(address _operator)public{
+        for (uint i = 0; i < owners.length; i++) {
+            if (_operator == owners[i]) {
+                
+                break;
+            }
+            else{
+                owners.push(_operator);
+            }
+        }
+    }
     function getAllTokenIdsAndUrls() public view returns (uint256[] memory, string[] memory) {
         uint256[] memory tokenIds = new uint256[](_tokenIds.current());
         string[] memory tokenUrls = new string[](_tokenIds.current());
