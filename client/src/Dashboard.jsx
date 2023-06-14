@@ -70,27 +70,43 @@ function Dashboard() {
     _major,
     _year
   ) => {
-    console.log("data studentcreate :"+year+firstName+lastName)
-    setLoading(true);
-    const res = await studentRegistryContract.getAallStudents();
-    if (existestudent(res, firstName, lastName)) {
-      //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
-      console.log("alrady exist sudent");
-    } else {
-      const tax = await studentRegistryContract.createStudent(
-        firstName,
-        lastName,
-        degree,
-        major,
-        year
-      );
-      console.log("data studentcreate :"+year+firstName+lastName)
-      const receipt = await tax.wait();
-      const evnets = receipt.events[0].args;
-      console.log(tax, "tax");
-      //اطلاعات تراکنش را به کاربر نشان دهد
-      console.log(evnets);
-      console.log(receipt);
+    try {
+      if (
+        firstName.trim() === "" ||
+        lastName.trim() === "" ||
+        degree.trim() === "" ||
+        major.trim() === "" ||
+        year.trim() === ""
+      ) {
+        NotificationManager.error("لطفا تمامی فیلدها را پر کنید");
+        return;
+      }
+
+      setLoading(true);
+      const res = await studentRegistryContract.getAallStudents();
+      if (existestudent(res, firstName, lastName)) {
+        //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
+        console.log("alrady exist sudent");
+        setLoading(false);
+      } else {
+        const tax = await studentRegistryContract.createStudent(
+          firstName,
+          lastName,
+          degree,
+          major,
+          year
+        );
+        console.log("data studentcreate :" + year + firstName + lastName);
+        const receipt = await tax.wait();
+        const evnets = receipt.events[0].args;
+        console.log(tax, "tax");
+        //اطلاعات تراکنش را به کاربر نشان دهد
+        console.log("evnets",evnets);
+        console.log("receipt",receipt);
+        setLoading(false);
+        location.reload();
+      }
+    } catch (err) {
       setLoading(false);
       if (err.code === "ACTION_REJECTED") {
         NotificationManager.error("!تراکنش پذیرفته نشد");
