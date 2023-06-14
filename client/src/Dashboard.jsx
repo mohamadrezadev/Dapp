@@ -104,7 +104,7 @@ function Dashboard() {
         console.log("evnets",evnets);
         console.log("receipt",receipt);
         setLoading(false);
-        location.reload();
+        // location.reload();
       }
     } catch (err) {
       setLoading(false);
