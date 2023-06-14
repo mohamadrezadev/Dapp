@@ -37,13 +37,13 @@ function Table({ students ,funcs}) {
       
         <input
           type="text"
-          className="form-control text-end mb-3 w-50 mx-auto shadow"
-          placeholder="... جستجو"
+          className="form-control text-end mb-3 w-50 me-3 shadow"
+          placeholder=" جستجو..."
           value={filterText}
           onChange={(event) => setFilterText(event.target.value)}
         />
       <div className="table-responsive w-100 "  style={{borderRadius:"2rem"}}>
-      <table className="table table-light shadow  w-100 p-5" style={{borderRadius:"2rem"}}>
+      <table className="table table-light shadow  w-100" style={{borderRadius:"2rem"}}>
         <thead>
           <tr>
             <th scope="col">ردیف</th>
@@ -71,6 +71,7 @@ function Table({ students ,funcs}) {
                 {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
                 <th scope="col">{student.education.year}</th>
                 <td>
+
                 {!student.isissued ? (
                   <button className="btn btn-success" onClick={() => handelCreatenft(students[index],index)}>
                     صدور گواهینامه
@@ -87,16 +88,16 @@ function Table({ students ,funcs}) {
         </tbody>
       </table>
       </div>
-      <div className="mx-auto">
+      <div className="mx-auto" style={{direction:"ltr"}}>
         <ReactPaginate
           previousLabel={"قبلی"}
           className="pagination"
           nextLabel={"بعدی"}
           pageCount={pageCount}
           onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          previousLinkClassName={"page-link btn btn-primary text-primary "}
-          nextLinkClassName={"page-link  btn btn-primary text-primary"}
+          containerClassName={"pagination shadow"}
+          previousLinkClassName={"page-link btn btn-primary text-primary  shadow "}
+          nextLinkClassName={"page-link  btn btn-primary text-primary shadow"}
           disabledClassName={"disabled"}
           activeClassName={"active"}
         />

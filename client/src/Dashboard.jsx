@@ -7,7 +7,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import { NFTs } from "./components/RenderNft";
 import { NotificationManager } from "react-notifications";
-
+import "./dashboard.css"
 import {
   generate_metadata,
   pinFileToIPFS,
@@ -210,27 +210,26 @@ function Dashboard() {
   };
   return (
     <div>
-      <div className="container">
-          <div style={{direction:"ltr"}} className="d-flex justify-content-between align-content-center my-2">
-            <button
-              type="button"
-              className="btn btn-primary d-flex align-items-center  shadow"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal2"
-            >
-              انتقال
-            </button>
+      <div style={{direction:"ltr"}} className="d-flex gap-2 align-content-center my-2">
+        <button
+          type="button"
+          className="btn border d-flex align-items-center  shadow"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal2"
+        >
+          انتقال
+                  </button>
 
-            <button
-              type="button"
-              className="btn btn-primary d-flex align-items-center shadow "
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              <i class="fa fa-plus pe-1"></i>
-                      افزودن 
-            </button>
-            <button
+        <button
+          type="button"
+          className="btn btn-primary border d-flex align-items-center shadow "
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          <i class="fa fa-plus pe-1"></i>
+                  افزودن 
+        </button>
+        <button
               type="button"
               className="btn btn-primary d-flex  shadow "
               data-bs-toggle="modal"
@@ -240,19 +239,10 @@ function Dashboard() {
                 افزدون آدرس  
             </button>
           </div>
-          <div className="container">
-            <div className="row">
-              {students !== null ? (
-                <Table students={students} funcs={{ handelCreatenft }} />
-              ) : (
-                <div
-                  className="spinner-border text-light p-4 mx-auto my-3 "
-                  role="status"
-                />
-              )}
-            </div>
-          </div>
       </div>
+  
+
+      
 
       <div className="container">
         <div className="row mt-4">
