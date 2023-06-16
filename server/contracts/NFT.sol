@@ -34,16 +34,16 @@ contract CERTNFT is ERC721URIStorage {
         emit mintnft(msg.sender, newItemId, url, "ACTION_CONFIRMED");
         return newItemId;
     }
-    function addoperator(address _operator)public{
+      function addOperator(address _operator) public onlyOwner {
+        bool isOwner = false;
         for (uint i = 0; i < owners.length; i++) {
             if (_operator == owners[i]) {
-                
+                isOwner = true;
                 break;
             }
-            else{
-                owners.push(_operator);
-            }
         }
+        require(!isOwner, "Operator is already an owner.");
+        owners.push(_operator);
     }
     function getAllTokenIdsAndUrls() public view returns (uint256[] memory, string[] memory) {
         uint256[] memory tokenIds = new uint256[](_tokenIds.current());

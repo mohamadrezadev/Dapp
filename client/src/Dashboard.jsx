@@ -44,13 +44,15 @@ function Dashboard() {
     NFTABI.abi
   );
   function existestudent(list, _firstName, _lastName) {
-    list.forEach((element) => {
-      if (element.firstName == _firstName && element.lastName == _lastName) {
-        console.log(element.firstName);
+    for (const element of list) {
+      if (element.firstName === _firstName && element.lastName === _lastName) {
+        console.log(element.firstName, _firstName);
+        console.log(element.lastName, _lastName);
         return true;
       }
-    });
+    }
     return false;
+ 
   }
  
   useEffect(() => {
@@ -86,8 +88,10 @@ function Dashboard() {
 
       setLoading(true);
       const res = await studentRegistryContract.getAallStudents();
-      if (existestudent(res, firstName, lastName)) {
+      console.log(students)
+      if (existestudent(students, _firstName, _lastName)) {
         //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
+        console.log("studendcreate:"+students)
         console.log("alrady exist sudent");
         NotificationManager.error("اطلاعات از قبل وجود دارد");
         setFirstName("")
@@ -96,7 +100,8 @@ function Dashboard() {
         setDegree("")
         setMajor("")
         setLoading(false);
-      } else {
+      } else
+       {
         const tax = await studentRegistryContract.createStudent(
           firstName,
           lastName,
@@ -118,11 +123,11 @@ function Dashboard() {
           setLoading(false);
         
         }
-        console.log(tax, "tax");
-        //اطلاعات تراکنش را به کاربر نشان دهد
-        console.log("evnets", evnets);
-        console.log("receipt", receipt);
-        NotificationManager.success( `مدرک شما صادر گردید  شماره مدرک شما ${tokenId} `);
+        // console.log(tax, "tax");
+        // //اطلاعات تراکنش را به کاربر نشان دهد
+        // console.log("evnets", evnets);
+        // console.log("receipt", receipt);
+        // NotificationManager.success( `اطلاعات تراکنش ${receipt} `);
         setLoading(false);
       }
     } catch (err) {
@@ -151,12 +156,11 @@ function Dashboard() {
       student.firstName
     );
     const IpfsHash = response.data.IpfsHash;
-    
-   
     try {
       const tx = await nftContract.mint(IpfsHash);
       console.log(tx);
       const receipt = await tx.wait();
+      console.log("nft create "+receipt)
       await handelisissuedcertificateStudent(index,true);
       const tokenId = receipt.events[1].args[1];
       const tokenURI = await nftContract.tokenURI(tokenId);
@@ -180,7 +184,9 @@ function Dashboard() {
   };
   const handelAddoperator=async(address)=>{
     try {
-       await nftContract.addoperator(address);
+       const tax= await nftContract.addOperator(address);
+       const response=await tax.wait();
+       console.log(response)
        NotificationManager.success('کاربر  با ادرس جدیدافزوده شد')
        
     } catch (error) {
@@ -238,10 +244,30 @@ function Dashboard() {
               <i class="fa fa-plus pe-1"></i>
                 افزدون آدرس  
             </button>
-          </div>
+          
+        </div>
+    
+        <div className="container">
+        <div className="row">
+          {students !== null ? (
+            <Table students={students}
+              funcs={{handelCreatenft}} />
+          ) : (
+            <div
+              className="spinner-border text-light p-4 mx-auto my-3 "
+              role="status"
+            />
+          )}
+        </div>
       </div>
-  
+      {/* <div className="container">
+        <div className="row mt-2">
+          <Table students={students}
+          funcs={handelCreatenft}
+          key={students}/>
+        </div>
 
+      </div> */}
       
 
       <div className="container">
