@@ -91,15 +91,13 @@ describe("CERTNFT", function () {
     });
     it("should add an operator to the owners list", async function() {
         
-        await nftContract.addoperator(operator.address);
+        await nftContract.addOperator(operator.address);
         const owners = await nftContract.owners(0);
         expect(owners.address);
       });
     
       it("should not add an owner that is already in the owners list", async function() {
-        await nftContract.addoperator(operator.address);
-        await nftContract.addoperator(operator.address);
-    
+        await nftContract.addOperator(operator.address);
         const owners = await nftContract.owners(0);
         expect(owners)
       });
