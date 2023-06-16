@@ -149,7 +149,7 @@ function Dashboard() {
         student.lastName,
         student.education.degree,
         student.education.major,
-        parseInt(student.education.year)
+        student.education.year
       );
       const response = await pinFileToIPFS(
         metadata,
