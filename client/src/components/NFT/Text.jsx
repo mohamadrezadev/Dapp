@@ -8,7 +8,7 @@ function Text(props) {
         <div className="text">
             <Heading content={props.name} />
             <Info content={props.description} />
-            <Bet />
+            {/* <Bet /> */}
         </div>
     );
 }

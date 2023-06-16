@@ -39,13 +39,13 @@ body {
     padding: 0;
     direction: rtl;
     font-family: "Estedad-FD" !important;
-    color: #323245;
+    color: #cd6326;
     overflow: hidden;
 }
 
 .background {
     position: relative;
-    background-color: #F2F3F7;
+    background-color: #9d6108;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -90,7 +90,7 @@ body {
     font-size: 60px;
     line-height: 1;
     text-align: center;
-    color: #6465F4;
+    color: #f49264;
     margin: 0;
     margin-bottom: 12px !important;
 }
@@ -109,7 +109,7 @@ body {
     font-size: 18px;
     line-height: 32px;
     text-align: center;
-    color: #4C4D72;
+    color: #72594c;
     margin: 0;
 }
 

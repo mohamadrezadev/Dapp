@@ -3,7 +3,8 @@ import ReactPaginate from "react-paginate";
 import moment from 'jalali-moment'
 import '../components/Frame'
 import "./table.css";
-
+import { Delete } from "./Delete";
+// import Delete from '../components/Delete.jsx';
 function Table({ students ,funcs}) {
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -82,7 +83,7 @@ function Table({ students ,funcs}) {
                  
                 </td>
                 <td>
-                  <button type="button" class="btn btn-danger">حذف</button>
+                    <Delete/>
                 </td>
                 <td>
                   <div>

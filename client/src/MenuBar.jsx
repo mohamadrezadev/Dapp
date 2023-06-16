@@ -1,6 +1,6 @@
 import { Navbar, Nav } from "react-bootstrap";
 import { ConnectWallet } from "@thirdweb-dev/react";
-import svg from "./assets/fonts/logo-Landin.svg";
+import svg from "./assets/images/10.png";
 import  "./assets/css/kir.css";
 import {useLocation} from 'react-router-dom'
 const MyNavbar = () => {
@@ -78,20 +78,7 @@ const MyNavbar = () => {
         </div>
       </section>
     </div>
-    // <Navbar bg="dark" className="navbar-dark" expand="lg">
-    //   <div className="container">
-    //     <Navbar.Brand href="#">نام سایت</Navbar.Brand>
-    //     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    //     <Navbar.Collapse id="basic-navbar-nav">
-    //       <Nav className="me-auto ">
-    //         <Nav.Link href="#">لینک ۱</Nav.Link>
-    //         <Nav.Link href="#">لینک ۲</Nav.Link>
-    //         <Nav.Link href="#">لینک ۳</Nav.Link>
-    //       </Nav>
-    //
-    //     </Navbar.Collapse>
-    //   </div>
-    // </Navbar>
+  
   );
 };
 

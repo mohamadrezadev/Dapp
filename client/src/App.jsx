@@ -25,9 +25,9 @@ function App() {
       <div > <MenuBar /></div>
      
       <div className="container mt-5">
-        {!address && (
-          <div> ولت متصل نیست</div>
-        ) }
+        {/* {!address && (
+          // <div> ولت متصل نیست</div>
+        ) } */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

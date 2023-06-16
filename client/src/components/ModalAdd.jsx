@@ -26,6 +26,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
     console.log(formattedDate); // logs the selected date in the desired format
     setYear(formattedDate)
   };
+  
   return (
     <div
       className="modal fade"
