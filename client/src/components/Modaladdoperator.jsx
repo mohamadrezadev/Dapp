@@ -40,7 +40,7 @@ function ModalAddOwner({ handelAddoperator, loading, funcs }) {
                 <div className="row g-5">
                   <form className="needs-validation was-validated" />
                   <div className="row g-3 text-end">
-                    <div className="col-12">
+                    <div className="col-12 text-end">
                       <label htmlFor="firstName" className="form-label">
                         آدرس
                       </label>
@@ -61,7 +61,6 @@ function ModalAddOwner({ handelAddoperator, loading, funcs }) {
                     </div>
                   </div>
 
-                  <hr className="my-4" />
                 </div>
               </div>
             </main>

@@ -24,6 +24,7 @@ function Dashboard() {
   const [students, setStudents] = useState(null);
   const [tokenurls, settokenurls] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingNft, setLoadingNft] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [degree, setDegree] = useState("");
@@ -115,13 +116,9 @@ function Dashboard() {
         console.log("evnets", evnets);
         if (evnets["code"] === "ACTION_CONFIRME") {
           NotificationManager.success("  اطلاعات با موفقیت ثبت گردید ");
-          setFirstName("")
-          setLastName("")
-          setYear("")
-          setDegree("")
-          setMajor("")
           setLoading(false);
-        
+          const res = await studentRegistryContract.getAallStudents();
+          setStudents(res);
         }
         // console.log(tax, "tax");
         // //اطلاعات تراکنش را به کاربر نشان دهد
@@ -142,7 +139,7 @@ function Dashboard() {
   };
 
   const handelCreatenft = async (student,index) => {
-   setLoading(true)
+    setLoadingNft(true)
     try {
       const metadata = generate_metadata(
         student.firstName,
@@ -168,8 +165,11 @@ function Dashboard() {
       const tokenURI = await nftContract.tokenURI(tokenId);
       console.log(parseInt(tokenId._hex, 16));
       console.log(tokenURI);
+      setLoading(false)
+
     } 
     catch (error) {
+      setLoading(false)
       console.log(error.code
         )
       if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
@@ -181,7 +181,6 @@ function Dashboard() {
       else if(error.reason==="execution reverted: Only the owner can call this function."){
         NotificationManager.error("!آدرس مورد نظر قادر به ایجاد مدرک نمی باشد ");
       }
-      
       
     }
   };
@@ -197,6 +196,8 @@ function Dashboard() {
        const response=await tax.wait();
        console.log(response)
        NotificationManager.success('کاربر  با ادرس جدیدافزوده شد')
+       
+
        
     } catch (error) {
       console.log(error)
@@ -250,7 +251,7 @@ function Dashboard() {
         </button>
         <button
               type="button"
-              className="btn btn-secondary d-flex  shadow "
+              className="btn btn-secondary d-flex align-items-center  shadow "
               data-bs-toggle="modal"
               data-bs-target="#exampleModal3"
             >
@@ -265,7 +266,7 @@ function Dashboard() {
           {students !== null ? (
             <Table students={students}
               
-              funcs={{handelCreatenft,setLoading}} />
+              funcs={{handelCreatenft,loadingNft}} />
           ) : (
             <div
               className="spinner-border text-light p-4 mx-auto my-3 "
@@ -276,12 +277,12 @@ function Dashboard() {
       </div>
      
 
-      <div className="container">
+      {/* <div className="container">
         <div className="row mt-4">
           <h3>مدارک صادر شده اخیر </h3>
           <Nftlast />
         </div>
-      </div>
+      </div> */}
 
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
