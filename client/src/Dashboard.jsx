@@ -5,7 +5,7 @@ import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from "../../server/contrcatAddress.json";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
-import { NFTs } from "./components/RenderNft";
+import { NFTs, Nftlast } from "./components/RenderNft";
 import { NotificationManager } from "react-notifications";
 import "./dashboard.css"
 import {
@@ -223,6 +223,9 @@ function Dashboard() {
     const receipt2 = tx2.wait();
     console.log(receipt2);
   };
+  const handelDeleteStudent=(index)=>{
+    
+  };
   return (
     <div>
       <div style={{direction:"ltr"}} className="d-flex gap-2 align-content-center my-2">
@@ -276,7 +279,7 @@ function Dashboard() {
       <div className="container">
         <div className="row mt-4">
           <h3>مدارک صادر شده اخیر </h3>
-          <NFTs />
+          <Nftlast />
         </div>
       </div>
 
