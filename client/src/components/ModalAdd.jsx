@@ -29,7 +29,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
   return (
     <div
       className="modal fade"
-      id="exampleModal"
+      id="modaladd"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       style={{direction:"ltr"}}

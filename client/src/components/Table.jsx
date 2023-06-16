@@ -52,7 +52,10 @@ function Table({ students ,funcs}) {
             <th scope="col">رشته تحصیلی </th>
             <th scope="col">مقطع تحصیلی</th>
             <th scope="col">سال فارغ تحصیلی </th>
-            <th scope="col"> </th>
+            <th scope="col"></th>
+            <th scope="col"> عملیات </th>
+            <th scope="col"></th>
+            
           </tr>
         </thead>
         <tbody>
@@ -72,16 +75,31 @@ function Table({ students ,funcs}) {
                 <th scope="col">{student.education.year}</th>
                 <td>
 
-                {!student.isissued ? (
-                  <button className="btn btn-success" onClick={() => handelCreatenft(students[index],index)}>
-                    صدور گواهینامه
-                  </button>
-                ) : (
-                  <button className="btn btn-primery" >
-                    صادر شده
-                  </button>
-                )}
+                <button type="button" class="btn btn-primary"> ویرایش</button>
+               
+
+
+                 
                 </td>
+                <td>
+                  <button type="button" class="btn btn-danger">حذف</button>
+                </td>
+                <td>
+                  <div>
+                  {!student.isissued ? (                
+                      <button className="btn btn-success" onClick={(e) => handelCreatenft(students[index],index)} >
+                         
+                        صدور گواهینامه
+                      </button>
+                    ) : (
+                      <button type="button"  className="btn btn-secondary"disabled={true} >
+                        صادر شده
+                      </button>
+                    )}
+                  </div>
+               
+                </td>
+                
                 
               </tr>
             ))}
