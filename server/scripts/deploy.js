@@ -17,7 +17,7 @@ const main = async() => {
   console.log("Greetercontract address  is :", address);
   //#endregion
   
-  const owners=["0xc1A4F729C7b4205bF016b59E79ae16bd5eBE3377"]
+  const owners=["0xbd1Cfa5B535AFd040E2443080CFF9fC9B557AF57","0x934617C0726Ef52991D908D0775a0A200dDc84ba"]
 
   //#region NFT
   const NFT=await ethers.getContractFactory("CERTNFT");
