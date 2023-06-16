@@ -142,21 +142,23 @@ function Dashboard() {
   };
 
   const handelCreatenft = async (student,index) => {
-    const metadata = generate_metadata(
-      student.firstName,
-      student.lastName,
-      student.education.degree,
-      student.education.major,
-      parseInt(student.education.year)
-    );
-    const response = await pinFileToIPFS(
-      metadata,
-      pinata_api_key1,
-      pinata_secret_api_key1,
-      student.firstName
-    );
-    const IpfsHash = response.data.IpfsHash;
+   setLoading(true)
     try {
+      const metadata = generate_metadata(
+        student.firstName,
+        student.lastName,
+        student.education.degree,
+        student.education.major,
+        parseInt(student.education.year)
+      );
+      const response = await pinFileToIPFS(
+        metadata,
+        pinata_api_key1,
+        pinata_secret_api_key1,
+        student.firstName
+      );
+      const IpfsHash = response.data.IpfsHash;
+
       const tx = await nftContract.mint(IpfsHash);
       console.log(tx);
       const receipt = await tx.wait();
@@ -166,14 +168,21 @@ function Dashboard() {
       const tokenURI = await nftContract.tokenURI(tokenId);
       console.log(parseInt(tokenId._hex, 16));
       console.log(tokenURI);
-    } catch (error) {
-      
-      if(error.reason="execution reverted: Only the owner can call this function."){
+    } 
+    catch (error) {
+      console.log(error.code
+        )
+      if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+        NotificationManager.error("موجودی ناکافی!!");
+      }
+      else if (error.code === "ACTION_REJECTED") {
+        NotificationManager.error("!تراکنش پذیرفته نشد");
+      }
+      else if(error.reason==="execution reverted: Only the owner can call this function."){
         NotificationManager.error("!آدرس مورد نظر قادر به ایجاد مدرک نمی باشد ");
       }
-      else{
-        NotificationManager.error( `Erorr${error.reason}`);
-      }
+      
+      
     }
   };
 
@@ -219,30 +228,31 @@ function Dashboard() {
       <div style={{direction:"ltr"}} className="d-flex gap-2 align-content-center my-2">
         <button
           type="button"
-          className="btn border d-flex align-items-center  shadow"
+          className="btn btn-warning border d-flex align-items-center  shadow"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal2"
         >
           انتقال
-                  </button>
+                  
+        </button>
 
         <button
           type="button"
           className="btn btn-primary border d-flex align-items-center shadow "
           data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
+          data-bs-target="#modaladd"
         >
           <i class="fa fa-plus pe-1"></i>
-                  افزودن 
+          افرودن دانشجو
         </button>
         <button
               type="button"
-              className="btn btn-primary d-flex  shadow "
+              className="btn btn-secondary d-flex  shadow "
               data-bs-toggle="modal"
               data-bs-target="#exampleModal3"
             >
               <i class="fa fa-plus pe-1"></i>
-                افزدون آدرس  
+            افزودن تایید کننده 
             </button>
           
         </div>
@@ -251,7 +261,8 @@ function Dashboard() {
         <div className="row">
           {students !== null ? (
             <Table students={students}
-              funcs={{handelCreatenft}} />
+              
+              funcs={{handelCreatenft,setLoading}} />
           ) : (
             <div
               className="spinner-border text-light p-4 mx-auto my-3 "
@@ -260,15 +271,7 @@ function Dashboard() {
           )}
         </div>
       </div>
-      {/* <div className="container">
-        <div className="row mt-2">
-          <Table students={students}
-          funcs={handelCreatenft}
-          key={students}/>
-        </div>
-
-      </div> */}
-      
+     
 
       <div className="container">
         <div className="row mt-4">
