@@ -13,6 +13,8 @@ contract StudentRegistry {
         string lastName;
         Education education;
         bool isissued;
+        string tokenurl;
+        int tokenid;
     }
 
     mapping(address => Student) public students;
@@ -31,7 +33,7 @@ contract StudentRegistry {
         require(bytes(_year).length > 0, "yaer cannot be empty");
 
         Education memory education = Education(_degree, _major, _year);
-        Student memory student = Student(_firstName, _lastName, education ,false);
+        Student memory student = Student(_firstName, _lastName, education ,false," ",-1);
         Students.push(student);
         emit StudentCreated(Students.length-1, _firstName, _lastName, _degree, _major, _year,"ACTION_CONFIRME");
         return Students.length - 1;
@@ -39,9 +41,11 @@ contract StudentRegistry {
     function getAallStudents() public view returns (Student[] memory) {
         return Students;
     }
-    function isissuedcertificate(uint studentId, bool isissued) public {
+    function isissuedcertificate(uint studentId, bool isissued,string memory _tokenurl,int _tokenid) public {
         Student storage student = Students[studentId];
         student.isissued = isissued;
+        student.tokenurl=_tokenurl;
+        student.tokenid=_tokenid;
         emit CertificateIssued(studentId,"ACTION_CONFIRME");
     }
 
@@ -59,10 +63,20 @@ contract StudentRegistry {
         student.education = education;
         emit StudentUpdated(_studentId, _firstName, _lastName, _degree, _major, _year,"ACTION_CONFIRME");
     }
+    // function deleteStudent(uint _studentId) public {
+    //     delete Students[_studentId];
+    //     emit StudentDeleted("ACTION_CONFIRME");
+    // }
     function deleteStudent(uint _studentId) public {
-        delete Students[_studentId];
-        emit StudentDeleted("ACTION_CONFIRME");
-    }
+        require(_studentId < Students.length, "Student ID out of range");
+
+        for (uint i = _studentId; i < Students.length - 1; i++) {
+            Students[i] = Students[i+1];
+        }
+        Students.pop();
+
+    emit StudentDeleted("ACTION_CONFIRME");
+}
    
 
 }

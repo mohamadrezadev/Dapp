@@ -86,8 +86,8 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\NFT.sol": {
-      "lastModificationDate": 1686997622113,
-      "contentHash": "e0bc1c155a95098db572331a33bccd37",
+      "lastModificationDate": 1687008303793,
+      "contentHash": "be0b7270ceed3db6eef40aa8afe76b9f",
       "sourceName": "contracts/NFT.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -262,10 +262,10 @@
         "ERC721"
       ]
     },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1685731178887,
-      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
-      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
+      "lastModificationDate": 1685731178801,
+      "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
+      "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -297,10 +297,10 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.1"
       ],
       "artifacts": [
-        "Context"
+        "Address"
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Strings.sol": {
@@ -346,10 +346,10 @@
         "Strings"
       ]
     },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
-      "lastModificationDate": 1685731178801,
-      "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
-      "sourceName": "@openzeppelin/contracts/utils/Address.sol",
+    "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1685731178887,
+      "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
         "version": "0.8.17",
         "settings": {
@@ -381,10 +381,10 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.1"
+        "^0.8.0"
       ],
       "artifacts": [
-        "Address"
+        "Context"
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
@@ -639,130 +639,9 @@
         "IERC165"
       ]
     },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\token.sol": {
-      "lastModificationDate": 1684278489497,
-      "contentHash": "9b64fec559988477a7f5bd0d2a2f5b75",
-      "sourceName": "contracts/token.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 200,
-            "details": {
-              "yulDetails": {
-                "optimizerSteps": "u"
-              }
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol"
-      ],
-      "versionPragmas": [
-        ">=0.8.4"
-      ],
-      "artifacts": [
-        "CERT"
-      ]
-    },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\NFT1155.sol": {
-      "lastModificationDate": 1686430371369,
-      "contentHash": "d41d8cd98f00b204e9800998ecf8427e",
-      "sourceName": "contracts/NFT1155.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 200,
-            "details": {
-              "yulDetails": {
-                "optimizerSteps": "u"
-              }
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [],
-      "artifacts": []
-    },
-    "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\Studentmultisig.sol": {
-      "lastModificationDate": 1685305706663,
-      "contentHash": "55d97766eb70df0339c1719a7ab90314",
-      "sourceName": "contracts/Studentmultisig.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "viaIR": true,
-          "optimizer": {
-            "enabled": true,
-            "runs": 200,
-            "details": {
-              "yulDetails": {
-                "optimizerSteps": "u"
-              }
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "StudentRegistry2"
-      ]
-    },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\StudentRegistry.sol": {
-      "lastModificationDate": 1686997622113,
-      "contentHash": "332f90ea283045832d7b41bf4c64bb5a",
+      "lastModificationDate": 1687020614642,
+      "contentHash": "cf521c5043d7f2991a1a70c4488cbebb",
       "sourceName": "contracts/StudentRegistry.sol",
       "solcConfig": {
         "version": "0.8.17",

@@ -7,10 +7,13 @@ describe("CERTNFT", function () {
     let owner; // Address of the contract owner
     let ownerAddress; // Address of the contract owner as a string
     let operator;
+    
+
     beforeEach(async () => {
         // Get the contract owner's address
         [owner, operator] = await ethers.getSigners();
         ownerAddress = owner.address;
+      
         
         owners=["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",ownerAddress]
         // Deploy the contract
@@ -20,17 +23,10 @@ describe("CERTNFT", function () {
     });
 
     it("should mint an NFT", async function () {
-        // Mint a new NFT with a given URI
         const tx = await nftContract.mint("QmcJH2iYfQ1f9RJjAbf5X5aF4nJSC2GJqRiNKAUx3rSZf6");
         const receipt = await tx.wait();
-
-        // Get the ID of the newly minted NFT
         const tokenId = receipt.events[1].args[1];
-
-        // Get the token URI of the newly minted NFT
         const tokenURI = await nftContract.tokenURI(tokenId);
-
-        // Check that the token URI is correct
         expect(tokenURI).to.equal("https://ipfs.io/ipfs/QmcJH2iYfQ1f9RJjAbf5X5aF4nJSC2GJqRiNKAUx3rSZf6");
     });
 
@@ -101,5 +97,12 @@ describe("CERTNFT", function () {
         const owners = await nftContract.owners(0);
         expect(owners)
       });
-    
-});
+      it("should burn nft", async function() {
+        const response= await nftContract.mint("Qm1");
+        const [tokenIds, tokenURIs] = await nftContract.getAllTokenIdsAndUrls();
+        
+        const tokenid= parseInt(tokenIds[0], 16)
+        await nftContract.burn(tokenid)
+        
+      });
+    });

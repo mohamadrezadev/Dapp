@@ -45,7 +45,7 @@ export const NFTs = () => {
    
     <div>
       <div className="container">
-          <div className="row">
+          {/* <div className="row">
               {nfts.map((nft, index) => (
                 <div className="col-sm-4 " key={index}>
                     <Frame
@@ -58,9 +58,28 @@ export const NFTs = () => {
                   </div>
                   ))
                 }
-          </div>
+          </div> */}
+          <div className="row">
+          {nfts && nfts.length > 0 ? (
+            nfts.map((nft, index) => (
+              <div className="col-sm-4" key={index}>
+                <Frame
+                  name={nft.metadata.name}
+                  description={nft.metadata.description}
+                  image={nft.metadata.image}
+                  address={nft.contract.address}
+                  symbol={nft.contractMetadata.symbol}
+                />
+              </div>
+            ))
+          ) : (
+            <div class="alert alert-dark" role="alert">
+              در حال حاضر هیچ مدرکی صادر نشده است 
+            </div>
+         
+          )}
       </div>
-     
+     </div>
     </div>
   );
 };

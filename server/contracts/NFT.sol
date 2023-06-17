@@ -10,6 +10,7 @@ contract CERTNFT is ERC721URIStorage {
 
     event mintnft(address owner, uint tokenid, string url, string code);
     event Owner(string code);
+    event burnnft(string code);
     constructor( address[] memory _owners, string memory _name, string memory _symbol) ERC721(_name, _symbol) {
         owners = _owners;
     }
@@ -31,8 +32,14 @@ contract CERTNFT is ERC721URIStorage {
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, url);
+
         emit mintnft(msg.sender, newItemId, url, "ACTION_CONFIRMED");
         return newItemId;
+    }
+    function burn(uint256 tokenId) public onlyOwner {
+        require(_exists(tokenId), "Token does not exist");
+        _burn(tokenId);
+        emit burnnft("ACTION_CONFIRMED");
     }
       function addOperator(address _operator) public onlyOwner {
         bool isOwner = false;

@@ -22,11 +22,12 @@ const Frame = (props)=> {
                             <p style={{fontSize:"14px"}}>
                               {props.description}
                             </p>
-                            <p className="text-end" style={{fontSize:"14px"}}>آدرس:</p>
+                          </div>
+                          <div className="card-">
+                          <p className="text-end" style={{fontSize:"14px"}}>آدرس:</p>
                             <p className="mt-1" style={{fontSize:"12px"}}>{"{"} {props.address} {"}"}</p>
                             <a href={props.link}></a>
-                           
-                          </div>                
+                            </div>               
                 </div>
         </div>
             // <div className="frame shadow">

@@ -26,9 +26,14 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [loadingNft, setLoadingNft] = useState(false);
   const [firstName, setFirstName] = useState("");
+  const [newfirstName, setnewFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [newlastName, setnewLastName] = useState("");
   const [degree, setDegree] = useState("");
+  const [newdegree, setnewDegree] = useState("");
   const [major, setMajor] = useState("");
+  const [newmajor, setnewMajor] = useState("");
+  const [newyear, setnewYear] = useState("");
   const [year, setYear] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -44,6 +49,23 @@ function Dashboard() {
     contrcatAddress.NFTContract,
     NFTABI.abi
   );
+  
+ 
+  useEffect( () => {
+    try {
+      if (studentRegistryContract != null) {
+        handleReadStudent();
+        getalltokenurl();
+      }
+  
+      if (data) {
+        setContract(data.contractWrapper.writeContract);
+        setContract2(contract.contractWrapper.writeContract);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [data, contract, studentRegistryContract]);
   function existestudent(list, _firstName, _lastName) {
     for (const element of list) {
       if (element.firstName === _firstName && element.lastName === _lastName) {
@@ -55,19 +77,6 @@ function Dashboard() {
     return false;
  
   }
- 
-  useEffect(() => {
-    if (studentRegistryContract != null) {
-      handleReadStudent();
-      getalltokenurl();
-    }
-
-    if (data) {
-      setContract(data.contractWrapper.writeContract);
-      setContract2(contract.contractWrapper.writeContract);
-    }
-  }, [data, contract, studentRegistryContract]);
-
   const handleCreateStudent = async (
     _firstName,
     _lastName,
@@ -137,7 +146,7 @@ function Dashboard() {
       }
     }
   };
-
+ 
   const handelCreatenft = async (student,index) => {
     setLoadingNft(true)
     try {
@@ -155,14 +164,16 @@ function Dashboard() {
         student.firstName
       );
       const IpfsHash = response.data.IpfsHash;
-
       const tx = await nftContract.mint(IpfsHash);
       const receipt = await tx.wait();
-      let _isissued= await handelisissuedcertificateStudent(index,true);
       const tokenId = receipt.events[1].args[1];
-      // console.log(parseInt(tokenId._hex, 16));
+      console.log("tokenId"+parseInt(tokenId._hex, 16));
       const tokenURI = await nftContract.tokenURI(tokenId);
-      // console.log(tokenURI);
+      console.log(tokenURI)
+      
+      const trx= await handelisissuedcertificateStudent(index,true,tokenURI,tokenId);
+    
+      console.log(responseissued)
       NotificationManager.success( `اطلاعات تراکنش ${receipt.events[1]} `);
 
       setLoading(false)
@@ -188,6 +199,7 @@ function Dashboard() {
   };
 
   const handleReadStudent = async () => {
+    
     const res = await studentRegistryContract.getAallStudents();
     setStudents(res);
     console.log("student: ", res);
@@ -196,11 +208,7 @@ function Dashboard() {
     try {
        const tax= await nftContract.addOperator(address);
        const response=await tax.wait();
-       console.log(response)
        NotificationManager.success('کاربر  با ادرس جدیدافزوده شد')
-       
-
-       
     } catch (error) {
       
       if(error.reason==="execution reverted: Only the owner can call this function."){
@@ -217,12 +225,14 @@ function Dashboard() {
       }
     }
   }
-  const handelisissuedcertificateStudent=async (studentid,isissued)=>{
+  const handelisissuedcertificateStudent=async (studentid,isissued,tokenURI,tokenId)=>{
     try {
-      const tax = await studentRegistryContract.isissuedcertificate(studentid,isissued);
+      const tax = await studentRegistryContract.isissuedcertificate(studentid,isissued,tokenURI,tokenId);
       const response=tax.wait();
+      console.log(response)
       return true
     } catch (error) {
+      console.log(error)
       return false
     }
   }
@@ -237,11 +247,60 @@ function Dashboard() {
     const receipt2 = tx2.wait();
     console.log(receipt2);
   };
-  const handelDeleteStudent=(index)=>{
+  const handelDeleteStudent=async(index)=>{
+    try {
+      const tax= await studentRegistryContract.deleteStudent(index);
+      const response=tax.wait();
+      console.log(response);
+      NotificationManager.success("اطلاعات با موفقیت حذف گردید ")
+      return true;
+    } catch (error) {
+      
+      if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+        NotificationManager.error("موجودی ناکافی!!");
+      }
+      else if (error.code === "ACTION_REJECTED") {
+        NotificationManager.error("!تراکنش پذیرفته نشد");
+      }
+      return false;
+    }
     
   };
+  const handelUpdatestudent=async(studentid, newfirstName, newlastName, newdegree, newmajor, newyear)=>{
+    try {
+      if (
+        newfirstName.trim() === "" ||
+        newlastName.trim() === "" ||
+        newdegree.trim() === "" ||
+        newmajor.trim() === "" ||
+        newyear.trim() === ""
+      ) {
+        NotificationManager.error("لطفا تمامی فیلدها را پر کنید");
+        return false;
+      }
+       console.log("studenupdate"+studentid, newfirstName, newlastName, newdegree, newmajor, newyear)
+       await studentRegistryContract.updateStudent(studentid, newfirstName, newlastName, newdegree, newmajor, newyear)
+       NotificationManager.success("اطلاعات ویرایش شد ")
+       return true;
+      } catch (error) {
+        if(error.reason==="execution reverted: Only the owner can call this function."){
+          NotificationManager.error(" شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد ");
+        }
+        else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+          NotificationManager.error("موجودی ناکافی!!");
+        }
+        else if (error.code === "ACTION_REJECTED") {
+          NotificationManager.error("!تراکنش پذیرفته نشد");
+        }
+        else{
+          NotificationManager.error( `Erorr ${error}`)
+        }
+        return false;
+    }
+  }
   return (
     <div>
+      
       <div style={{direction:"ltr"}} className="d-flex gap-2 align-content-center my-2">
         <button
           type="button"
@@ -278,8 +337,23 @@ function Dashboard() {
         <div className="row">
           {students !== null ? (
             <Table students={students}
-              
-              funcs={{handelCreatenft,loadingNft}} />
+              funcs={
+                {handelCreatenft,
+                  loadingNft,
+                  handelDeleteStudent,
+                  handelUpdatestudent,
+                  setnewFirstName,
+                  newfirstName,
+                  setnewLastName,
+                  newlastName,
+                  setnewDegree,
+                  newdegree,
+                  setnewMajor,
+                  newmajor,
+                  setnewYear,
+                  newyear,
+                  setLoading
+                }} />
           ) : (
             <div
               className="spinner-border text-light p-4 mx-auto my-3 "
@@ -287,15 +361,7 @@ function Dashboard() {
             />
           )}
         </div>
-      </div>
-     
-
-      {/* <div className="container">
-        <div className="row mt-4">
-          <h3>مدارک صادر شده اخیر </h3>
-          <Nftlast />
         </div>
-      </div> */}
 
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
@@ -324,6 +390,15 @@ function Dashboard() {
      loading={loading}
      funcs={{setaddress,address}}
     />
+    <div className="container">
+      <div className="row">
+        <div className="container mt-6">
+          <br />
+                  <h3>مدارک صادر شده اخیر</h3>
+        </div>
+          <Nftlast/>
+      </div>
+    </div>
     </div>
   );
 }

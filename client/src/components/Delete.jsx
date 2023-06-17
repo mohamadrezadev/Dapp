@@ -1,49 +1,49 @@
 import Swal from 'sweetalert2';
 
-export function Delete(handelDeleteStudent, funcs) {
-  const {
-     setstudentid,
-     studentid
-  }=funcs
-  const handleDelete = () => {
+export function Delete({ studentid, funcs }) {
+  const { handelDeleteStudent } = funcs;
+
+  const handleDelete = async () => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
+        confirmButton: 'btn btn-success  mr-2',
+        cancelButton: 'btn btn-danger  mr-2'
       },
       buttonsStyling: false
     });
 
-    swalWithBootstrapButtons.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+    const result = await swalWithBootstrapButtons.fire({
+      title: 'آیا از حذف مطمعن هستید ؟',
+      // text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, cancel!',
+      confirmButtonText: 'حذف ',
+      cancelButtonText: 'بستن',
       reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
+    });
+
+    if (result.isConfirmed) {
+      const success = await handelDeleteStudent(studentid);
+      if (success) {
         swalWithBootstrapButtons.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'اطلاعات با موفقیت حذف گردید ',
           'success'
         );
-        // TODO: handle file deletion
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      } else {
         swalWithBootstrapButtons.fire(
-          'Cancelled',
-          'Your imaginary file is safe :)',
+          'Error',
+          'خطایی پیش امده است ',
           'error'
         );
       }
-    });
+    
+    }
   };
 
   return (
-          <button type="button" class="btn btn-danger" onClick={()=>{handelDeleteStudent(studentid)}}>
-          حذف
-          </button>
-
+    <button type="button" className="btn btn-danger" onClick={handleDelete}>
+      حذف
+    </button>
   );
 }
