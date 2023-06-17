@@ -6,7 +6,7 @@ import contrcatAddress from "../../server/contrcatAddress.json";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import { NFTs, Nftlast } from "./components/RenderNft";
-import { NotificationManager } from "react-notifications";
+import { NotificationManager, __esModule } from "react-notifications";
 import "./dashboard.css"
 import {
   generate_metadata,
@@ -157,32 +157,34 @@ function Dashboard() {
       const IpfsHash = response.data.IpfsHash;
 
       const tx = await nftContract.mint(IpfsHash);
-      console.log(tx);
       const receipt = await tx.wait();
-      console.log("nft create "+receipt)
-      await handelisissuedcertificateStudent(index,true);
+      let _isissued= await handelisissuedcertificateStudent(index,true);
       const tokenId = receipt.events[1].args[1];
+      // console.log(parseInt(tokenId._hex, 16));
       const tokenURI = await nftContract.tokenURI(tokenId);
-      console.log(parseInt(tokenId._hex, 16));
-      console.log(tokenURI);
+      // console.log(tokenURI);
+      NotificationManager.success( `اطلاعات تراکنش ${receipt.events[1]} `);
+
       setLoading(false)
 
     } 
     catch (error) {
       setLoading(false)
-      console.log(error.code
-        )
-      if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+      console.log("Erorr nft:"+ error )
+
+      if(error.reason==="execution reverted: Only the owner can call this function."){
+        NotificationManager.error("!آدرس مورد نظر قادر به ایجاد مدرک نمی باشد ");
+      }
+      else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
         NotificationManager.error("موجودی ناکافی!!");
       }
       else if (error.code === "ACTION_REJECTED") {
         NotificationManager.error("!تراکنش پذیرفته نشد");
       }
-      else if(error.reason==="execution reverted: Only the owner can call this function."){
-        NotificationManager.error("!آدرس مورد نظر قادر به ایجاد مدرک نمی باشد ");
-      }
+      
       
     }
+    setLoadingNft(false)
   };
 
   const handleReadStudent = async () => {
@@ -200,17 +202,28 @@ function Dashboard() {
 
        
     } catch (error) {
-      console.log(error)
-      NotificationManager.error( `Erorr ${error}`)
+      
+      if(error.reason==="execution reverted: Only the owner can call this function."){
+        NotificationManager.error(" شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد ");
+      }
+      else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+        NotificationManager.error("موجودی ناکافی!!");
+      }
+      else if (error.code === "ACTION_REJECTED") {
+        NotificationManager.error("!تراکنش پذیرفته نشد");
+      }
+      else{
+        NotificationManager.error( `Erorr ${error}`)
+      }
     }
   }
   const handelisissuedcertificateStudent=async (studentid,isissued)=>{
     try {
       const tax = await studentRegistryContract.isissuedcertificate(studentid,isissued);
       const response=tax.wait();
-      console.log(response)
+      return true
     } catch (error) {
-      console.log(response)
+      return false
     }
   }
   const getalltokenurl = async function () {
@@ -253,7 +266,7 @@ function Dashboard() {
               type="button"
               className="btn btn-secondary d-flex align-items-center  shadow "
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal3"
+              data-bs-target="#modaladdoperator"
             >
               <i class="fa fa-plus pe-1"></i>
             افزودن تایید کننده 

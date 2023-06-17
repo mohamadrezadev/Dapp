@@ -9,13 +9,10 @@ export const NFTs = () => {
   const [nfts, setNfts] = useState([]);
 
   useEffect(() => {
-    // Contract address
+   
     const address = contrcatAddress.NFTContract
-    // Metadata inclusion flag
     const withMetadata = 'true';
-    // Alchemy API key
     const apiKey = 'ZinXrRb-UnKcg0y955wyVF-c1FKtcixo';
-    // Alchemy URL
     const baseURL = `https://polygon-mumbai.g.alchemy.com/nft/v2/${apiKey}/getNFTsForCollection`;
     const url = `${baseURL}?contractAddress=${address}&withMetadata=${withMetadata}`;
     const config = {
@@ -23,11 +20,22 @@ export const NFTs = () => {
         url: url,
     };
 
-    // Make the request and update state with NFT data:
+    
     axios(config)
       .then(response => {
-        const nfts = response.data.nfts;
+        const nfts = response.data.nfts.map(nft => {
+         
+          const tokenId = parseInt(nft.id.tokenId, 16);
+          console.log(nft)
+          const assetURL = `https://testnets.opensea.io/assets/${contrcatAddress.NFTContract}/${tokenId}`;
+          console.log(assetURL)
+          return { ...nft, assetURL: assetURL };
+        });
         setNfts(nfts);
+        // const nfts = response.data.nfts;
+        // console.log(nfts)
+        // console.log("utl"+ url)
+        // setNfts(nfts);
         
       })
       .catch(error => console.log('error', error));
@@ -43,7 +51,9 @@ export const NFTs = () => {
                     <Frame
                           name={nft.metadata.name}
                           description={nft.metadata.description}
-                          image={nft.metadata.image}   
+                          image={nft.metadata.image}  
+                          address={nft.contract.address} 
+                          symbol={nft.contractMetadata.symbol} 
                       />
                   </div>
                   ))
@@ -97,7 +107,7 @@ export const Nftlast=()=>
                           description={nft.metadata.description}
                           image={nft.metadata.image} 
                           address={nft.contract.address} 
-                          
+                          symbol={nft.contractMetadata.symbol} 
                       />
                   </div>
                   ))

@@ -16,7 +16,7 @@ function ModalAddOwner({ handelAddoperator, loading, funcs }) {
   return (
     <div
       className="modal fade"
-      id="exampleModal3"
+      id="modaladdoperator"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       style={{direction:"ltr"}}

@@ -86,7 +86,7 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\NFT.sol": {
-      "lastModificationDate": 1686915686904,
+      "lastModificationDate": 1686997622113,
       "contentHash": "e0bc1c155a95098db572331a33bccd37",
       "sourceName": "contracts/NFT.sol",
       "solcConfig": {
@@ -761,7 +761,7 @@
       ]
     },
     "D:\\projectDapp\\task_management_dapp-main\\server\\contracts\\StudentRegistry.sol": {
-      "lastModificationDate": 1686912932448,
+      "lastModificationDate": 1686997622113,
       "contentHash": "332f90ea283045832d7b41bf4c64bb5a",
       "sourceName": "contracts/StudentRegistry.sol",
       "solcConfig": {
