@@ -1,8 +1,7 @@
 import React from "react";
-import Pic from "./NFT/Pic";
-import Text from "./NFT/Text";
+
 import { MediaRenderer } from "@thirdweb-dev/react";
-// import Profile from "./profile/Profile";
+
 
 const Frame = (props)=> {
     return (
@@ -16,7 +15,7 @@ const Frame = (props)=> {
                           </div>   
                           <div class="card-title mt-3">
                             <h3 className="">
-                              {props.name}
+                              { ` ${props.name}(${props.symbol})`}
                             </h3>
                           </div>
                           <div className="card-details" dir="rtl">

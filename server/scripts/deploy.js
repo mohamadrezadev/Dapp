@@ -16,12 +16,11 @@ const main = async() => {
   const address = greeter.address;
   console.log("Greetercontract address  is :", address);
   //#endregion
-  
-  const owners=["0xbd1Cfa5B535AFd040E2443080CFF9fC9B557AF57","0x934617C0726Ef52991D908D0775a0A200dDc84ba"]
-
+ 
   //#region NFT
+  const owners=["0x2Bcf41dc9415e81166D63494322faa2225831aAF"]
   const NFT=await ethers.getContractFactory("CERTNFT");
-  const nft=await NFT.deploy(owners,"Certificate of Bozorgmehr Qaenat University","CBUQ");
+  const nft=await NFT.deploy(owners,"Certificate of Bozorgmehr Qaenat University","CBQ");
   console.log("NFT Contract  address  is  :"+nft.address)
   //#endregion
 

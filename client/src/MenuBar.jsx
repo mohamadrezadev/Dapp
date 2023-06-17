@@ -5,7 +5,7 @@ import  "./assets/css/file.css";
 import {NavLink, useLocation} from 'react-router-dom'
 const MyNavbar = () => {
   const loc =useLocation()
-  console.log(loc);
+  
   return (
     <div id="header">
       <section className="nav headerone__section right  ">
@@ -70,7 +70,7 @@ const MyNavbar = () => {
                       </NavLink>
                     </li>
                     <li className="nav-item ">
-
+                       
                         <ConnectWallet
                           className="btn "
                           auth={{
@@ -79,6 +79,7 @@ const MyNavbar = () => {
                           btnTitle="اتصال کیف پول"
                           modalTitle="اتصال کیف پول"
                           theme="light"
+                         
                         />{" "}
                     </li>
                   </ul>
