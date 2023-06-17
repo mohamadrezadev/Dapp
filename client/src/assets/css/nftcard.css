@@ -1,25 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;600&display=swap');
 
-:root {
-    --soft-blue: hsl(215, 51%, 70%);
-    --cyan: hsl(178, 100%, 50%);
-    --main-bg-blue: hsl(217, 54%, 11%);
-    --card-bg-blue: hsl(216, 50%, 16%);
-    --line-blue: hsl(215, 32%, 27%);
-    --white: hsl(0, 0%, 100%);
-}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    background: var(--white);
-}
 
 .card-wrapper {
     width: 100%;
@@ -31,7 +11,7 @@ body {
 
 .card {
     width: 327px;
-    height: 543px;
+    height: 330px;
     background: var(--card-bg-blue);
     padding: 24px;
     margin: auto;
@@ -39,15 +19,16 @@ body {
 }
 
 .card-img {
-    margin-bottom: 24px;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 278px;
-    height: 278px;
+    width: 100px;
+    height: 100px;
 }
 
+.card-img img {
+    width: 100px!important; 
+    height: 100px!important;
+   
+}
 .card-img:hover {
     cursor: pointer;
 }
@@ -60,23 +41,26 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    
 }
 
 .card-img-overlay {
     position: absolute;
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    background-color: hsla(178, 100%, 50%, 0.5);
+    background-color: hsla(0, 0%, 51%, 0.5);
     border-radius: 8px;
 }
-
+.card-img-overlay img{
+    width: 50px !important;
+    height: 50px !important;
+}
 .card-title {
     margin-bottom: 12px;
-    color: var(--white);
+    color: #666;
+    opacity: 0.5;
     height: 28px;
 }
 

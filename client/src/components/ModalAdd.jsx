@@ -53,14 +53,14 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
               <div className="col-md-7 col-lg-8 mx-auto">
                 <div className="row g-5">
                   <form className="needs-validation was-validated" />
-                  <div className="row g-3 text-end">
+                  <div className="row text-end g-1">
                     <div className="col-12">
                       <label htmlFor="firstName" className="form-label">
                         نام
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control text-end"
                         id="firstName"
                         placeholder=""
                         required=""
@@ -79,7 +79,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control text-end"
                         id="lastName"
                         placeholder=""
                         required=""
@@ -95,7 +95,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                     <div className="col-12">
                       <label htmlFor="year" className="form-label">
                         تاریخ
-                        <span className="text-body-secondary"></span>
+                        <span className="text-body-secondary " style={{fontSize:"13px",paddingTop:"5px"}} >  {date.format('jYYYY/jMM/jDD')}</span>
                       </label>
             
                         <DatePicker
@@ -105,7 +105,6 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         className="form-control"
                         onChange={handleDateChange}
                         id="datePicker"
-                        preSelected={date.format('jYYYY/jMM/jDD')}
                       />
                     </div>
                     <div className="col-12">
@@ -113,7 +112,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         رشته
                       </label>
                       <select
-                        className="form-select"
+                        className="form-select text-end"
                         id="major"
                         required=""
                         onChange={(e) => {
@@ -135,7 +134,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                         مقطع
                       </label>
                       <select
-                        className="form-select"
+                        className="form-select text-end"
                         id="degree"
                         required=""
                         onChange={(e) => {
@@ -153,7 +152,7 @@ function ModalAdd({ handleCreateStudent, loading, funcs }) {
                     </div>
                   </div>
 
-                  <hr className="my-4" />
+              
                 </div>
               </div>
             </main>

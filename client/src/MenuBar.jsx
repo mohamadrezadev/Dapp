@@ -1,8 +1,8 @@
 import { Navbar, Nav } from "react-bootstrap";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import svg from "./assets/images/10.png";
-import  "./assets/css/kir.css";
-import {useLocation} from 'react-router-dom'
+import  "./assets/css/file.css";
+import {NavLink, useLocation} from 'react-router-dom'
 const MyNavbar = () => {
   const loc =useLocation()
   console.log(loc);
@@ -28,16 +28,17 @@ const MyNavbar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbar">
                   <ul className="navbar-nav nav-right align-items-center">
-                   {loc.pathname ==="/" &&
+                   {loc.pathname !=="/dashboard" &&  
                     <>
                      <li className="nav-item active">
-                      <a
+                     <NavLink
+                      to="/"
                         className="nav-link"
                         href="#"
                         style={{ color: "#000" }}
                       >
                         صفحه اصلی
-                      </a>
+                      </NavLink>
                     </li>
                     <li className="nav-item active">
                       <a
@@ -58,6 +59,16 @@ const MyNavbar = () => {
                       </a>
                     </li></>
                    }
+                    <li className="nav-item active">
+                      <NavLink
+                      to="/nfts"
+                        className="nav-link"
+                        href="#"
+                        style={{ color: "#000" }}
+                      >
+                        مدارک صادر شده
+                      </NavLink>
+                    </li>
                     <li className="nav-item ">
 
                         <ConnectWallet

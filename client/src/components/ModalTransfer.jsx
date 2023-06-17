@@ -5,6 +5,7 @@ function ModalTransfer({ transfer, funcs }) {
   return (
     <div
       className="modal fade"
+      style={{direction:"ltr"}}
       id="exampleModal2"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -13,7 +14,7 @@ function ModalTransfer({ transfer, funcs }) {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              Modal title
+              انتقال
             </h1>
             <button
               type="button"
@@ -27,14 +28,14 @@ function ModalTransfer({ transfer, funcs }) {
               <div className="col-md-7 col-lg-8 mx-auto">
                 <div className="row g-5">
                   <form className="needs-validation was-validated" />
-                  <div className="row g-3">
+                  <div className="row g-1">
                     <div className="col-12">
                       <label htmlFor="firstName" className="form-label">
                         ادرس فرستنده
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control text-end"
                         id="firstName"
                         placeholder=""
                         required=""
@@ -53,7 +54,7 @@ function ModalTransfer({ transfer, funcs }) {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control text-end"
                         id="lastName"
                         placeholder=""
                         required=""
@@ -73,7 +74,7 @@ function ModalTransfer({ transfer, funcs }) {
                       </label>
                       <input
                         type="number"
-                        className="form-control"
+                        className="form-control text-end"
                         id="date"
                         placeholder=""
                         onChange={(e) => {
@@ -88,14 +89,8 @@ function ModalTransfer({ transfer, funcs }) {
               </div>
             </main>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+          <div className="modal-footer" style={{direction:"rtl"}}>
+          
             <button
               type="button"
               className="btn btn-primary"
@@ -103,7 +98,14 @@ function ModalTransfer({ transfer, funcs }) {
                 transfer(from, to, tokenId);
               }}
             >
-              Save changes
+              تایید
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              بستن
             </button>
           </div>
         </div>
