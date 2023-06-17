@@ -8,6 +8,13 @@ describe('StudentRegistry', function () {
     const StudentRegistry = await ethers.getContractFactory('StudentRegistry');
     studentRegistry = await StudentRegistry.deploy();
     await studentRegistry.deployed();
+
+    [owner, operator] = await ethers.getSigners();
+    ownerAddress = owner.address;
+    owners=["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db",ownerAddress]
+    const NFTContract = await ethers.getContractFactory("CERTNFT");
+    nftContract = await NFTContract.deploy(owners, "CERTBUQAEN", "CBQ");
+    await nftContract.deployed();
   });
 
   it('should create a new student', async function () {
@@ -111,11 +118,18 @@ describe('StudentRegistry', function () {
       const degree = 'BSc';
       const major = 'Computer Science';
       const year = '2022/12/1';
-      const studentid= await studentRegistry.createStudent(firstName, lastName, degree, major, year);
-      const students = await studentRegistry.getAallStudents();
-      const student = students[0];
-      const tax= await studentRegistry.isissuedcertificate(0,true);
+      await studentRegistry.createStudent(firstName, lastName, degree, major, year);
+     
+      const tx = await nftContract.mint("QmcJH2iYfQ1f9RJjAbf5X5aF4nJSC2GJqRiNKAUx3rSZf6");
+      const receipt2 = await tx.wait();
+      // Get the ID of the newly minted NFT
+      const tokenId = receipt2.events[1].args[1];
+      // Get the token URI of the newly minted NFT
+      const tokenURI = await nftContract.tokenURI(tokenId);
+      const tax= await studentRegistry.isissuedcertificate(0,true,tokenURI,tokenId);
       const receipt=tax.wait();
+      const students2 = await studentRegistry.getAallStudents();
+      console.log(students2[0])
       expect(receipt.events)
     })  
    it('should emit a StudentDeleted event', async function () {
@@ -131,6 +145,7 @@ describe('StudentRegistry', function () {
           // const receipt = await tx.wait();
           // const event = receipt.events.find((e) => e.event === 'StudentDeleted');
           // expect(event.args[0]).to.equal(await ethers.provider.getSigner().getAddress());
+        
         });
       
 });

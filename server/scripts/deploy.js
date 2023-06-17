@@ -35,7 +35,8 @@ const main = async() => {
     TaskContractAddress:contract.address,
     GreetercontractAddress:greeter.address,
     StudentRegistryContractAddress:studentRegistry.address,
-    NFTContract:nft.address
+    NFTContract:nft.address,
+    
   };
   f.write(obj)
 }

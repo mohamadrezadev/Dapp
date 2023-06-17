@@ -4,6 +4,7 @@ import moment from "jalali-moment";
 import "../components/Frame";
 import "./table.css";
 import { Delete } from "./Delete";
+import ModalUpdate from "./ModalUpdate";
 // import Delete from '../components/Delete.jsx';
 function Table({ students, funcs }) {
   const [filterText, setFilterText] = useState("");
@@ -23,7 +24,18 @@ function Table({ students, funcs }) {
         .toLowerCase()
         .includes(filterText.toLowerCase())
   );
-  const { handelCreatenft, loadingNft } = funcs;
+  const { handelCreatenft,loading, loadingNft,handelDeleteStudent,handelUpdatestudent,
+    setnewFirstName,
+    newfirstName,
+    setnewLastName,
+    newlastName,
+    setnewDegree,
+    newdegree,
+    setnewMajor,
+    newmajor,
+    setnewYear,
+    newyear,
+    setLoading } = funcs;
 
   const PER_PAGE = 5;
   const offset = currentPage * PER_PAGE;
@@ -60,61 +72,92 @@ function Table({ students, funcs }) {
               <th scope="col"></th>
             </tr>
           </thead>
+          {filteredStudents.length > 0 ? (
           <tbody>
             {filteredStudents.slice(offset, offset + PER_PAGE).map(
               (student, index) => (
-                console.log("student index:" + student[index] + index),
-                (
-                  <tr key={index}>
-                    <th scope="row">{index + 1 + offset}</th>
-                    <th scope="col">{student.firstName}</th>
-                    <th scope="col">{student.lastName}</th>
-                    <th scope="col">{student.education.major}</th>
-                    <th scope="col">{student.education.degree}</th>
-                    {/* <th scope="col">{moment.from(student.education.year, 'fa', 'jYYYY').format('jYYYY/jMM/jDD')}</th> */}
-                    <th scope="col">{student.education.year}</th>
-                    <td>
-                      <button type="button" class="btn btn-primary">
-                        ویرایش
-                      </button>
-                    </td>
-                    <td>
-                      <Delete />
-                    </td>
-                    <td>
-                      <div>
-                        {!student.isissued ? (
-                          <button
-                            className="btn btn-success d-flex align-middle"
-                            disabled={loadingNft}
-                            onClick={(e) =>
-                              handelCreatenft(students[index], index)
-                            }
-                          >
-                            صدور گواهینامه
-                            {loadingNft && (
-                              <div
-                                className="spinner-border m-2"style={{width: "10px",height: "10px"}}
-                                role="status"
-                              />
-                            )}
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            disabled={true}
-                          >
-                            صادر شده
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                )
+                <tr key={index}>
+                  <th scope="row">{index + 1 + offset}</th>
+                  <th scope="col">{student.firstName}</th>
+                  <th scope="col">{student.lastName}</th>
+                  <th scope="col">{student.education.major}</th>
+                  <th scope="col">{student.education.degree}</th>
+                  <th scope="col">{student.education.year}</th>
+                  <td>
+                  <button
+                      type="button"
+                      className="btn btn-primary border d-flex align-items-center  shadow"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalledit"
+                    >
+                       ویرایش
+                              
+                    </button>
+                    <ModalUpdate 
+                    handelUpdatestudent={handelUpdatestudent}
+                    loading={loading}
+                    student={student}
+                    studentid={index}
+                    funcs={{
+                      setnewFirstName,
+                      newfirstName,
+                      newlastName,
+                      setnewLastName,
+                      newdegree,
+                      setnewDegree,
+                      newmajor,
+                      setnewMajor,
+                      newyear,
+                      setnewYear,
+                      setLoading,
+                      loading
+                    }}
+                    />
+                    
+                  </td>
+                  <td>
+                    <Delete studentid={index} 
+                    funcs={{ handelDeleteStudent }} />
+                  </td>
+                  <td>
+                    <div>
+                      {!student.isissued ? (
+                        <button
+                          className="btn btn-success d-flex align-middle"
+                          disabled={loadingNft}
+                          onClick={(e) => handelCreatenft(students[index], index)}
+                        >
+                          صدورگواهینامه
+                          {loadingNft && (
+                            <div
+                              className="spinner-border m-2"
+                              style={{ width: '10px', height: '10px' }}
+                              role="status"
+                            />
+                          )}
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          disabled={true}
+                        >
+                          صادرشده
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
               )
             )}
           </tbody>
+        ) : (
+          <tbody>
+            <tr>
+              <td colSpan="8">هیچ دانشجویی یافت نشد.</td>
+            </tr>
+          </tbody>
+        )}
         </table>
       </div>
       <div className="mx-auto" style={{ direction: "ltr" }}>
@@ -138,3 +181,6 @@ function Table({ students, funcs }) {
 }
 
 export default Table;
+
+
+
