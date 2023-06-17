@@ -6,14 +6,14 @@ import { MediaRenderer } from "@thirdweb-dev/react";
 const Frame = (props)=> {
     return (
         <div>
-                <div class="card shadow">
-                          <div class="card-img mx-auto">
+                <div className="card mb-4 shadow">
+                          <div className="card-img mx-auto">
                             <MediaRenderer src={props.image} className="rounded-circle border" />
-                            <div class="card-img-overlay mx-auto rounded-circle">
+                            <div className="card-img-overlay mx-auto rounded-circle">
                               <img src="https://github.com/mwororokevin/nft-preview-card-component/blob/master/images/icon-view.svg?raw=true"/>
                             </div>
                           </div>   
-                          <div class="card-title mt-3">
+                          <div className="card-title mt-3">
                             <h3 className="">
                               { ` ${props.name}(${props.symbol})`}
                             </h3>
