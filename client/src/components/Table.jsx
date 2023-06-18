@@ -24,18 +24,8 @@ function Table({ students, funcs }) {
         .toLowerCase()
         .includes(filterText.toLowerCase())
   );
-  const { handelCreatenft,loading, loadingNft,handelDeleteStudent,handelUpdatestudent,
-    setnewFirstName,
-    newfirstName,
-    setnewLastName,
-    newlastName,
-    setnewDegree,
-    newdegree,
-    setnewMajor,
-    newmajor,
-    setnewYear,
-    newyear,
-    setLoading } = funcs;
+  const { handelCreatenft,loading, loadingNft,handelDeleteStudent,handelUpdatestudent,setLoading
+   } = funcs;
 
   const PER_PAGE = 5;
   const offset = currentPage * PER_PAGE;
@@ -44,7 +34,7 @@ function Table({ students, funcs }) {
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
   }
-
+const [id, setid] = useState(0)
   return (
     <>
       <input
@@ -89,6 +79,8 @@ function Table({ students, funcs }) {
                       className="btn btn-primary border d-flex align-items-center  shadow"
                       data-bs-toggle="modal"
                       data-bs-target="#modalledit"
+                      onClick={()=>setid(index) }
+                      
                     >
                        ویرایش
                               
@@ -96,28 +88,29 @@ function Table({ students, funcs }) {
                     <ModalUpdate 
                     handelUpdatestudent={handelUpdatestudent}
                     loading={loading}
-                    student={student}
-                    studentid={index}
-                    funcs={{
-                      setnewFirstName,
-                      newfirstName,
-                      newlastName,
-                      setnewLastName,
-                      newdegree,
-                      setnewDegree,
-                      newmajor,
-                      setnewMajor,
-                      newyear,
-                      setnewYear,
-                      setLoading,
-                      loading
-                    }}
+                    setLoading={setLoading}
+                    student={students}
+                    studentid={id}
+                    // funcs={{
+                    //   setnewFirstName,
+                    //   newfirstName,
+                    //   newlastName,
+                    //   setnewLastName,
+                    //   newdegree,
+                    //   setnewDegree,
+                    //   newmajor,
+                    //   setnewMajor,
+                    //   newyear,
+                    //   setnewYear,
+                    //   setLoading,
+                    //   loading
+                    // }}
                     />
                     
                   </td>
                   <td>
                     <Delete studentid={index} 
-                    funcs={{ handelDeleteStudent }} />
+                    funcs={{ handelDeleteStudent,loading }} />
                   </td>
                   <td>
                     <div>

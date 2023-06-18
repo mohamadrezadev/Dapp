@@ -7,7 +7,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import { NFTs, Nftlast } from "./components/RenderNft";
 import { NotificationManager, __esModule } from "react-notifications";
-import "./dashboard.css"
+import "./dashboard.css";
 import {
   generate_metadata,
   pinFileToIPFS,
@@ -18,6 +18,7 @@ import Table from "./components/Table.jsx";
 import ModalAdd from "./components/ModalAdd";
 import ModalTransfer from "./components/ModalTransfer";
 import ModalAddOwner from "./components/Modaladdoperator";
+import { async } from "rxjs";
 function Dashboard() {
   const [studentRegistryContract, setContract] = useState(null);
   const [nftContract, setContract2] = useState(null);
@@ -26,14 +27,9 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [loadingNft, setLoadingNft] = useState(false);
   const [firstName, setFirstName] = useState("");
-  const [newfirstName, setnewFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [newlastName, setnewLastName] = useState("");
   const [degree, setDegree] = useState("");
-  const [newdegree, setnewDegree] = useState("");
   const [major, setMajor] = useState("");
-  const [newmajor, setnewMajor] = useState("");
-  const [newyear, setnewYear] = useState("");
   const [year, setYear] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -45,25 +41,21 @@ function Dashboard() {
     StudentRegistry.abi
   );
 
-  const { contract } = useContract(
-    contrcatAddress.NFTContract,
-    NFTABI.abi
-  );
-  
- 
-  useEffect( () => {
+  const { contract } = useContract(contrcatAddress.NFTContract, NFTABI.abi);
+
+  useEffect(() => {
     try {
       if (studentRegistryContract != null) {
         handleReadStudent();
         getalltokenurl();
       }
-  
+
       if (data) {
         setContract(data.contractWrapper.writeContract);
         setContract2(contract.contractWrapper.writeContract);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }, [data, contract, studentRegistryContract]);
   function existestudent(list, _firstName, _lastName) {
@@ -75,7 +67,6 @@ function Dashboard() {
       }
     }
     return false;
- 
   }
   const handleCreateStudent = async (
     _firstName,
@@ -98,20 +89,20 @@ function Dashboard() {
 
       setLoading(true);
       const res = await studentRegistryContract.getAallStudents();
-      console.log(students)
+      console.log(res);
+      console.log(students);
       if (existestudent(students, _firstName, _lastName)) {
         //اگر دانشجو قبلا وجود داشت پیامی را نشان دهد
-        console.log("studendcreate:"+students)
+        console.log("studendcreate:" + students);
         console.log("alrady exist sudent");
         NotificationManager.error("اطلاعات از قبل وجود دارد");
-        setFirstName("")
-        setLastName("")
-        setYear("")
-        setDegree("")
-        setMajor("")
+        setFirstName("");
+        setLastName("");
+        setYear("");
+        setDegree("");
+        setMajor("");
         setLoading(false);
-      } else
-       {
+      } else {
         const tax = await studentRegistryContract.createStudent(
           firstName,
           lastName,
@@ -127,7 +118,13 @@ function Dashboard() {
           NotificationManager.success("  اطلاعات با موفقیت ثبت گردید ");
           setLoading(false);
           const res = await studentRegistryContract.getAallStudents();
+          console.log("created res ", res);
           setStudents(res);
+          setTimeout(async () => {
+            const res = await studentRegistryContract.getAallStudents();
+            console.log("res", res);
+            setStudents(res);
+          }, 10000);
         }
         // console.log(tax, "tax");
         // //اطلاعات تراکنش را به کاربر نشان دهد
@@ -140,15 +137,14 @@ function Dashboard() {
       setLoading(false);
       if (err.code === "ACTION_REJECTED") {
         NotificationManager.error("!تراکنش پذیرفته نشد");
-      }
-      else{
-        NotificationManager.error( `Erorr ${err}`);
+      } else {
+        NotificationManager.error(`Erorr ${err}`);
       }
     }
   };
- 
-  const handelCreatenft = async (student,index) => {
-    setLoadingNft(true)
+
+  const handelCreatenft = async (student, index) => {
+    setLoadingNft(true);
     try {
       const metadata = generate_metadata(
         student.firstName,
@@ -167,75 +163,89 @@ function Dashboard() {
       const tx = await nftContract.mint(IpfsHash);
       const receipt = await tx.wait();
       const tokenId = receipt.events[1].args[1];
-      console.log("tokenId"+parseInt(tokenId._hex, 16));
+      console.log("tokenId" + parseInt(tokenId._hex, 16));
       const tokenURI = await nftContract.tokenURI(tokenId);
-      console.log(tokenURI)
-      
-      const trx= await handelisissuedcertificateStudent(index,true,tokenURI,tokenId);
-    
-      console.log(responseissued)
-      NotificationManager.success( `اطلاعات تراکنش ${receipt.events[1]} `);
+      console.log(tokenURI);
 
-      setLoading(false)
+      const trx = await handelisissuedcertificateStudent(
+        index,
+        true,
+        tokenURI,
+        tokenId
+      );
 
-    } 
-    catch (error) {
-      setLoading(false)
-      console.log("Erorr nft:"+ error )
+      console.log(responseissued);
+      NotificationManager.success(`اطلاعات تراکنش ${receipt.events[1]} `);
 
-      if(error.reason==="execution reverted: Only the owner can call this function."){
-        NotificationManager.error("!آدرس مورد نظر قادر به ایجاد مدرک نمی باشد ");
-      }
-      else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log("Erorr nft:" + error);
+
+      if (
+        error.reason ===
+        "execution reverted: Only the owner can call this function."
+      ) {
+        NotificationManager.error(
+          "!آدرس مورد نظر قادر به ایجاد مدرک نمی باشد "
+        );
+      } else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
         NotificationManager.error("موجودی ناکافی!!");
-      }
-      else if (error.code === "ACTION_REJECTED") {
+      } else if (error.code === "ACTION_REJECTED") {
         NotificationManager.error("!تراکنش پذیرفته نشد");
       }
-      
-      
     }
-    setLoadingNft(false)
+    setLoadingNft(false);
   };
 
   const handleReadStudent = async () => {
-    
     const res = await studentRegistryContract.getAallStudents();
     setStudents(res);
     console.log("student: ", res);
   };
-  const handelAddoperator=async(address)=>{
+  const handelAddoperator = async (address) => {
     try {
-       const tax= await nftContract.addOperator(address);
-       const response=await tax.wait();
-       NotificationManager.success('کاربر  با ادرس جدیدافزوده شد')
+      const tax = await nftContract.addOperator(address);
+      const response = await tax.wait();
+      NotificationManager.success("کاربر  با ادرس جدیدافزوده شد");
     } catch (error) {
-      
-      if(error.reason==="execution reverted: Only the owner can call this function."){
-        NotificationManager.error(" شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد ");
-      }
-      else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+      if (
+        error.reason ===
+        "execution reverted: Only the owner can call this function."
+      ) {
+        NotificationManager.error(
+          " شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد "
+        );
+      } else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
         NotificationManager.error("موجودی ناکافی!!");
-      }
-      else if (error.code === "ACTION_REJECTED") {
+      } else if (error.code === "ACTION_REJECTED") {
         NotificationManager.error("!تراکنش پذیرفته نشد");
-      }
-      else{
-        NotificationManager.error( `Erorr ${error}`)
+      } else {
+        NotificationManager.error(`Erorr ${error}`);
       }
     }
-  }
-  const handelisissuedcertificateStudent=async (studentid,isissued,tokenURI,tokenId)=>{
+  };
+  const handelisissuedcertificateStudent = async (
+    studentid,
+    isissued,
+    tokenURI,
+    tokenId
+  ) => {
     try {
-      const tax = await studentRegistryContract.isissuedcertificate(studentid,isissued,tokenURI,tokenId);
-      const response=tax.wait();
-      console.log(response)
-      return true
+      const tax = await studentRegistryContract.isissuedcertificate(
+        studentid,
+        isissued,
+        tokenURI,
+        tokenId
+      );
+      const response = tax.wait();
+      console.log(response);
+      return true;
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
-  }
+  };
   const getalltokenurl = async function () {
     const result = await nftContract.getAllTokenIdsAndUrls();
     settokenurls(result[1]);
@@ -247,26 +257,44 @@ function Dashboard() {
     const receipt2 = tx2.wait();
     console.log(receipt2);
   };
-  const handelDeleteStudent=async(index)=>{
+  const handelDeleteStudent = async (index) => {
+    setLoading(true);
     try {
-      const tax= await studentRegistryContract.deleteStudent(index);
-      const response=tax.wait();
+      const tax = await studentRegistryContract.deleteStudent(index);
+      const response = tax.wait();
       console.log(response);
-      NotificationManager.success("اطلاعات با موفقیت حذف گردید ")
+      NotificationManager.success("اطلاعات با موفقیت حذف گردید ");
+      const res = await studentRegistryContract.getAallStudents();
+      console.log("created res ",res);
+
+      setTimeout(async() => {
+        const res = await studentRegistryContract.getAallStudents();
+        console.log("res", res);
+        setStudents(res);
+       }, 10000);
+       setLoading(false);
+
       return true;
     } catch (error) {
-      
+      setLoading(false);
+
       if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
         NotificationManager.error("موجودی ناکافی!!");
-      }
-      else if (error.code === "ACTION_REJECTED") {
+      } else if (error.code === "ACTION_REJECTED") {
         NotificationManager.error("!تراکنش پذیرفته نشد");
       }
       return false;
     }
-    
   };
-  const handelUpdatestudent=async(studentid, newfirstName, newlastName, newdegree, newmajor, newyear)=>{
+  const handelUpdatestudent = async (
+    studentid,
+    newfirstName,
+    newlastName,
+    newdegree,
+    newmajor,
+    newyear
+  ) => {
+    setLoading(true);
     try {
       if (
         newfirstName.trim() === "" ||
@@ -276,32 +304,64 @@ function Dashboard() {
         newyear.trim() === ""
       ) {
         NotificationManager.error("لطفا تمامی فیلدها را پر کنید");
+        setLoading(false);
+
         return false;
       }
-       console.log("studenupdate"+studentid, newfirstName, newlastName, newdegree, newmajor, newyear)
-       await studentRegistryContract.updateStudent(studentid, newfirstName, newlastName, newdegree, newmajor, newyear)
-       NotificationManager.success("اطلاعات ویرایش شد ")
-       return true;
-      } catch (error) {
-        if(error.reason==="execution reverted: Only the owner can call this function."){
-          NotificationManager.error(" شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد ");
-        }
-        else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
-          NotificationManager.error("موجودی ناکافی!!");
-        }
-        else if (error.code === "ACTION_REJECTED") {
-          NotificationManager.error("!تراکنش پذیرفته نشد");
-        }
-        else{
-          NotificationManager.error( `Erorr ${error}`)
-        }
-        return false;
+      console.log(
+        "studenupdate" + studentid,
+        newfirstName,
+        newlastName,
+        newdegree,
+        newmajor,
+        newyear
+      );
+      const respone = await studentRegistryContract.updateStudent(
+        studentid,
+        newfirstName,
+        newlastName,
+        newdegree,
+        newmajor,
+        newyear
+      );
+      console.log("respone", respone);
+      if (respone.hash.length > 0) {
+        const res = await studentRegistryContract.getAallStudents();
+        console.log("created res ", res);
+        setTimeout(async () => {
+          const res = await studentRegistryContract.getAallStudents();
+          console.log("res", res);
+          setStudents(res);
+        }, 10000);
+      }
+      NotificationManager.success("اطلاعات ویرایش شد ");
+      setLoading(false);
+    } catch (error) {
+      if (
+        error.reason ===
+        "execution reverted: Only the owner can call this function."
+      ) {
+        NotificationManager.error(
+          " شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد "
+        );
+      } else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+        NotificationManager.error("موجودی ناکافی!!");
+      } else if (error.code === "ACTION_REJECTED") {
+        NotificationManager.error("!تراکنش پذیرفته نشد");
+      } else {
+        NotificationManager.error(`Erorr ${error}`);
+      }
+      setLoading(false);
+
+      return false;
     }
-  }
+  };
   return (
     <div>
-      
-      <div style={{direction:"ltr"}} className="d-flex gap-2 align-content-center my-2">
+      <div
+        style={{ direction: "ltr" }}
+        className="d-flex gap-2 align-content-center my-2"
+      >
         <button
           type="button"
           className="btn btn-warning border d-flex align-items-center  shadow"
@@ -309,7 +369,6 @@ function Dashboard() {
           data-bs-target="#exampleModal2"
         >
           انتقال
-                  
         </button>
 
         <button
@@ -318,42 +377,44 @@ function Dashboard() {
           data-bs-toggle="modal"
           data-bs-target="#modaladd"
         >
-          <i class="fa fa-plus pe-1"></i>
+          <i className="fa fa-plus pe-1"></i>
           افرودن دانشجو
         </button>
         <button
-              type="button"
-              className="btn btn-secondary d-flex align-items-center  shadow "
-              data-bs-toggle="modal"
-              data-bs-target="#modaladdoperator"
-            >
-              <i class="fa fa-plus pe-1"></i>
-            افزودن تایید کننده 
-            </button>
-          
-        </div>
-    
-        <div className="container">
+          type="button"
+          className="btn btn-secondary d-flex align-items-center  shadow "
+          data-bs-toggle="modal"
+          data-bs-target="#modaladdoperator"
+        >
+          <i className="fa fa-plus pe-1"></i>
+          افزودن تایید کننده
+        </button>
+      </div>
+
+      <div className="container">
         <div className="row">
           {students !== null ? (
-            <Table students={students}
-              funcs={
-                {handelCreatenft,
-                  loadingNft,
-                  handelDeleteStudent,
-                  handelUpdatestudent,
-                  setnewFirstName,
-                  newfirstName,
-                  setnewLastName,
-                  newlastName,
-                  setnewDegree,
-                  newdegree,
-                  setnewMajor,
-                  newmajor,
-                  setnewYear,
-                  newyear,
-                  setLoading
-                }} />
+            <Table
+              students={students}
+              funcs={{
+                handelCreatenft,
+                loadingNft,
+                handelDeleteStudent,
+                handelUpdatestudent,
+                // setnewFirstName,
+                // newfirstName,
+                // setnewLastName,
+                // newlastName,
+                // setnewDegree,
+                // newdegree,
+                // setnewMajor,
+                // newmajor,
+                // setnewYear,
+                // newyear,
+                loading,
+                setLoading,
+              }}
+            />
           ) : (
             <div
               className="spinner-border text-light p-4 mx-auto my-3 "
@@ -361,7 +422,7 @@ function Dashboard() {
             />
           )}
         </div>
-        </div>
+      </div>
 
       <ModalAdd
         handleCreateStudent={handleCreateStudent}
@@ -385,20 +446,20 @@ function Dashboard() {
         transfer={transfer}
         funcs={{ from, setFrom, to, setTo, tokenId, setTokenId }}
       />
-    <ModalAddOwner
-     handelAddoperator={handelAddoperator}
-     loading={loading}
-     funcs={{setaddress,address}}
-    />
-    <div className="container">
-      <div className="row">
-        <div className="container mt-6">
-          <br />
-                  <h3>مدارک صادر شده اخیر</h3>
+      <ModalAddOwner
+        handelAddoperator={handelAddoperator}
+        loading={loading}
+        funcs={{ setaddress, address }}
+      />
+      <div className="container">
+        <div className="row">
+          <div className="container mt-6">
+            <br />
+            <h3>مدارک صادر شده اخیر</h3>
+          </div>
+          <Nftlast />
         </div>
-          <Nftlast/>
       </div>
-    </div>
     </div>
   );
 }

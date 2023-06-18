@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DatePicker } from "react-advance-jalaali-datepicker";
 import moment from "jalali-moment";
 import Swal from "sweetalert2";
@@ -6,41 +6,59 @@ function DatePickerInput(props) {
   return <input className="form-control" {...props} />;
 }
 
+function ModalUpdate({
+  handelUpdatestudent,
+  student,
+  studentid,
+  loading,
+  setLoading
+}) {
+  const [newfirstName, setnewFirstName] = useState("");
+  const [newlastName, setnewLastName] = useState("");
+  const [newdegree, setnewDegree] = useState("");
+  const [newmajor, setnewMajor] = useState("");
+  const [newyear, setnewYear] = useState("");
+  useEffect(() => {
+    setnewFirstName(student[studentid].firstName);
+    setnewLastName(student[studentid].lastName);
+    setnewYear(student[studentid].education.year);
+    setnewMajor(student[studentid].education.major);
+    setnewDegree(student[studentid].education.degree);
+  }, [studentid]);
 
- function ModalUpdate({ handelUpdatestudent,student,studentid, loading, funcs }) {
-  const {
-    setnewFirstName,
-    newfirstName,
-    newlastName,
-    setnewLastName,
-    newdegree,
-    setnewDegree,
-    newmajor,
-    setnewMajor,
-    newyear,
-    setnewYear,setLoading
-  } = funcs;
+  // const {
+  //   setnewFirstName,
+  //   newfirstName,
+  //   newlastName,
+  //   setnewLastName,
+  //   newdegree,
+  //   setnewDegree,
+  //   newmajor,
+  //   setnewMajor,
+  //   newyear,
+  //   setnewYear,setLoading
+  // } = funcs;
   const date = new moment();
   const handleDateChange = function (timestamp) {
     const date = new Date(timestamp * 1000); // convert Unix timestamp to JavaScript Date object
     const formattedDate = date.toLocaleDateString("fa-IR"); // format the date as a string in the desired format ('fa-IR' for Persian calendar)
     console.log(formattedDate); // logs the selected date in the desired format
-    setnewYear(formattedDate)
+    setnewYear(formattedDate);
   };
-  
+
   return (
     <div
       className="modal fade"
       id="modalledit"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
-      style={{direction:"ltr"}}
+      style={{ direction: "ltr" }}
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              ویرایش اطلاعات 
+              ویرایش اطلاعات
             </h1>
             <button
               type="button"
@@ -65,7 +83,7 @@ function DatePickerInput(props) {
                         id="firstName"
                         placeholder=""
                         required=""
-                        value={student.firstName}
+                        value={newfirstName}
                         onChange={(e) => {
                           setnewFirstName(e.target.value);
                         }}
@@ -85,7 +103,7 @@ function DatePickerInput(props) {
                         id="lastName"
                         placeholder=""
                         required=""
-                        value={student.lastName}
+                        value={newlastName}
                         onChange={(e) => {
                           setnewLastName(e.target.value);
                         }}
@@ -98,15 +116,20 @@ function DatePickerInput(props) {
                     <div className="col-12">
                       <label htmlFor="year" className="form-label">
                         تاریخ
-                        <span className="text-body-secondary " style={{fontSize:"13px",paddingTop:"5px"}} >  {date.format('jYYYY/jMM/jDD')}</span>
+                        <span
+                          className="text-body-secondary "
+                          style={{ fontSize: "13px", paddingTop: "5px" }}
+                        >
+                          {date.format("jYYYY/jMM/jDD")}
+                        </span>
                       </label>
-            
-                        <DatePicker
+
+                      <DatePicker
                         inputComponent={DatePickerInput}
                         placeholder="انتخاب تاریخ"
                         format="jYYYY/jMM/jDD"
                         className="form-control"
-                        preSelected={student.education.year}
+                        preSelected={newyear}
                         onChange={handleDateChange}
                         id="datePicker"
                       />
@@ -119,7 +142,7 @@ function DatePickerInput(props) {
                         className="form-select text-end"
                         id="major"
                         required=""
-                        value={student.education.major}
+                        value={newmajor}
                         onChange={(e) => {
                           setnewMajor(e.target.value);
                         }}
@@ -142,7 +165,7 @@ function DatePickerInput(props) {
                         className="form-select text-end"
                         id="degree"
                         required=""
-                        value={student.education.degree}
+                        value={newdegree}
                         onChange={(e) => {
                           setnewDegree(e.target.value);
                         }}
@@ -157,8 +180,6 @@ function DatePickerInput(props) {
                       </div>
                     </div>
                   </div>
-
-              
                 </div>
               </div>
             </main>
@@ -188,43 +209,37 @@ function DatePickerInput(props) {
               افزودن
             </button> */}
             <button
-                type="button"
-                className="btn btn-primary "
-                disabled={loading}
-                
-                onClick={() => {
-                  Swal.fire({
-                    title: "ایا مطمعن هستید ؟",
-                    // text: "Do you want to update this student's information?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "ادامه ",
-                    cancelButtonText: "بستن ",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      const res=handelUpdatestudent(
-                        studentid,
-                        newfirstName,
-                        newlastName,
-                        newdegree,
-                        newmajor,
-                        newyear
-                      );
-                      if(res){
-                        Swal.fire({
-                          title: "اطلاعات ویرایش شد ",
-                          text: "اطلاعات شما ویرایش گردید ",
-                          icon: "success",
-                        });
-                      }
-                     
-                    }
-                  });
-                }}
-              >
-              </button>
+              type="button"
+              className="btn btn-primary "
+              disabled={loading}
+              onClick={() => {
+                Swal.fire({
+                  title: "ایا مطمعن هستید ؟",
+                  // text: "Do you want to update this student's information?",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "ادامه ",
+                  cancelButtonText: "بستن ",
+                }).then((result) => {
+                  console.log("result",result);
+                  if (result.isConfirmed) {
+                    const res=  handelUpdatestudent(
+                      studentid,
+                      newfirstName,
+                      newlastName,
+                      newdegree,
+                      newmajor,
+                      newyear
+                    )
+                   
+                  }
+                });
+              }}
+            >
+              ویرایش
+            </button>
           </div>
         </div>
       </div>

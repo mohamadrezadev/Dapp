@@ -95,14 +95,14 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div class="textthree-bgBox"></div>
-            <div class="textthree-up-circle">
+            <div className="textthree-bgBox"></div>
+            <div className="textthree-up-circle">
               <img src={normal} />
             </div>
-            <div class="textthree-down-circle">
+            <div className="textthree-down-circle">
               <img src={normal} />
             </div>
-            <div class="textthree-down-ring">
+            <div className="textthree-down-ring">
               <img src={ring} />
             </div>
           </div>
