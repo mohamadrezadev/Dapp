@@ -5,10 +5,25 @@ import "../components/Frame";
 import "./table.css";
 import { Delete } from "./Delete";
 import ModalUpdate from "./ModalUpdate";
+import ModalDatanft from "./Nftdata";
+import Address from '../../../server/contrcatAddress.json';
+import { ContractInfoSchema } from "@thirdweb-dev/sdk";
+// import {ModalDatanft} from "./components/Nftdata.jsx";
 // import Delete from '../components/Delete.jsx';
+
+
+const handleRowClick = (row) => {
+  setSelectedRow(row);
+};
+
+const handleCloseModal = () => {
+  setSelectedRow(null);  
+};
+
 function Table({ students, funcs }) {
   const [filterText, setFilterText] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedRow, setSelectedRow] = useState(null);
   const filteredStudents = students.filter(
     (student) =>
       student.firstName.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -24,7 +39,7 @@ function Table({ students, funcs }) {
         .toLowerCase()
         .includes(filterText.toLowerCase())
   );
-  const { handelCreatenft,loading, loadingNft,handelDeleteStudent,handelUpdatestudent,setLoading
+  const { handelCreatenft,loading, loadingNft,handelDeleteStudent,handelUpdatestudent,handleReadStudent,setLoading,
    } = funcs;
 
   const PER_PAGE = 5;
@@ -33,6 +48,10 @@ function Table({ students, funcs }) {
 
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
+  }
+  
+  function settokenid(index){
+    setSelectedRow(parseInt(students[index].tokenid._hex));
   }
 const [id, setid] = useState(0)
   return (
@@ -57,14 +76,14 @@ const [id, setid] = useState(0)
               <th scope="col">رشته تحصیلی </th>
               <th scope="col">مقطع تحصیلی</th>
               <th scope="col">سال فارغ تحصیلی </th>
-              <th scope="col"></th>
-              <th scope="col"> عملیات </th>
-              <th scope="col"></th>
+              <th scope="col">عملیات</th>
+              
             </tr>
           </thead>
           {filteredStudents.length > 0 ? (
           <tbody>
             {filteredStudents.slice(offset, offset + PER_PAGE).map(
+              
               (student, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1 + offset}</th>
@@ -73,73 +92,70 @@ const [id, setid] = useState(0)
                   <th scope="col">{student.education.major}</th>
                   <th scope="col">{student.education.degree}</th>
                   <th scope="col">{student.education.year}</th>
-                  <td>
-                  <button
-                      type="button"
-                      className="btn btn-primary border d-flex align-items-center  shadow"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalledit"
-                      onClick={()=>setid(index) }
-                      
+                  <th>
+                  {!student.isissued ? (
+                    <td className="p-0">
+                      <td className="p-0 px-0">
+                         <button
+                        type="button"
+                        className="btn btn-primary border d-flex align-items-center shadow"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalledit"
+                        onClick={() => setid(index)}
+                      >
+                        ویرایش
+                      </button>
+                      <ModalUpdate
+                        handelUpdatestudent={handelUpdatestudent}
+                        handleReadStudent={handleReadStudent}
+                        loading={loading}
+                        setLoading={setLoading}
+                        student={students}
+                        studentid={id}
+                      />
+                    </td >
+                     <td className="p-0 px-1">
+                      <Delete studentid={index} funcs={{ handelDeleteStudent, loading }} />
+                     </td>
+                     <td className=" p-0 px-0">
+                     <button
+                      className="btn btn-dark d-flex align-middle"
+                      disabled={loadingNft}
+                      onClick={(e) => handelCreatenft(students[index], index)}
                     >
-                       ویرایش
-                              
-                    </button>
-                    <ModalUpdate 
-                    handelUpdatestudent={handelUpdatestudent}
-                    loading={loading}
-                    setLoading={setLoading}
-                    student={students}
-                    studentid={id}
-                    // funcs={{
-                    //   setnewFirstName,
-                    //   newfirstName,
-                    //   newlastName,
-                    //   setnewLastName,
-                    //   newdegree,
-                    //   setnewDegree,
-                    //   newmajor,
-                    //   setnewMajor,
-                    //   newyear,
-                    //   setnewYear,
-                    //   setLoading,
-                    //   loading
-                    // }}
-                    />
-                    
-                  </td>
-                  <td>
-                    <Delete studentid={index} 
-                    funcs={{ handelDeleteStudent,loading }} />
-                  </td>
-                  <td>
-                    <div>
-                      {!student.isissued ? (
-                        <button
-                          className="btn btn-success d-flex align-middle"
-                          disabled={loadingNft}
-                          onClick={(e) => handelCreatenft(students[index], index)}
-                        >
-                          صدورگواهینامه
-                          {loadingNft && (
-                            <div
-                              className="spinner-border m-2"
-                              style={{ width: '10px', height: '10px' }}
-                              role="status"
-                            />
-                          )}
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="btn btn-secondary"
-                          disabled={true}
-                        >
-                          صادرشده
-                        </button>
+                      صدورگواهینامه
+                      {loadingNft && (
+                        <div
+                          className="spinner-border m-2"
+                          style={{ width: '10px', height: '10px' }}
+                          role="status"
+                        />
                       )}
-                    </div>
-                  </td>
+                    </button>
+                     </td>
+                    </td>
+                  ) : (
+                    <td className="p-0 ">
+                       <td className="p-0 px-0">
+                        <button
+                            type="button"
+                            className="btn btn-success"
+                            data-bs-toggle="modal"
+                          data-bs-target="#modaldatanft"
+                          onClick={()=>{settokenid(index)}}
+                          >
+                            صادرشده
+                          </button>
+                        
+                            <ModalDatanft 
+                            address={Address.NFTContract}
+                            tokenid={selectedRow}
+                            />
+                       </td>
+                    </td>
+                  )}
+                </th>
+                                
                 </tr>
               )
             )}
@@ -150,9 +166,12 @@ const [id, setid] = useState(0)
               <td colSpan="8">هیچ دانشجویی یافت نشد.</td>
             </tr>
           </tbody>
+          
         )}
         </table>
+        
       </div>
+
       <div className="mx-auto" style={{ direction: "ltr" }}>
         <ReactPaginate
           previousLabel={"قبلی"}

@@ -129,7 +129,6 @@ describe('StudentRegistry', function () {
       const tax= await studentRegistry.isissuedcertificate(0,true,tokenURI,tokenId);
       const receipt=tax.wait();
       const students2 = await studentRegistry.getAallStudents();
-      console.log(students2[0])
       expect(receipt.events)
     })  
    it('should emit a StudentDeleted event', async function () {
