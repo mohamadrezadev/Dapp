@@ -63,10 +63,7 @@ contract StudentRegistry {
         student.education = education;
         emit StudentUpdated(_studentId, _firstName, _lastName, _degree, _major, _year,"ACTION_CONFIRME");
     }
-    // function deleteStudent(uint _studentId) public {
-    //     delete Students[_studentId];
-    //     emit StudentDeleted("ACTION_CONFIRME");
-    // }
+   
     function deleteStudent(uint _studentId) public {
         require(_studentId < Students.length, "Student ID out of range");
 

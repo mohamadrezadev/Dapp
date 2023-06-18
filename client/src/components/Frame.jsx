@@ -1,6 +1,7 @@
 import React from "react";
 
 import { MediaRenderer } from "@thirdweb-dev/react";
+import { NftPreview } from "./RenderNft";
 
 
 const Frame = (props)=> {
@@ -13,22 +14,34 @@ const Frame = (props)=> {
                               <img src="https://github.com/mwororokevin/nft-preview-card-component/blob/master/images/icon-view.svg?raw=true"/>
                             </div>
                           </div>   
+                          <section>
                           <div className="card-title mt-3">
                             <h3 className="">
-                              { ` ${props.name}(${props.symbol})`}
+                              { ` ${props.name}`}
+                              {/* (${props.symbol}) */}
                             </h3>
                           </div>
                           <div className="card-details" dir="rtl">
                             <p style={{fontSize:"14px"}}>
                               {props.description}
                             </p>
+                            <p className="mt-4">
+                              <NftPreview contractAddress={props.contractAddress }nftId={props.tokenId}/>
+                            </p>
                           </div>
-                          <div className="card-">
-                          <p className="text-end" style={{fontSize:"14px"}}>آدرس:</p>
-                            <p className="mt-1" style={{fontSize:"12px"}}>{"{"} {props.address} {"}"}</p>
-                            <a href={props.link}></a>
-                            </div>               
+                          </section>
+                          
+                          <section>
+                          <div className="container mb-6">
+                            {/* <a className="card-link"> 
+                              <NftPreview contractAddress={props.contractAddress}
+                              nftId={props.tokenId}/>
+                            </a> */}
+
+                          </div>
+                          </section>
                 </div>
+
         </div>
             // <div className="frame shadow">
             //     <MediaRenderer src={props.image} />

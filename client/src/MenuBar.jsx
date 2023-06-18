@@ -3,6 +3,7 @@ import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import svg from "./assets/images/10.png";
 import "./assets/css/file.css";
 import { NavLink, useLocation } from "react-router-dom";
+import ContactUs from "./ContactUs ";
 const MyNavbar = () => {
   const loc = useLocation();
   const address = useAddress();
@@ -43,10 +44,12 @@ const MyNavbar = () => {
                         <li className="nav-item active">
                           <a
                             className="nav-link"
-                            href="#"
+                            oncl
                             style={{ color: "#000" }}
+                            
                           >
                             درباره ما
+                            
                           </a>
                         </li>
                         <li className="nav-item active">

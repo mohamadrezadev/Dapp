@@ -8,6 +8,7 @@ function DatePickerInput(props) {
 
 function ModalUpdate({
   handelUpdatestudent,
+  handleReadStudent,
   student,
   studentid,
   loading,

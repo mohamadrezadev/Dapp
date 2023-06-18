@@ -5,7 +5,8 @@ import { useContract } from "@thirdweb-dev/react";
 import contrcatAddress from "../../server/contrcatAddress.json";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
-import { NFTs, Nftlast } from "./components/RenderNft";
+import { NFTs, Nftlast,NftPreview } from "./components/RenderNft";
+
 import { NotificationManager, __esModule } from "react-notifications";
 import "./dashboard.css";
 import {
@@ -18,7 +19,7 @@ import Table from "./components/Table.jsx";
 import ModalAdd from "./components/ModalAdd";
 import ModalTransfer from "./components/ModalTransfer";
 import ModalAddOwner from "./components/Modaladdoperator";
-import { async } from "rxjs";
+
 function Dashboard() {
   const [studentRegistryContract, setContract] = useState(null);
   const [nftContract, setContract2] = useState(null);
@@ -35,7 +36,8 @@ function Dashboard() {
   const [to, setTo] = useState("");
   const [tokenId, setTokenId] = useState("");
   const [address, setaddress] = useState("");
-
+  const [addressnft, setaddressnft] = useState("");
+  
   const { data } = useContract(
     contrcatAddress.StudentRegistryContractAddress,
     StudentRegistry.abi
@@ -174,8 +176,11 @@ function Dashboard() {
         tokenId
       );
 
-      console.log(responseissued);
-      NotificationManager.success(`اطلاعات تراکنش ${receipt.events[1]} `);
+      setTimeout(async () => {
+        const res = await studentRegistryContract.getAallStudents();
+        setStudents(res);
+      }, 10000);
+      NotificationManager.success(`تراکنش موفق`);
 
       setLoading(false);
     } catch (error) {
@@ -201,12 +206,13 @@ function Dashboard() {
   const handleReadStudent = async () => {
     const res = await studentRegistryContract.getAallStudents();
     setStudents(res);
-    console.log("student: ", res);
+
   };
   const handelAddoperator = async (address) => {
     try {
       const tax = await nftContract.addOperator(address);
       const response = await tax.wait();
+      await   handleReadStudent();
       NotificationManager.success("کاربر  با ادرس جدیدافزوده شد");
     } catch (error) {
       if (
@@ -253,9 +259,29 @@ function Dashboard() {
   };
   const transfer = async function (from, to, tokenId) {
     //انتقال ان اف تی به کاربران
-    const tx2 = await nftContract.transferFrom(from, to, tokenId);
-    const receipt2 = tx2.wait();
-    console.log(receipt2);
+    try {
+      const tx2 = await nftContract.transferFrom(from, to, tokenId);
+      const receipt2 =await tx2.wait();
+      console.log(receipt2);
+      NotificationManager.success("تراکنش موفق");
+      return true;
+    } catch (error) {
+      if (
+        error.reason ===
+        "execution reverted: Only the owner can call this function."
+      ) {
+        NotificationManager.error(
+          " شما نمیتوانید حساب جدیدی را به تایید کنندگان اضافه کنید این کار باید توسط حساب اصلی صورت بگیرد "
+        );
+      } else if (error.code === "UNPREDICTABLE_GAS_LIMIT") {
+        NotificationManager.error("توکن موجود نیست ");
+      } else if (error.code === "ACTION_REJECTED") {
+        NotificationManager.error("!تراکنش پذیرفته نشد");
+      } else {
+        NotificationManager.error(`Erorr ${error}`);
+      }
+      return false;
+    }
   };
   const handelDeleteStudent = async (index) => {
     setLoading(true);
@@ -308,14 +334,7 @@ function Dashboard() {
 
         return false;
       }
-      console.log(
-        "studenupdate" + studentid,
-        newfirstName,
-        newlastName,
-        newdegree,
-        newmajor,
-        newyear
-      );
+     
       const respone = await studentRegistryContract.updateStudent(
         studentid,
         newfirstName,
@@ -327,7 +346,7 @@ function Dashboard() {
       console.log("respone", respone);
       if (respone.hash.length > 0) {
         const res = await studentRegistryContract.getAallStudents();
-        console.log("created res ", res);
+       
         setTimeout(async () => {
           const res = await studentRegistryContract.getAallStudents();
           console.log("res", res);
@@ -401,6 +420,8 @@ function Dashboard() {
                 loadingNft,
                 handelDeleteStudent,
                 handelUpdatestudent,
+                loading,
+                setLoading,
                 // setnewFirstName,
                 // newfirstName,
                 // setnewLastName,
@@ -411,8 +432,7 @@ function Dashboard() {
                 // newmajor,
                 // setnewYear,
                 // newyear,
-                loading,
-                setLoading,
+               
               }}
             />
           ) : (
@@ -441,7 +461,7 @@ function Dashboard() {
           setLoading,
         }}
       />
-
+     
       <ModalTransfer
         transfer={transfer}
         funcs={{ from, setFrom, to, setTo, tokenId, setTokenId }}
@@ -458,6 +478,8 @@ function Dashboard() {
             <h3>مدارک صادر شده اخیر</h3>
           </div>
           <Nftlast />
+          
+       
         </div>
       </div>
     </div>
