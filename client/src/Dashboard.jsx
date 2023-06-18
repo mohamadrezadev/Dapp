@@ -260,11 +260,22 @@ function Dashboard() {
   const transfer = async function (from, to, tokenId) {
     //انتقال ان اف تی به کاربران
     try {
-      const tx2 = await nftContract.transferFrom(from, to, tokenId);
-      const receipt2 =await tx2.wait();
-      console.log(receipt2);
-      NotificationManager.success("تراکنش موفق");
-      return true;
+      if (
+        from.trim() === "" ||
+        to.trim() === "" ||
+        tokenId.trim() === "" 
+        
+      ) {
+        // NotificationManager.error("لطفا تمامی فیلدها را پر کنید");
+        return null;
+      }
+      else{
+        const tx2 = await nftContract.transferFrom(from, to, tokenId);
+        const receipt2 =await tx2.wait();
+        NotificationManager.success("تراکنش موفق");
+        return true;
+      }
+      
     } catch (error) {
       if (
         error.reason ===

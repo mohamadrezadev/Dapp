@@ -119,7 +119,7 @@ export const NFTs = () => {
       <div className="container">
         <div className="row">
           {loading ? (
-            <div>Loading...</div>
+            <div>{"درحال بارگذاری ....."}</div>
           ) : nfts && nfts.length > 0 ? (
             nfts.map((nft, index) => (
               <div className="col-sm-4" key={index}>
@@ -174,7 +174,7 @@ export const Nftlast = () => {
     <div>
       <div className="container">
         {loading ? (
-          <div>Loading...</div>
+          <div>در حال بارگذاری...</div>
         ) : (
           <div className="row">
             {lastnft.map((nft, index) => (

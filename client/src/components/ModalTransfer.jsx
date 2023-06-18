@@ -9,10 +9,16 @@ function ModalTransfer({ transfer, funcs }) {
     const res = await transfer(from, to, tokenId);
     if (res) {
       // Display a success alert
-      Swal.fire("Transfer Successful!", "Your tokens have been transferred.", "success");
-    } else {
+      Swal.fire("انتقال انجام شد", "توکن مورد نظر ارسال گردید", "success");
+    }
+   
+    else if(!res) {
       // Display an error alert
-      Swal.fire("Transfer Failed!", "Please try again.", "error");
+      Swal.fire("انتقال انجام نشد", "دوباره سعی کنید", "error");
+    }
+    else (res===null) 
+    {
+      Swal.fire("تمامی فیلد ها باید پر شود ","همه فیلد هارا پر کنید","error");
     }
   };
 
