@@ -1,19 +1,30 @@
-# DApp minter nft certificate 
+# DApp Minter NFT Certificate
 
-Short description of the project.
+This project is a decentralized application (DApp) that allows users to mint non-fungible tokens (NFTs) and issue certificates on the blockchain.
 
 ## Installation
 
-npm run dev 
+To install and run the project, run the following command:
+npm run dev
+
 
 ## Example
 
-![mainpage ](https://github.com/mohamadrezadev/Dapp/blob/main/image/mainpage.png)
-![nft ](https://github.com/mohamadrezadev/Dapp/blob/main/image/nft.png)
-![dashbord](https://github.com/mohamadrezadev/Dapp/blob/main/image/dashbord.png)
-[addstudent](https://github.com/mohamadrezadev/Dapp/blob/main/image/addstudent.png)
+Here are some screenshots of the application:
+
+### Main Page
+![Main Page](https://github.com/mohamadrezadev/Dapp/blob/main/image/mainpage.png)
+
+### NFT
+![NFT](https://github.com/mohamadrezadev/Dapp/blob/main/image/nft.png)
+
+### Dashboard
+![Dashboard](https://github.com/mohamadrezadev/Dapp/blob/main/image/dashbord.png)
+
+### Add Student
+![Add Student](https://github.com/mohamadrezadev/Dapp/blob/main/image/addstudent.png)
+
 ## Authors
 
-* mohamadreza kiani
-* masod gorgani
-
+* Mohamadreza Kiani
+* Masod Gorgani
