@@ -5,7 +5,7 @@ This project is a decentralized application (DApp) that allows users to mint non
 ## Installation
 
 To install and run the project, run the following command:
-npm run dev 
+  ##npm run dev 
 
 
 ## Example
