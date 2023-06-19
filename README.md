@@ -27,7 +27,7 @@ Here are some screenshots of the application:
 ### Add Student
 ![addstudent](https://github.com/mohamadrezadev/Dapp/assets/98271829/d557e1c3-1f2f-419a-a5ad-ab9226d6458f)
 
-[![Watch the video](https://github.com/mohamadrezadev/Dapp/assets/98271829/a5ba9807-a909-4eac-8b36-0839a72c8a07)
+[![Watch the video]](https://github.com/mohamadrezadev/Dapp/assets/98271829/a5ba9807-a909-4eac-8b36-0839a72c8a07)
 
 
 ## Authors
