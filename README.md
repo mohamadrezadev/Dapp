@@ -13,7 +13,7 @@ To install and run the project, run the following command:
 ## Example
 
 Here are some screenshots of the application:
-https://github.com/mohamadrezadev/Dapp/assets/98271829/a5ba9807-a909-4eac-8b36-0839a72c8a07
+
 ### Main Page
 ![mainpage](https://github.com/mohamadrezadev/Dapp/assets/98271829/f92be554-1571-4411-ab1e-b548c6c0cbc7)
 
@@ -27,6 +27,7 @@ https://github.com/mohamadrezadev/Dapp/assets/98271829/a5ba9807-a909-4eac-8b36-0
 ### Add Student
 ![addstudent](https://github.com/mohamadrezadev/Dapp/assets/98271829/d557e1c3-1f2f-419a-a5ad-ab9226d6458f)
 
+[![Watch the video](https://github.com/mohamadrezadev/Dapp/assets/98271829/a5ba9807-a909-4eac-8b36-0839a72c8a07)
 
 
 ## Authors
