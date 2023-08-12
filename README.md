@@ -34,4 +34,4 @@ Here are some screenshots of the application:
 ## Authors
 
 * Mohamadreza Kiani
-* Masod Gorgani
+* Masoud Gorgani
